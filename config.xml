@@ -29,8 +29,8 @@
     <preference name="uiwebviewbounce" value="false" />
     <preference name="webviewbounce" value="false" />
     <preference name="disallowoverscroll" value="true" />
-    <engine name="ios" spec="~4.4.0" />
-    <engine name="android" spec="~6.2.3" />
-    <engine name="osx" spec="~4.0.1" />
-    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <engine name="android" spec="^6.2.3" />
+    <engine name="ios" spec="^4.4.0" />
+    <engine name="osx" spec="^4.0.1" />
+    <plugin name="cordova-plugin-whitelist" spec="^1.3.2" />
 </widget>
