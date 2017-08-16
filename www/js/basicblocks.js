@@ -1,4 +1,4 @@
-// Copyright (c) 2014-16 Walter Bender
+// Copyright (c) 2014-17 Walter Bender
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the The GNU Affero General Public
@@ -539,6 +539,52 @@ function initBasicProtoBlocks(palettes, blocks) {
 
     // RHYTHM PALETTE
 
+    var onBeatDoBlock = new ProtoBlock('onbeatdo');
+    onBeatDoBlock.palette = palettes.dict['rhythm'];
+    blocks.protoBlockDict['onbeatdo'] = onBeatDoBlock;
+    // #TRANS: 'on' musical 'beat' 'do' some action
+    onBeatDoBlock.staticLabels.push(_('on'), _('beat'), _('do'));
+    onBeatDoBlock.twoArgBlock();
+    onBeatDoBlock.defaults.push(1);
+    onBeatDoBlock.defaults.push(_('action'));
+    onBeatDoBlock.dockTypes[1] = 'numberin';
+    onBeatDoBlock.dockTypes[2] = 'textin';
+
+    var measureValueBlock = new ProtoBlock('measurevalue');
+    measureValueBlock.palette = palettes.dict['rhythm'];
+    blocks.protoBlockDict['measurevalue'] = measureValueBlock;
+    // .TRANS: count of current measure in meter
+    measureValueBlock.staticLabels.push(_('measure count'));
+    measureValueBlock.adjustWidthToLabel();
+    measureValueBlock.parameterBlock();
+
+    var beatValueBlock = new ProtoBlock('beatvalue');
+    beatValueBlock.palette = palettes.dict['rhythm'];
+    blocks.protoBlockDict['beatvalue'] = beatValueBlock;
+    // .TRANS: count of current beat in meter
+    beatValueBlock.staticLabels.push(_('beat count'));
+    beatValueBlock.adjustWidthToLabel();
+    beatValueBlock.parameterBlock();
+
+    var pickupBlock = new ProtoBlock('pickup');
+    pickupBlock.palette = palettes.dict['rhythm'];
+    blocks.protoBlockDict['pickup'] = pickupBlock;
+    // .TRANS: anacrusis
+    pickupBlock.staticLabels.push(_('pickup'));
+    pickupBlock.oneArgBlock();
+    pickupBlock.defaults.push(0);
+
+    var meter = new ProtoBlock('meter');
+    meter.palette = palettes.dict['rhythm'];
+    blocks.protoBlockDict['meter'] = meter;
+    // .TRANS: musical meter (time signature)
+    meter.staticLabels.push(_('meter'), _('number of beats'), _('note value'));
+    meter.extraWidth = 15;
+    meter.adjustWidthToLabel();
+    meter.defaults.push(4);
+    meter.defaults.push(0.25);
+    meter.twoArgBlock();
+
     var noteCounter = new ProtoBlock('notecounter');
     noteCounter.palette = palettes.dict['rhythm'];
     blocks.protoBlockDict['notecounter'] = noteCounter;
@@ -762,16 +808,6 @@ function initBasicProtoBlocks(palettes, blocks) {
 
     // TONE (ARTICULATION) PALETTE
 
-    // Deprecated
-    var noteVolumeBlock = new ProtoBlock('setnotevolume');
-    noteVolumeBlock.palette = palettes.dict['tone'];
-    blocks.protoBlockDict['setnotevolume'] = noteVolumeBlock;
-    noteVolumeBlock.hidden = true;
-    noteVolumeBlock.staticLabels.push(_('set volume'));
-    noteVolumeBlock.adjustWidthToLabel();
-    noteVolumeBlock.oneArgBlock();
-    noteVolumeBlock.defaults.push(50);
-
     var staccatoFactor = new ProtoBlock('staccatofactor');
     staccatoFactor.palette = palettes.dict['tone'];
     blocks.protoBlockDict['staccatofactor'] = staccatoFactor;
@@ -823,18 +859,6 @@ function initBasicProtoBlocks(palettes, blocks) {
     setkey2Block.twoArgBlock();
     setkey2Block.dockTypes[1] = 'anyin';
     setkey2Block.dockTypes[2] = 'anyin';
-
-    var meter = new ProtoBlock('meter');
-    meter.palette = palettes.dict['tone'];
-    blocks.protoBlockDict['meter'] = meter;
-    meter.hidden = true;
-    meter.staticLabels.push(_('meter'), _('numerator'), _('denominator'));
-    meter.adjustWidthToLabel();
-    meter.defaults.push(3);
-    meter.defaults.push(4);
-    meter.twoArgMathBlock();
-    meter.dockTypes[1] = 'number';
-    meter.dockTypes[2] = 'number';
 
     var setMasterBPMBlock = new ProtoBlock('setmasterbpm');
     setMasterBPMBlock.palette = palettes.dict['tone'];
@@ -978,6 +1002,14 @@ function initBasicProtoBlocks(palettes, blocks) {
     fffBlock.adjustWidthToLabel();
     fffBlock.zeroArgBlock();
 
+    var noteVolumeBlock = new ProtoBlock('setnotevolume');
+    noteVolumeBlock.palette = palettes.dict['tone'];
+    blocks.protoBlockDict['setnotevolume'] = noteVolumeBlock;
+    noteVolumeBlock.staticLabels.push(_('set volume'));
+    noteVolumeBlock.adjustWidthToLabel();
+    noteVolumeBlock.oneArgBlock();
+    noteVolumeBlock.defaults.push(50);
+
     var noteVolumeBlock2 = new ProtoBlock('setnotevolume2');
     noteVolumeBlock2.palette = palettes.dict['tone'];
     blocks.protoBlockDict['setnotevolume2'] = noteVolumeBlock2;
@@ -985,6 +1017,7 @@ function initBasicProtoBlocks(palettes, blocks) {
     noteVolumeBlock2.adjustWidthToLabel();
     noteVolumeBlock2.flowClampOneArgBlock();
     noteVolumeBlock2.defaults.push(50);
+    noteVolumeBlock2.hidden = true;
 
     var crescendoBlock = new ProtoBlock('crescendo');
     crescendoBlock.palette = palettes.dict['tone'];
@@ -1836,10 +1869,19 @@ function initBasicProtoBlocks(palettes, blocks) {
     var sqrtBlock = new ProtoBlock('sqrt');
     sqrtBlock.palette = palettes.dict['number'];
     blocks.protoBlockDict['sqrt'] = sqrtBlock;
+    // TRANS: square root function in mathematics
     sqrtBlock.staticLabels.push(_('sqrt'));
     sqrtBlock.adjustWidthToLabel();
     sqrtBlock.oneArgMathBlock();
     sqrtBlock.defaults.push(64)
+
+    var absBlock = new ProtoBlock('abs');
+    absBlock.palette = palettes.dict['number'];
+    blocks.protoBlockDict['abs'] = absBlock;
+    // TRANS: absolute value function in mathematics
+    absBlock.staticLabels.push(_('abs'));
+    absBlock.adjustWidthToLabel();
+    absBlock.oneArgMathBlock();
 
     var divideBlock = new ProtoBlock('divide');
     divideBlock.palette = palettes.dict['number'];
@@ -2335,6 +2377,29 @@ function initBasicProtoBlocks(palettes, blocks) {
     blocks.protoBlockDict['hidden'] = hiddenBlock;
     hiddenBlock.hidden = true;
     hiddenBlock.hiddenBlockFlow();
+
+    var defaultBlock = new ProtoBlock('defaultcase');
+    defaultBlock.palette = palettes.dict['flow'];
+    blocks.protoBlockDict['defaultcase'] = defaultBlock;
+    defaultBlock.staticLabels.push(_('default'));
+    defaultBlock.adjustWidthToLabel();
+    defaultBlock.flowClampBlock();
+
+    var caseBlock = new ProtoBlock('case');
+    caseBlock.palette = palettes.dict['flow'];
+    blocks.protoBlockDict['case'] = caseBlock;
+    caseBlock.staticLabels.push(_('case'));
+    caseBlock.adjustWidthToLabel();
+    caseBlock.flowClampOneArgBlock();
+    caseBlock.dockTypes[1] = 'anyin';
+
+    var switchBlock = new ProtoBlock('switch');
+    switchBlock.palette = palettes.dict['flow'];
+    blocks.protoBlockDict['switch'] = switchBlock;
+    switchBlock.staticLabels.push(_('switch'));
+    switchBlock.adjustWidthToLabel();
+    switchBlock.flowClampOneArgBlock();
+    switchBlock.dockTypes[1] = 'anyin';
 
     var clampBlock = new ProtoBlock('clamp');
     clampBlock.palette = palettes.dict['flow'];

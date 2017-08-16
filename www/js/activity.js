@@ -205,9 +205,45 @@ define(MYDEFINES, function (compatibility) {
             palettes.updatePalettes();
             var x = 100 * turtleBlocksScale;
             var y = 100 * turtleBlocksScale;
+
+            // First start blocks
             for (var blk in blocks.blockList) {
                 if (!blocks.blockList[blk].trash) {
                     var myBlock = blocks.blockList[blk];
+                    if (myBlock.name !== 'start') {
+                        continue;
+                    };
+
+                    if (myBlock.connections[0] == null) {
+                        var dx = x - myBlock.container.x;
+                        var dy = y - myBlock.container.y;
+                        blocks.moveBlockRelative(blk, dx, dy);
+                        blocks.findDragGroup(blk);
+                        if (blocks.dragGroup.length > 0) {
+                            for (var b = 0; b < blocks.dragGroup.length; b++) {
+                                var bblk = blocks.dragGroup[b];
+                                if (b !== 0) {
+                                    blocks.moveBlockRelative(bblk, dx, dy);
+                                }
+                            }
+                        }
+                        x += 200 * turtleBlocksScale;
+                        if (x > (canvas.width - 100) / (turtleBlocksScale)) {
+                            x = 100 * turtleBlocksScale;
+                            y += 100 * turtleBlocksScale;
+                        }
+                    }
+                }
+            }
+
+            // The everything else
+            for (var blk in blocks.blockList) {
+                if (!blocks.blockList[blk].trash) {
+                    var myBlock = blocks.blockList[blk];
+                    if (myBlock.name === 'start') {
+                        continue;
+                    };
+
                     if (myBlock.connections[0] == null) {
                         var dx = x - myBlock.container.x;
                         var dy = y - myBlock.container.y;
@@ -267,7 +303,7 @@ define(MYDEFINES, function (compatibility) {
                         } else if (p === 2) {
                             // skip filter
                         } else if (p === 3) {
-			    svg += parts[p].replace('filter:url(#dropshadow);', '') + '><';
+                            svg += parts[p].replace('filter:url(#dropshadow);', '') + '><';
                         } else if (p === 5) {
                             // Add block value to SVG between tspans
                             svg += parts[p] + '>' + blocks.blockList[i].value + '<';
@@ -288,7 +324,7 @@ define(MYDEFINES, function (compatibility) {
                         } else if (p === 2) {
                             // skip filter
                         } else if (p === 3) {
-			    svg += parts[p].replace('filter:url(#dropshadow);', '') + '><';
+                            svg += parts[p].replace('filter:url(#dropshadow);', '') + '><';
                         } else if (p === parts.length - 2) {
                             svg += parts[p] + '>';
                         } else if (p === parts.length - 1) {
@@ -320,7 +356,7 @@ define(MYDEFINES, function (compatibility) {
             for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
                 logo.turtleHeaps[turtle] = [];
                 logo.notationStaging[turtle] = [];
-                turtles.turtleList[turtle].doClear(true, true);
+                turtles.turtleList[turtle].doClear(true, true, true);
             }
 
             blocksContainer.x = 0;
@@ -966,7 +1002,6 @@ define(MYDEFINES, function (compatibility) {
 
             this.document.onkeydown = __keyPressed;
             _hideStopButton();
-
         };
 
         function _setupBlocksContainerEvents() {
@@ -995,11 +1030,7 @@ define(MYDEFINES, function (compatibility) {
                     if (!moving) {
                         return;
                     }
-                    if (blocks.inLongPress) {
-                        blocks.saveStackButton.visible = false;
-                        blocks.dismissButton.visible = false;
-                        blocks.inLongPress = false;
-                    }
+
                     if (scrollBlockContainer) {
                         blocksContainer.x += event.stageX - lastCords.x;
                         blocksContainer.y += event.stageY - lastCords.y;
@@ -1014,7 +1045,7 @@ define(MYDEFINES, function (compatibility) {
                 stage.on('stagemouseup', function (event) {
                     stageMouseDown = false;
                     moving = false;
-                }, null, true); // once = true
+                });
             });
         };
 
@@ -1245,7 +1276,7 @@ define(MYDEFINES, function (compatibility) {
                     } else if (palettes.activePalette != null) {
                         palettes.activePalette.scrollEvent(STANDARDBLOCKHEIGHT, 1);
                     } else if (scrollBlockContainer) {
-                        blocksContainer.y -= 21;
+                        blocksContainer.y -= 20;
                     }
                     break;
                 case KEYCODE_DOWN:
@@ -1259,7 +1290,7 @@ define(MYDEFINES, function (compatibility) {
                     } else if (palettes.activePalette != null) {
                         palettes.activePalette.scrollEvent(-STANDARDBLOCKHEIGHT, 1);
                     } else if (scrollBlockContainer) {
-                        blocksContainer.y += 21;
+                        blocksContainer.y += 20;
                     }
                     break;
                 case KEYCODE_LEFT:
@@ -1268,7 +1299,7 @@ define(MYDEFINES, function (compatibility) {
                         blocks.blockMoved(blocks.activeBlock);
                         blocks.adjustDocks(blocks.activeBlock, true);
                     } else if (scrollBlockContainer) {
-                        blocksContainer.x -= 21;
+                        blocksContainer.x -= 20;
                     }
                     break;
                 case KEYCODE_RIGHT:
@@ -1277,7 +1308,7 @@ define(MYDEFINES, function (compatibility) {
                         blocks.blockMoved(blocks.activeBlock);
                         blocks.adjustDocks(blocks.activeBlock, true);
                     } else if (scrollBlockContainer) {
-                        blocksContainer.x += 21;
+                        blocksContainer.x += 20;
                     }
                     break;
                 case HOME:
@@ -1390,7 +1421,7 @@ define(MYDEFINES, function (compatibility) {
             }
 
             for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
-                turtles.turtleList[turtle].doClear(false, false);
+                turtles.turtleList[turtle].doClear(false, false, true);
             }
 
             var artcanvas = document.getElementById("overlayCanvas");
@@ -1760,7 +1791,7 @@ define(MYDEFINES, function (compatibility) {
             logo.notationNotes = {};
             for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
                 logo.notationStaging[turtle] = [];
-                turtles.turtleList[turtle].doClear(true, true);
+                turtles.turtleList[turtle].doClear(true, true, true);
             }
 
             logo.runLogoCommands();
@@ -1782,7 +1813,7 @@ define(MYDEFINES, function (compatibility) {
             logo.notationNotes = {};
             for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
                 logo.notationStaging[turtle] = [];
-                turtles.turtleList[turtle].doClear(true, true);
+                turtles.turtleList[turtle].doClear(true, true, true);
             }
 
             logo.runLogoCommands();
@@ -1844,7 +1875,7 @@ define(MYDEFINES, function (compatibility) {
             }
         };
 
-        function runProject(env){
+        function runProject (env) {
             console.log("Running Project from Event");
             document.removeEventListener("finishedLoading", runProject);
             setTimeout(function () {
@@ -1854,7 +1885,7 @@ define(MYDEFINES, function (compatibility) {
             }, 5000);
         }
 
-        function loadProject(projectName, run, env) {
+        function loadProject (projectName, run, env) {
             //set default value of run
             run = typeof run !== 'undefined' ? run : false;
             // Show busy cursor.
@@ -1901,11 +1932,26 @@ define(MYDEFINES, function (compatibility) {
 
             if (run && firstRun) {
                 if (document.addEventListener) {
-                    document.addEventListener('finishedLoading', function (){runProject(env);}, false);
+                    document.addEventListener('finishedLoading', function () {
+                        setTimeout(function () {
+                            for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
+                                turtles.turtleList[turtle].doClear(true, true, false);
+                            }
+                            runProject(env);
+                        }, 1000);
+                    }, false);
                 } else {
-                    document.attachEvent('finishedLoading', function (){runProject(env);});
+                    document.attachEvent('finishedLoading', function () {
+                        setTimeout(function () {
+                            for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
+                                turtles.turtleList[turtle].doClear(true, true, false);
+                            }
+                            runProject(env);
+                        }, 1000);
+                    });
                 }
             }
+
             firstRun = false;
         };
 
@@ -2012,9 +2058,35 @@ define(MYDEFINES, function (compatibility) {
             }
 
             sessionData = null;
+
             // Try restarting where we were when we hit save.
             var currentProject = storage.currentProject;
             sessionData = storage['SESSION' + currentProject];
+
+            // After we have finished loading the project, clear all
+            // to ensure a clean start.
+            if (document.addEventListener) {
+                document.addEventListener('finishedLoading', function () {
+                    setTimeout(function () {
+                        for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
+                            logo.turtleHeaps[turtle] = [];
+                            logo.notationStaging[turtle] = [];
+                            turtles.turtleList[turtle].doClear(true, true, false);
+                        }
+                    }, 1000);
+                });
+            } else {
+                document.attachEvent('finishedLoading', function () {
+                    setTimeout(function () {
+                        for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
+                            logo.turtleHeaps[turtle] = [];
+                            logo.notationStaging[turtle] = [];
+                            turtles.turtleList[turtle].doClear(true, true, false);
+                        }
+                    }, 1000);
+                });
+            }
+
             if (sessionData) {
                 try {
                     if (sessionData === 'undefined' || sessionData === '[]') {
@@ -2037,8 +2109,6 @@ define(MYDEFINES, function (compatibility) {
             }
 
             update = true;
-
-
         };
 
         function hideMsgs() {
