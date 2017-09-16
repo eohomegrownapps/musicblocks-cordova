@@ -23,7 +23,7 @@ function RhythmRuler () {
     const BUTTONDIVWIDTH = 476;  // 8 buttons 476 = (55 + 4) * 8
     const OUTERWINDOWWIDTH = 675;
     const INNERWINDOWWIDTH = 600;
-    const RULERHEIGHT = 82;  // A little extra than we need for FF.
+    const RULERHEIGHT = 70;
     const BUTTONSIZE = 51;
     const ICONSIZE = 32;
     const BACKSPACE = 8;
@@ -312,7 +312,7 @@ function RhythmRuler () {
         cell.addEventListener('click', this.__clickHandler);
     };
 
-    this.__mouseOverHandler =  function (event) {
+    this.__mouseOverHandler = function (event) {
         var cell = event.target;
         if (cell == null) {
             return;
@@ -468,6 +468,9 @@ function RhythmRuler () {
                 newCell.style.width = newCellWidth + 'px';
                 newCell.style.minWidth = newCell.style.width;
                 newCell.style.maxWidth = newCell.style.width;
+                newCell.style.height = RULERHEIGHT + 'px';
+                newCell.style.minHeight = newCell.style.height;
+                newCell.style.maxHeight = newCell.style.height;
 
                 this.__addCellEventHandlers(newCell, newCellWidth, newNoteValue);
             }
@@ -512,10 +515,14 @@ function RhythmRuler () {
                 var newCell = ruler.insertCell(newCellIndex + i);
                 noteValues.splice(newCellIndex + i, 0, newNoteValue);
 
-                this.__addCellEventHandlers(newCell, newCellWidth, newNoteValue);
                 newCell.style.width = newCellWidth + 'px';
                 newCell.style.minWidth = newCell.style.width;
                 newCell.style.maxWidth = newCell.style.width;
+                newCell.style.height = RULERHEIGHT + 'px';
+                newCell.style.minHeight = newCell.style.height;
+                newCell.style.maxHeight = newCell.style.height;
+
+                this.__addCellEventHandlers(newCell, newCellWidth, newNoteValue);
             }
 
             this._calculateZebraStripes(this._rulerSelected);
@@ -603,8 +610,11 @@ function RhythmRuler () {
             this._mouseDownCell.style.width = newCellWidth + 'px';
             this._mouseDownCell.style.minWidth = this._mouseDownCell.style.width;
             this._mouseDownCell.style.maxWidth = this._mouseDownCell.style.width;
+            this._mouseDownCell.style.height = RULERHEIGHT + 'px';
+            this._mouseDownCell.style.minHeight = this._mouseDownCell.style.height;
+            this._mouseDownCell.style.maxHeight = this._mouseDownCell.style.height;
 
-             this.__addCellEventHandlers(this._mouseDownCell, newCellWidth, noteValues[downCellIndex]);
+            this.__addCellEventHandlers(this._mouseDownCell, newCellWidth, noteValues[downCellIndex]);
 
             this._calculateZebraStripes(this._rulerSelected);
         }
@@ -641,6 +651,10 @@ function RhythmRuler () {
             newCell.style.width = this._noteWidth(newNoteValue) + 'px';
             newCell.style.minWidth = newCell.style.width;
             newCell.style.maxWidth = newCell.style.width;
+            newCell.style.height = RULERHEIGHT + 'px';
+            newCell.style.minHeight = newCell.style.height;
+            newCell.style.maxHeight = newCell.style.height;
+
             newCell.style.backgroundColor = MATRIXNOTECELLCOLOR;
             newCell.innerHTML = calcNoteValueToDisplay(oldCellNoteValue / inputNum, 1);
 
@@ -671,6 +685,10 @@ function RhythmRuler () {
             newCell.style.width =  newCellWidth + 'px';
             newCell.style.minWidth = newCell.style.width;
             newCell.style.maxWidth = newCell.style.width;
+            newCell.style.height = RULERHEIGHT + 'px';
+            newCell.style.minHeight = newCell.style.height;
+            newCell.style.maxHeight = newCell.style.height;
+
             newCell.style.backgroundColor = MATRIXNOTECELLCOLOR;
 
             var obj = rationalToFraction(newNoteValue);
@@ -679,7 +697,7 @@ function RhythmRuler () {
             noteValues[newCellIndex] = newNoteValue;
             noteValues.splice(newCellIndex + 1, oldNoteValues.length - 1);
 
-             this.__addCellEventHandlers(newCell, newCellWidth, newNoteValue);
+            this.__addCellEventHandlers(newCell, newCellWidth, newNoteValue);
 
             for (var i = 0; i < oldNoteValues.length; i++) {
                 ruler.deleteCell(newCellIndex + 1);
@@ -695,14 +713,23 @@ function RhythmRuler () {
                 oldCell.style.width = oldCellWidth + 'px';
                 oldCell.style.minWidth = oldCell.style.width;
                 oldCell.style.maxWidth = oldCell.style.width;
+                oldCell.style.height = RULERHEIGHT + 'px';
+                oldCell.style.minHeight = oldCell.style.height;
+                oldCell.style.maxHeight = oldCell.style.height;
+
                 noteValues[history[0][0]] = history[0][1];
                 this.__addCellEventHandlers(oldCell, oldCellWidth, history[0][1]);
+
                 for (var i = 1; i < history.length; i++) {
                     var newCell = ruler.insertCell(history[0][0] + i);
                     var newCellWidth = this._noteWidth(history[i][1]);
                     newCell.style.width = newCellWidth + 'px';
                     newCell.style.minWidth = newCell.style.width;
                     newCell.style.maxWidth = newCell.style.width;
+                    newCell.style.height = RULERHEIGHT + 'px';
+                    newCell.style.minHeight = newCell.style.height;
+                    newCell.style.maxHeight = newCell.style.height;
+
                     noteValues.splice(history[0][0] + i, 0, history[i][1]);
                     newCell.innerHTML = calcNoteValueToDisplay(history[i][1], 1);
 
@@ -1112,11 +1139,13 @@ function RhythmRuler () {
             that._undo();
         };
 
+        //.TRANS: user can tap out a rhythm by clicking on a ruler.
         this._tapButton = this._addButton(row, 'tap-button.svg', iconSize, _('tap a rhythm'), '');
         this._tapButton.onclick = function () {
             that._tap();
         };
 
+        //.TRANS: clear all subdivisions from the ruler.
         var cell = this._addButton(row, 'erase-button.svg', iconSize, _('clear'), '');
         cell.onclick = function () {
             that._clear();
@@ -1170,24 +1199,24 @@ function RhythmRuler () {
         this._target = false;
         this._dragCellHTML = dragCell.innerHTML;
 
-        dragCell.onmouseover = function(e) {
+        dragCell.onmouseover = function (e) {
             // In order to prevent the dragged item from triggering a
             // browser reload in Firefox, we empty the cell contents
             // before dragging.
             dragCell.innerHTML = '';
         };
 
-        dragCell.onmouseout = function(e) {
+        dragCell.onmouseout = function (e) {
             if (!that._dragging) {
                 dragCell.innerHTML = that._dragCellHTML;
             }
         };
 
-        canvas.ondragover = function(e) {
+        canvas.ondragover = function (e) {
             e.preventDefault();
         };
 
-        canvas.ondrop = function(e) {
+        canvas.ondrop = function (e) {
             if (that._dragging) {
                 that._dragging = false;
                 var x = e.clientX - that._dx;
@@ -1198,11 +1227,11 @@ function RhythmRuler () {
             }
         };
 
-        rulerDiv.ondragover = function(e) {
+        rulerDiv.ondragover = function (e) {
             e.preventDefault();
         };
 
-        rulerDiv.ondrop = function(e) {
+        rulerDiv.ondrop = function (e) {
             if (that._dragging) {
                 that._dragging = false;
                 var x = e.clientX - that._dx;
@@ -1213,12 +1242,12 @@ function RhythmRuler () {
             }
         };
 
-        rulerDiv.onmousedown = function(e) {
+        rulerDiv.onmousedown = function (e) {
             that._dragging = true;
             that._target = e.target;
         };
 
-        rulerDiv.ondragstart = function(e) {
+        rulerDiv.ondragstart = function (e) {
             if (dragCell.contains(that._target)) {
                 e.dataTransfer.setData('text/plain', '');
             } else {
@@ -1240,13 +1269,13 @@ function RhythmRuler () {
         var n = Math.max(Math.floor((window.innerHeight * 0.5) / 100), 2);
         var outerDiv = docById('rulerOuterDiv');
         if (this.Rulers.length > n) {
-            outerDiv.style.height = 82 * n + 'px';
+            outerDiv.style.height = 85 * n + 'px';
             var w = Math.max(Math.min(window.innerWidth, OUTERWINDOWWIDTH), BUTTONDIVWIDTH);
-            outerDiv.style.width = w + 'px';
+            outerDiv.style.width = w + 25 + 'px';  // Add a bit of extra space for the horizontal slider.
         } else {
-            outerDiv.style.height = 82 * this.Rulers.length + 'px';
+            outerDiv.style.height = 85 * this.Rulers.length + 'px';
             var w = Math.max(Math.min(window.innerWidth, OUTERWINDOWWIDTH - 20), BUTTONDIVWIDTH);
-            outerDiv.style.width = w + 'px';
+            outerDiv.style.width = w + 25 + 'px';  // Add a bit of extra space for the horizontal slider.
         }
 
         var w = Math.max(Math.min(window.innerWidth, INNERWINDOWWIDTH), BUTTONDIVWIDTH - BUTTONSIZE);
@@ -1310,12 +1339,12 @@ function RhythmRuler () {
                 var noteValue = this.Rulers[i][0][j];
                 var rulerSubCell = rulerRow.insertCell(-1);
                 rulerSubCell.innerHTML = calcNoteValueToDisplay(noteValue, 1);
-                rulerSubCell.style.height = '70px';
-                rulerSubCell.minHeight = rulerSubCell.style.height;
-                rulerSubCell.maxHeight = rulerSubCell.style.height;
+                rulerSubCell.style.height = RULERHEIGHT + 'px';
+                rulerSubCell.style.minHeight = rulerSubCell.style.height;
+                rulerSubCell.style.maxHeight = rulerSubCell.style.height;
                 rulerSubCell.style.width = this._noteWidth(noteValue) + 'px';
-                rulerSubCell.minWidth = rulerSubCell.style.width;
-                rulerSubCell.maxWidth = rulerSubCell.style.width;
+                rulerSubCell.style.minWidth = rulerSubCell.style.width;
+                rulerSubCell.style.maxWidth = rulerSubCell.style.width;
                 rulerSubCell.style.border = '0px';
                 rulerSubCell.border = '0px';
                 rulerSubCell.padding = '0px';

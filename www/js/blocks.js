@@ -118,6 +118,11 @@ function Blocks () {
     // as to avoid palette refresh race conditions.
     this.deleteActionTimeout = 0;
 
+    this.setSetPlaybackStatus = function (setPlaybackStatus) {
+        this.setPlaybackStatus = setPlaybackStatus;
+        return this;
+    };
+
     this.setCanvas = function (canvas) {
         this.canvas = canvas;
         return this;
@@ -2890,10 +2895,19 @@ function Blocks () {
     };
 
     this.loadNewBlocks = function (blockObjs) {
+        var playbackQueueStartsHere = null;
+
         // Check for blocks connected to themselves,
         // and for action blocks not connected to text blocks.
         for (var b = 0; b < blockObjs.length; b++) {
             var blkData = blockObjs[b];
+
+            // Check for playbackQueue
+            if (typeof(blkData[1]) === 'number') {
+                playbackQueueStartsHere = b;
+                break;
+            }
+
             for (var c in blkData[4]) {
                 if (blkData[4][c] === blkData[0]) {
                     console.log('Circular connection in block data: ' + blkData);
@@ -2903,6 +2917,25 @@ function Blocks () {
                 }
             }
         }
+
+        // Load any playback code into the queue...
+        if (playbackQueueStartsHere != null) {
+            for (var b = playbackQueueStartsHere; b < blockObjs.length; b++) {
+                var turtle = blockObjs[b][1];
+                if (turtle in this.logo.playbackQueue) {
+                    this.logo.playbackQueue[turtle].push(blockObjs[b][2]);
+                } else {
+                    this.logo.playbackQueue[turtle] = [blockObjs[b][2]];
+                }
+            }
+
+            // and remove the entries from the end of blockObjs.
+            var n = blockObjs.length;
+            for (var b = playbackQueueStartsHere; b < n; b++) {
+                blockObjs.pop();
+            }
+        }
+
 
         // We'll need a list of existing storein and action names.
         var currentActionNames = [];
@@ -3806,6 +3839,40 @@ function Blocks () {
                     }
                 }
             }
+        }
+
+        if (playbackQueueStartsHere != null) {
+            var that = this;
+            setTimeout(function () {
+                // Now that we know how many turtles we have, we can make
+                // sure that the playback queue does not reference turtles
+                // that are not known to us.
+
+                var firstTurtle = 0;
+                // Find the first turtle not in the trash.
+                for (firstTurtle = 0; firstTurtle < that.turtles.turtleList.length; firstTurtie++) {
+                    if (!that.turtles.turtleList[firstTurtle].trash) {
+                        break;
+                    }
+                }
+
+                if (firstTurtle === that.turtles.turtleList.length) {
+                    console.log('Cannot find a turtle');
+                    firstTurtle = 0;
+                }
+
+                // Is the first turtle in the playbackQueue?
+                if (!(firstTurtle in that.logo.playbackQueue)) {
+                    for (turtle in that.logo.playbackQueue) {
+                        console.log('playbackQueue: remapping from ' + turtle + ' to ' + firstTurtle);
+                        that.logo.playbackQueue[firstTurtle] = that.logo.playbackQueue[turtle];
+                        delete that.logo.playbackQueue[turtle];
+                        firstTurtle += 1;
+                    }
+                }
+
+                that.setPlaybackStatus();
+            }, 1500);
         }
     };
 

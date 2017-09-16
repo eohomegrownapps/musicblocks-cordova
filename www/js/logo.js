@@ -68,6 +68,7 @@ function Logo () {
     this.pitchSlider = null;
     this.modeWidget = null;
     this.statusMatrix = null;
+    this.playbackWidget = null;
 
     this.attack = {};
     this.decay = {};
@@ -113,6 +114,13 @@ function Logo () {
 
     // Music-related attributes
     this.notesPlayed = {};
+
+    // When you run Music Blocks, you are "compiling" your code. The
+    // compiled code is stored in the playbackQueue, which can be used
+    // to playback the performance without the overhead of
+    // interpreting the code.
+    this.playbackQueue = {};
+    this.playbackTime = 0;
 
     // Widget-related attributes
     this.showPitchDrumMatrix = false;
@@ -176,6 +184,7 @@ function Logo () {
 
     // parameters used by the note block
     this.bpm = {};
+    this.previousTurtleTime = [];
     this.turtleTime = [];
     this.noteDelay = 0;
     this.playedNote = {};
@@ -240,10 +249,11 @@ function Logo () {
 
     // parameters used by notations
     this.notationStaging = {};
-    this.checkingLilypond = false;
     this.notationOutput = getLilypondHeader();
     this.notationNotes = {};
     this.runningLilypond = false;
+    this.checkingCompletionState = false;
+    this.compiling = false;
 
     if (_THIS_IS_MUSIC_BLOCKS_) {
         // Load the default synthesizer
@@ -293,6 +303,11 @@ function Logo () {
             this.mic = null;
         }
     }
+
+    this.setSetPlaybackStatus = function (setPlaybackStatus) {
+        this.setPlaybackStatus = setPlaybackStatus;
+        return this;
+    };
 
     this.setCanvas = function (canvas) {
         this.canvas = canvas;
@@ -500,10 +515,12 @@ function Logo () {
         // few odds and ends.
         this.stopTurtle = true;
         this.turtles.markAsStopped();
+        this.playbackTime = 0;
 
         for (var sound in this.sounds) {
             this.sounds[sound].stop();
         }
+
         this.sounds = [];
 
         if (_THIS_IS_MUSIC_BLOCKS_) {
@@ -601,6 +618,8 @@ function Logo () {
 
     this._updateParameterBlock = function (that, turtle, blk) {
         // Update the label on parameter blocks.
+        var logo = that;  // For plugin backward compatibility
+
         if (this.blocks.blockList[blk].protoblock.parameter) {
             var name = this.blocks.blockList[blk].name;
             var value = 0;
@@ -824,6 +843,7 @@ function Logo () {
         }
 
         this.stopTurtle = false;
+
         this.blocks.unhighlightAll();
         this.blocks.bringToTop(); // Draw under blocks.
 
@@ -845,6 +865,7 @@ function Logo () {
         // Each turtle needs to keep its own wait time and music
         // states.
         for (var turtle = 0; turtle < this.turtles.turtleList.length; turtle++) {
+            this.previousTurtleTime[turtle] = 0;
             this.turtleTime[turtle] = 0;
             this.waitTimes[turtle] = 0;
             this.endOfClampSignals[turtle] = {};
@@ -881,6 +902,7 @@ function Logo () {
             this.skipFactor[turtle] = 1;
             this.skipIndex[turtle] = 0;
             this.notesPlayed[turtle] = 0;
+            this.playbackQueue[turtle] = [];
             this.keySignature[turtle] = 'C ' + _('major');
             this.pushedNote[turtle] = false;
             this.polyVolume[turtle] = [DEFAULTVOLUME];
@@ -926,7 +948,7 @@ function Logo () {
             this.chorusDepth[turtle] = [];
             this.dispatchFactor[turtle] = 1;
             this.justCounting[turtle] = false;
-            this.suppressOutput[turtle] = this.runningLilypond;
+            this.suppressOutput[turtle] = this.runningLilypond || this.compiling;
             this.pickup[turtle] = 0;
             // Default is 4/4 time.
             this.beatsPerMeasure[turtle] = 4;
@@ -1082,11 +1104,11 @@ function Logo () {
             var that = this;
 
             setTimeout(function () {
-		if (delayStart !== 0) {
+                if (delayStart !== 0) {
                     // Launching status block would have hidden the
                     // Stop Button so show it again.
                     that.onRunTurtle();
-		}
+                }
 
                 // If there are start blocks, run them all.
                 for (var b = 0; b < startBlocks.length; b++) {
@@ -1107,7 +1129,7 @@ function Logo () {
             if (this.suppressOutput[turtle]) {
                 this.errorMsg(NOACTIONERRORMSG, null, _('start'));
                 this.suppressOutput[turtle] = false;
-                this.checkingLilypond = false;
+                this.checkingCompletionState = false;
                 // Reset cursor.
                 document.body.style.cursor = 'default';
             }
@@ -1249,7 +1271,13 @@ function Logo () {
         case 'notevolumefactor':
             var len = this.transposition[turtle].length;
             this.polyVolume[turtle][len - 1] = value;
-            this._setSynthVolume(value, turtle);
+            if (!this.suppressOutput[turtle]) {
+                this._setSynthVolume(value, turtle);
+            }
+
+            if (!that.justCounting[turtle]) {
+                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'setvolume', value]);
+            }
             break;
         default:
             if (this.blocks.blockList[blk].name in this.evalSetterDict) {
@@ -1263,9 +1291,7 @@ function Logo () {
 
     this._runFromBlockNow = function (that, turtle, blk, isflow, receivedArg, queueStart) {
         // Run a stack of blocks, beginning with blk.
-//        console.log('run from block now');
         var logo = that;  // For plugin backward compatibility
-
         this.receivedArg = receivedArg;
 
         // Sometimes we don't want to unwind the entire queue.
@@ -1333,10 +1359,11 @@ function Logo () {
         var actionArgs = [];
 
         if (that.blocks.visible) {
-            that.blocks.highlight(blk, false);
+            if (!that.suppressOutput[turtle] && !that.justCounting[turtle]) {
+                that.blocks.highlight(blk, false);
+            }
         }
 
-//        console.log('len: ' + that.blocks.blockList[blk]);
         switch (that.blocks.blockList[blk].name) {
         case 'dispatch':
             // Dispatch an event.
@@ -1524,7 +1551,7 @@ function Logo () {
                 // If we are running in non-interactive mode, we
                 // need to put a bounds on "forever".
                 if (that.suppressOutput[turtle]) {
-                    childFlowCount = 10;
+                    childFlowCount = 20;
                 } else {
                     childFlowCount = -1;
                 }
@@ -1541,7 +1568,9 @@ function Logo () {
             // parent.
             var parentBlk = that.blocks.blockList[blk].connections[0];
             if (parentBlk != null) {
-                that.unhighlightQueue[turtle].push(parentBlk);
+                if (!that.suppressOutput[turtle] && !that.justCounting[turtle]) {
+                    that.unhighlightQueue[turtle].push(parentBlk);
+                }
             }
             break;
         case 'wait':
@@ -1553,7 +1582,17 @@ function Logo () {
             if (!that.inStatusMatrix) {
                 if (args.length === 1) {
                     if (args[0] !== null) {
-                        that.textMsg(args[0].toString());
+                        if (that.inNoteBlock[turtle] > 0) {
+                            that.embeddedGraphics[turtle].push(blk);
+                        } else {
+                            if (!that.suppressOutput[turtle]) {
+                                that.textMsg(args[0].toString());
+                            }
+
+                            if (!that.justCounting[turtle]) {
+                                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'print', args[0]]);
+                            }
+                        }
                     }
                 }
             }
@@ -1561,13 +1600,17 @@ function Logo () {
         case 'speak':
             if (args.length === 1) {
                 if (that.meSpeak) {
-                    var text = args[0];
-                    var new_text = "";
-                    for (var i = 0; i < text.length; i++) {
-                        if ((text[i] >= 'a' && text[i] <= 'z') || (text[i] >= 'A' && text[i] <= 'Z') || text[i] === ',' || text[i] === '.' || text[i] === ' ')
-                            new_text += text[i];
+                    if (that.inNoteBlock[turtle] > 0) {
+                        that.embeddedGraphics[turtle].push(blk);
+                    } else {
+                        if (!that.suppressOutput[turtle]) {
+                            that._processSpeak(args[0]);
+                        }
+
+                        if (!that.justCounting[turtle]) {
+                            that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'speak', args[0]]);
+                        }
                     }
-                    that.meSpeak.speak(new_text);
                 }
             }
             break;
@@ -1740,8 +1783,21 @@ function Logo () {
                     }
                     that.pitchTimeMatrix.rowLabels.push(that.blocks.blockList[blk].name);
                     that.pitchTimeMatrix.rowArgs.push([args[0], args[1]]);
+                } else if (that.inNoteBlock[turtle] > 0) {
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
-                    that.turtles.turtleList[turtle].doSetXY(args[0], args[1]);
+                    if (that.suppressOutput[turtle]) {
+                        var savedPenState = that.turtles.turtleList[turtle].penState;
+                        that.turtles.turtleList[turtle].penState = false;
+                        that.turtles.turtleList[turtle].doSetXY(args[0], args[1]);
+                        that.turtles.turtleList[turtle].penState = savedPenState;
+                    } else {
+                        that.turtles.turtleList[turtle].doSetXY(args[0], args[1]);
+                    }
+
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'setxy', args[0], args[1]]);
+                    }
                 }
             }
             break;
@@ -1758,11 +1814,20 @@ function Logo () {
                     that.pitchTimeMatrix.rowLabels.push(that.blocks.blockList[blk].name);
                     that.pitchTimeMatrix.rowArgs.push([args[0], args[1]]);
                 } else if (that.inNoteBlock[turtle] > 0) {
-                    if (!that.suppressOutput[turtle]) {
-                        that.embeddedGraphics[turtle].push(blk);
-                    }
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
-                    that.turtles.turtleList[turtle].doArc(args[0], args[1]);
+                    if (that.suppressOutput[turtle]) {
+                        var savedPenState = that.turtles.turtleList[turtle].penState;
+                        that.turtles.turtleList[turtle].penState = false;
+                        that.turtles.turtleList[turtle].doArc(args[0], args[1]);
+                        that.turtles.turtleList[turtle].penState = savedPenState;
+                    } else {
+                        that.turtles.turtleList[turtle].doArc(args[0], args[1]);
+                    }
+
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'arc', args[0], args[1]]);
+                    }
                 }
             }
             break;
@@ -1771,8 +1836,21 @@ function Logo () {
                 if (typeof(args[0]) === 'string' || typeof(args[1]) === 'string') {
                     that.errorMsg(NANERRORMSG, blk);
                     that.stopTurtle = true;
+                } else if (that.inNoteBlock[turtle] > 0) {
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
-                    that.turtles.turtleList[turtle].doBezier(that.cp1x[turtle], that.cp1y[turtle], that.cp2x[turtle], that.cp2y[turtle], args[0], args[1]);
+                    if (that.suppressOutput[turtle]) {
+                        var savedPenState = that.turtles.turtleList[turtle].penState;
+                        that.turtles.turtleList[turtle].penState = false;
+                        that.turtles.turtleList[turtle].doBezier(that.cp1x[turtle], that.cp1y[turtle], that.cp2x[turtle], that.cp2y[turtle], args[0], args[1]);
+                        that.turtles.turtleList[turtle].penState = savedPenState;
+                    } else {
+                        that.turtles.turtleList[turtle].doBezier(that.cp1x[turtle], that.cp1y[turtle], that.cp2x[turtle], that.cp2y[turtle], args[0], args[1]);
+                    }
+
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'bezier', args[0], args[1]]);
+                    }
                 }
             }
             break;
@@ -1781,9 +1859,14 @@ function Logo () {
                 if (typeof(args[0]) === 'string' || typeof(args[1]) === 'string') {
                     that.errorMsg(NANERRORMSG, blk);
                     that.stopTurtle = true;
+                } else if (that.inNoteBlock[turtle] > 0) {
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
                     that.cp1x[turtle] = args[0];
                     that.cp1y[turtle] = args[1];
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'controlpoint1', args[0], args[1]]);
+                    }
                 }
             }
             break;
@@ -1792,9 +1875,14 @@ function Logo () {
                 if (typeof(args[0]) === 'string' || typeof(args[1]) === 'string') {
                     that.errorMsg(NANERRORMSG, blk);
                     that.stopTurtle = true;
+                } else if (that.inNoteBlock[turtle] > 0) {
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
                     that.cp2x[turtle] = args[0];
                     that.cp2y[turtle] = args[1];
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'controlpoint2', args[0], args[1]]);
+                    }
                 }
             }
             break;
@@ -1852,11 +1940,20 @@ function Logo () {
                     that.pitchTimeMatrix.rowLabels.push(that.blocks.blockList[blk].name);
                     that.pitchTimeMatrix.rowArgs.push(args[0]);
                 } else if (that.inNoteBlock[turtle] > 0) {
-                    if (!that.suppressOutput[turtle]) {
-                        that.embeddedGraphics[turtle].push(blk);
-                    }
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
-                    that.turtles.turtleList[turtle].doForward(args[0]);
+                    if (that.suppressOutput[turtle]) {
+                        var savedPenState = that.turtles.turtleList[turtle].penState;
+                        that.turtles.turtleList[turtle].penState = false;
+                        that.turtles.turtleList[turtle].doForward(args[0]);
+                        that.turtles.turtleList[turtle].penState = savedPenState;
+                    } else {
+                        that.turtles.turtleList[turtle].doForward(args[0]);
+                    }
+
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'forward', args[0]]);
+                    }
                 }
             }
             break;
@@ -1873,11 +1970,20 @@ function Logo () {
                     that.pitchTimeMatrix.rowLabels.push(that.blocks.blockList[blk].name);
                     that.pitchTimeMatrix.rowArgs.push(args[0]);
                 } else if (that.inNoteBlock[turtle] > 0) {
-                    if (!that.suppressOutput[turtle]) {
-                        that.embeddedGraphics[turtle].push(blk);
-                    }
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
-                    that.turtles.turtleList[turtle].doForward(-args[0]);
+                    if (that.suppressOutput[turtle]) {
+                        var savedPenState = that.turtles.turtleList[turtle].penState;
+                        that.turtles.turtleList[turtle].penState = false;
+                        that.turtles.turtleList[turtle].doForward(-args[0]);
+                        that.turtles.turtleList[turtle].penState = savedPenState;
+                    } else {
+                        that.turtles.turtleList[turtle].doForward(-args[0]);
+                    }
+
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'forward', -args[0]]);
+                    }
                 }
             }
             break;
@@ -1894,11 +2000,20 @@ function Logo () {
                     that.pitchTimeMatrix.rowLabels.push(that.blocks.blockList[blk].name);
                     that.pitchTimeMatrix.rowArgs.push(args[0]);
                 } else if (that.inNoteBlock[turtle] > 0) {
-                    if (!that.suppressOutput[turtle]) {
-                        that.embeddedGraphics[turtle].push(blk);
-                    }
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
-                    that.turtles.turtleList[turtle].doRight(args[0]);
+                    if (that.suppressOutput[turtle]) {
+                        var savedPenState = that.turtles.turtleList[turtle].penState;
+                        that.turtles.turtleList[turtle].penState = false;
+                        that.turtles.turtleList[turtle].doRight(args[0]);
+                        that.turtles.turtleList[turtle].penState = savedPenState;
+                    } else {
+                        that.turtles.turtleList[turtle].doRight(args[0]);
+                    }
+
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'right', args[0]]);
+                    }
                 }
             }
             break;
@@ -1915,11 +2030,20 @@ function Logo () {
                     that.pitchTimeMatrix.rowLabels.push(that.blocks.blockList[blk].name);
                     that.pitchTimeMatrix.rowArgs.push(args[0]);
                 } else if (that.inNoteBlock[turtle] > 0) {
-                    if (!that.suppressOutput[turtle]) {
-                        that.embeddedGraphics[turtle].push(blk);
-                    }
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
-                    that.turtles.turtleList[turtle].doRight(-args[0]);
+                    if (that.suppressOutput[turtle]) {
+                        var savedPenState = that.turtles.turtleList[turtle].penState;
+                        that.turtles.turtleList[turtle].penState = false;
+                        that.turtles.turtleList[turtle].doRight(-args[0]);
+                        that.turtles.turtleList[turtle].penState = savedPenState;
+                    } else {
+                        that.turtles.turtleList[turtle].doRight(-args[0]);
+                    }
+
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'right', -args[0]]);
+                    }
                 }
             }
             break;
@@ -1935,38 +2059,28 @@ function Logo () {
                     }
                     that.pitchTimeMatrix.rowLabels.push(that.blocks.blockList[blk].name);
                     that.pitchTimeMatrix.rowArgs.push(args[0]);
+                } else if (that.inNoteBlock[turtle] > 0) {
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
                     that.turtles.turtleList[turtle].doSetHeading(args[0]);
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'setheading', args[0]]);
+                    }
                 }
             }
             break;
         case 'show':
             if (args.length === 2) {
-                if (typeof(args[1]) === 'string') {
-                    var len = args[1].length;
-                    if (len === 14 && args[1].substr(0, 14) === CAMERAVALUE) {
-                        doUseCamera(args, that.turtles, turtle, false, that.cameraID, that.setCameraID, that.errorMsg);
-                    } else if (len === 13 && args[1].substr(0, 13) === VIDEOVALUE) {
-                        doUseCamera(args, that.turtles, turtle, true, that.cameraID, that.setCameraID, that.errorMsg);
-                    } else if (len > 10 && args[1].substr(0, 10) === 'data:image') {
-                        that.turtles.turtleList[turtle].doShowImage(args[0], args[1]);
-                    } else if (len > 8 && args[1].substr(0, 8) === 'https://') {
-                        that.turtles.turtleList[turtle].doShowURL(args[0], args[1]);
-                    } else if (len > 7 && args[1].substr(0, 7) === 'http://') {
-                        that.turtles.turtleList[turtle].doShowURL(args[0], args[1]);
-                    } else if (len > 7 && args[1].substr(0, 7) === 'file://') {
-                        that.turtles.turtleList[turtle].doShowURL(args[0], args[1]);
-                    } else {
-                        that.turtles.turtleList[turtle].doShowText(args[0], args[1]);
-                    }
-                } else if (typeof(args[1]) === 'object' && that.blocks.blockList[that.blocks.blockList[blk].connections[2]].name === 'loadFile') {
-                    if (args[1]) {
-                        that.turtles.turtleList[turtle].doShowText(args[0], args[1][1]);
-                    } else {
-                        that.errorMsg(_('You must select a file.'));
-                    }
+                if (that.inNoteBlock[turtle] > 0) {
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
-                    that.turtles.turtleList[turtle].doShowText(args[0], args[1]);
+                    if (!that.suppressOutput[turtle]) {
+                        that._processShow(turtle, args[0], args[1]);
+                    }
+
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'show', args[0], args[1]]);
+                    }
                 }
             }
             break;
@@ -2073,11 +2187,12 @@ function Logo () {
                     that.pitchTimeMatrix.rowLabels.push(that.blocks.blockList[blk].name);
                     that.pitchTimeMatrix.rowArgs.push(args[0]);
                 } else if (that.inNoteBlock[turtle] > 0) {
-                    if (!that.suppressOutput[turtle]) {
-                        that.embeddedGraphics[turtle].push(blk);
-                    }
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
                     that.turtles.turtleList[turtle].doSetColor(args[0]);
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'color', args[0]]);
+                    }
                 }
             }
             break;
@@ -2104,11 +2219,12 @@ function Logo () {
                     that.pitchTimeMatrix.rowLabels.push(that.blocks.blockList[blk].name);
                     that.pitchTimeMatrix.rowArgs.push(args[0]);
                 } else if (that.inNoteBlock[turtle] > 0) {
-                    if (!that.suppressOutput[turtle]) {
-                        that.embeddedGraphics[turtle].push(blk);
-                    }
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
                     that.turtles.turtleList[turtle].doSetHue(args[0]);
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'sethue', args[0]]);
+                    }
                 }
             }
             break;
@@ -2125,11 +2241,12 @@ function Logo () {
                     that.pitchTimeMatrix.rowLabels.push(that.blocks.blockList[blk].name);
                     that.pitchTimeMatrix.rowArgs.push(args[0]);
                 } else if (that.inNoteBlock[turtle] > 0) {
-                    if (!that.suppressOutput[turtle]) {
-                        that.embeddedGraphics[turtle].push(blk);
-                    }
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
                     that.turtles.turtleList[turtle].doSetValue(args[0]);
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'shade', args[0]]);
+                    }
                 }
             }
             break;
@@ -2146,13 +2263,14 @@ function Logo () {
                     that.pitchTimeMatrix.rowLabels.push(that.blocks.blockList[blk].name);
                     that.pitchTimeMatrix.rowArgs.push(args[0]);
                 } else if (that.inNoteBlock[turtle] > 0) {
-                    if (!that.suppressOutput[turtle]) {
-                        that.embeddedGraphics[turtle].push(blk);
-                    }
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
                     args[0] %= 101;
                     var alpha = 1.0 - (args[0] / 100);
                     that.turtles.turtleList[turtle].doSetPenAlpha(alpha);
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'settranslucency', args[0]]);
+                    }
                 }
             }
             break;
@@ -2169,11 +2287,12 @@ function Logo () {
                     that.pitchTimeMatrix.rowLabels.push(that.blocks.blockList[blk].name);
                     that.pitchTimeMatrix.rowArgs.push(args[0]);
                 } else if (that.inNoteBlock[turtle] > 0) {
-                    if (!that.suppressOutput[turtle]) {
-                        that.embeddedGraphics[turtle].push(blk);
-                    }
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
                     that.turtles.turtleList[turtle].doSetChroma(args[0]);
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'setgrey', args[0]]);
+                    }
                 }
             }
             break;
@@ -2190,16 +2309,32 @@ function Logo () {
                     that.pitchTimeMatrix.rowLabels.push(that.blocks.blockList[blk].name);
                     that.pitchTimeMatrix.rowArgs.push(args[0]);
                 } else if (that.inNoteBlock[turtle] > 0) {
-                    if (!that.suppressOutput[turtle]) {
-                        that.embeddedGraphics[turtle].push(blk);
-                    }
+                    that.embeddedGraphics[turtle].push(blk);
                 } else {
                     that.turtles.turtleList[turtle].doSetPensize(args[0]);
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'setpensize', args[0]]);
+                    }
                 }
             }
             break;
         case 'fill':
-            that.turtles.turtleList[turtle].doStartFill();
+            if (that.inNoteBlock[turtle] > 0) {
+                that.embeddedGraphics[turtle].push(blk);
+            } else {
+                if (that.suppressOutput[turtle]) {
+                    var savedPenState = that.turtles.turtleList[turtle].penState;
+                    that.turtles.turtleList[turtle].penState = false;
+                    that.turtles.turtleList[turtle].doStartFill();
+                    that.turtles.turtleList[turtle].penState = savedPenState;
+                } else {
+                    that.turtles.turtleList[turtle].doStartFill();
+                }
+
+                if (!that.justCounting[turtle]) {
+                    that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'fill']);
+                }
+            }
 
             childFlow = args[0];
             childFlowCount = 1;
@@ -2208,7 +2343,22 @@ function Logo () {
             that._setDispatchBlock(blk, turtle, listenerName);
 
             var __listener = function (event) {
-                that.turtles.turtleList[turtle].doEndFill();
+                if (that.inNoteBlock[turtle] > 0) {
+                    that.embeddedGraphics[turtle].push(blk);
+                } else {
+                    if (that.suppressOutput[turtle]) {
+                        var savedPenState = that.turtles.turtleList[turtle].penState;
+                        that.turtles.turtleList[turtle].penState = false;
+                        that.turtles.turtleList[turtle].doEndFill();
+                        that.turtles.turtleList[turtle].penState = savedPenState;
+                    } else {
+                        that.turtles.turtleList[turtle].doEndFill();
+                    }
+
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'fill']);
+                    }
+                }
             };
 
             that._setListener(turtle, listenerName, __listener);
@@ -2222,7 +2372,14 @@ function Logo () {
             that.turtles.turtleList[turtle].doEndFill();
             break;
         case 'hollowline':
-            that.turtles.turtleList[turtle].doStartHollowLine();
+            if (that.inNoteBlock[turtle] > 0) {
+                that.embeddedGraphics[turtle].push(blk);
+            } else {
+                that.turtles.turtleList[turtle].doStartHollowLine();
+                if (!that.justCounting[turtle]) {
+                    that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'hollowline']);
+                }
+            }
 
             childFlow = args[0];
             childFlowCount = 1;
@@ -2231,7 +2388,14 @@ function Logo () {
             that._setDispatchBlock(blk, turtle, listenerName);
 
             var __listener = function (event) {
-                that.turtles.turtleList[turtle].doEndHollowLine();
+                if (that.inNoteBlock[turtle] > 0) {
+                    that.embeddedGraphics[turtle].push(blk);
+                } else {
+                    that.turtles.turtleList[turtle].doEndHollowLine();
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'hollowline']);
+                    }
+                }
             };
 
             that._setListener(turtle, listenerName, __listener);
@@ -2265,10 +2429,24 @@ function Logo () {
             that.setBackgroundColor(turtle);
             break;
         case 'penup':
-            that.turtles.turtleList[turtle].doPenUp();
+            if (that.inNoteBlock[turtle] > 0) {
+                that.embeddedGraphics[turtle].push(blk);
+            } else {
+                that.turtles.turtleList[turtle].doPenUp();
+                if (!that.justCounting[turtle]) {
+                    that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'penup']);
+                }
+            }
             break;
         case 'pendown':
-            that.turtles.turtleList[turtle].doPenDown();
+            if (that.inNoteBlock[turtle] > 0) {
+                that.embeddedGraphics[turtle].push(blk);
+            } else {
+                that.turtles.turtleList[turtle].doPenDown();
+                if (!that.justCounting[turtle]) {
+                    that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'pendown']);
+                }
+            }
             break;
         case 'openProject':
             url = args[0];
@@ -2476,7 +2654,6 @@ function Logo () {
             }
 
             if (that.inTimbre) {
-                console.log('CREATING AM SYNTH...');
                 that.timbre.amSynthParamvals['harmonicity'] = harmonicity;
                 that.synth.createSynth(that.timbre.instrumentName, 'amsynth', that.timbre.amSynthParamvals);
 
@@ -2498,7 +2675,6 @@ function Logo () {
                 modulationIndex = args[0];
             }
             if (that.inTimbre) {
-                console.log('CREATING FM SYNTH...');
                 that.timbre.fmSynthParamvals['modulationIndex'] = modulationIndex;
                 that.synth.createSynth(that.timbre.instrumentName, 'fmsynth', that.timbre.fmSynthParamvals);
 
@@ -2520,7 +2696,6 @@ function Logo () {
             }
 
             if (that.inTimbre) {
-                console.log('CREATING DUO SYNTH...');
                 that.timbre.duoSynthParamVals['vibratoRate'] = synthVibratoRate;
                 that.timbre.duoSynthParamVals['vibratoAmount'] = synthVibratoAmount;
                 that.synth.createSynth(that.timbre.instrumentName, 'duosynth', that.timbre.duoSynthParamVals);
@@ -2917,7 +3092,6 @@ function Logo () {
                     that.errorMsg(_("You are adding multiple envelope blocks."));
                 } else {
                     // Create the synth for the instrument.
-                    console.log('CREATING ENVELOPE SYNTH...');
                     that.synth.createSynth(that.timbre.instrumentName, that.timbre.synthVals['oscillator']['source'], that.timbre.synthVals);
                 }
 
@@ -2985,8 +3159,6 @@ function Logo () {
                     that.errorMsg(_("You are adding multiple oscillator blocks."));
                 } else {
                     that.timbre.oscParams = [];
-
-                    console.log('CREATING OSCILLATOR SYNTH...');
                     that.synth.createSynth(that.timbre.instrumentName, oscillatorType, that.timbre.synthVals);
                 }
 
@@ -3146,6 +3318,7 @@ function Logo () {
             } else {
                 that.noteBeatValues[turtle].push(1);
             }
+
             that.pushedNote[turtle] = true;
             break;
         case 'steppitch':
@@ -3813,7 +3986,6 @@ function Logo () {
                     that.stopTurtle = true;
                 } else {
                     var __listener = function (event) {
-                        console.log('DO');
                         if (that.turtles.turtleList[turtle].running) {
                             var queueBlock = new Queue(that.actions[args[1]], 1, blk);
                             that.parentFlowQueue[turtle].push(blk);
@@ -4023,6 +4195,7 @@ function Logo () {
                     if (!that.justCounting[turtle]) {
                         that.notationEndCrescendo(turtle, last(that.crescendoDelta[turtle]));
                     }
+
                     that.crescendoDelta[turtle].pop();
                     that.crescendoVolume[turtle].pop();
                     that.polyVolume[turtle].pop();
@@ -4963,8 +5136,15 @@ function Logo () {
                     console.log('articulated volume exceeds 100%. clipping');
                     newVolume = 100;
                 }
+
                 that.polyVolume[turtle].push(newVolume);
-                that._setSynthVolume(newVolume, turtle);
+                if (!this.suppressOutput[turtle]) {
+                    that._setSynthVolume(newVolume, turtle);
+                }
+
+                if (!that.justCounting[turtle]) {
+                    that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'setvolume', newVolume]);
+                }
 
                 if (!that.justCounting[turtle]) {
                     that.notationBeginArticulation(turtle);
@@ -4990,7 +5170,13 @@ function Logo () {
         case 'setnotevolume2':
             if (args.length === 2 && typeof(args[0]) === 'number') {
                 that.polyVolume[turtle].push(args[0]);
-                that._setSynthVolume(args[0], turtle);
+                if (!this.suppressOutput[turtle]) {
+                    that._setSynthVolume(args[0], turtle);
+                }
+
+                if (!that.justCounting[turtle]) {
+                    that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'setvolume', args[0]]);
+                }
 
                 childFlow = args[1];
                 childFlowCount = 1;
@@ -5012,7 +5198,13 @@ function Logo () {
                     that.stopTurtle = true;
                 } else {
                     that.polyVolume[turtle].push(args[0]);
-                    that._setSynthVolume(args[0], turtle);
+                    if (!this.suppressOutput[turtle]) {
+                        that._setSynthVolume(args[0], turtle);
+                    }
+
+                    if (!that.justCounting[turtle]) {
+                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'setvolume', args[0]]);
+                    }
                 }
             }
             break;
@@ -5389,31 +5581,35 @@ function Logo () {
                 if (that.turtleDelay === TURTLESTEP) {
                     that.unhighlightStepQueue[turtle] = blk;
                 } else {
-                    setTimeout(function () {
-                        if (that.blocks.visible) {
-                            that.blocks.unhighlight(blk);
-                        }
-                    }, that.turtleDelay + that.waitTimes[turtle]);
+                    if (!that.suppressOutput[turtle] && !that.justCounting[turtle]) {
+                        setTimeout(function () {
+                            if (that.blocks.visible) {
+                                that.blocks.unhighlight(blk);
+                            }
+                        }, that.turtleDelay + that.waitTimes[turtle]);
+                    }
                 }
             }
 
             if ((that.backward[turtle].length > 0 && that.blocks.blockList[blk].connections[0] == null) || (that.backward[turtle].length === 0 && last(that.blocks.blockList[blk].connections) == null)) {
-                // If we are at the end of the child flow, queue the
-                // unhighlighting of the parent block to the flow.
-                if (that.unhighlightQueue[turtle] === undefined) {
-                    console.log('cannot find highlight queue for turtle ' + turtle);
-                } else if (that.parentFlowQueue[turtle].length > 0 && that.turtles.turtleList[turtle].queue.length > 0 && last(that.turtles.turtleList[turtle].queue).parentBlk !== last(that.parentFlowQueue[turtle])) {
-                    that.unhighlightQueue[turtle].push(last(that.parentFlowQueue[turtle]));
-                    // that.unhighlightQueue[turtle].push(that.parentFlowQueue[turtle].pop());
-                } else if (that.unhighlightQueue[turtle].length > 0) {
-                    // The child flow is finally complete, so unhighlight.
-                    setTimeout(function () {
-                        if (that.blocks.visible) {
-                            that.blocks.unhighlight(that.unhighlightQueue[turtle].pop());
-                        } else {
-                            that.unhighlightQueue[turtle].pop();
-                        }
-                    }, that.turtleDelay);
+                if (!that.suppressOutput[turtle] && !that.justCounting[turtle]) {
+                    // If we are at the end of the child flow, queue the
+                    // unhighlighting of the parent block to the flow.
+                    if (that.unhighlightQueue[turtle] === undefined) {
+                        console.log('cannot find highlight queue for turtle ' + turtle);
+                    } else if (that.parentFlowQueue[turtle].length > 0 && that.turtles.turtleList[turtle].queue.length > 0 && last(that.turtles.turtleList[turtle].queue).parentBlk !== last(that.parentFlowQueue[turtle])) {
+                        that.unhighlightQueue[turtle].push(last(that.parentFlowQueue[turtle]));
+                        // that.unhighlightQueue[turtle].push(that.parentFlowQueue[turtle].pop());
+                    } else if (that.unhighlightQueue[turtle].length > 0) {
+                        // The child flow is finally complete, so unhighlight.
+                        setTimeout(function () {
+                            if (that.blocks.visible) {
+                                that.blocks.unhighlight(that.unhighlightQueue[turtle].pop());
+                            } else {
+                                that.unhighlightQueue[turtle].pop();
+                            }
+                        }, that.turtleDelay);
+                    }
                 }
             }
 
@@ -5452,68 +5648,78 @@ function Logo () {
             // Because flow can come from calc blocks, we are not
             // ensured that the turtle is really finished running
             // yet. Hence the timeout.
-            __checkLilypond = function () {
-                if (!that.turtles.running() && queueStart === 0 && that.suppressOutput[turtle] && !that.justCounting[turtle]) {
-                    console.log('saving lilypond output:');
-                    console.log(that.notationStaging);
-                    saveLilypondOutput(that, _('My Project') + '.ly');
-                    that.suppressOutput[turtle] = false;
-                    that.checkingLilypond = false;
-                    that.runningLilypond = false;
-                    // Reset cursor.
-                    document.body.style.cursor = 'default';
+            __checkCompletionState = function () {
+                if (!that.turtles.running() && queueStart === 0 && !that.justCounting[turtle]) {
+                    if (that.runningLilypond) {
+                        console.log('saving lilypond output:');
+                        console.log(that.notationStaging);
+                        saveLilypondOutput(that, _('My Project') + '.ly');
+                        that.runningLilypond = false;
+                    } else if (that.suppressOutput[turtle]) {
+                        console.log('finishing compiling');
+                        that.setPlaybackStatus();
+                        that.compiling = false;
+                    }
+
+                    // Give the last note time to play.
+                    setTimeout(function () {
+                        that.suppressOutput[turtle] = false;
+                        that.checkingCompletionState = false;
+
+                        // Reset the cursor...
+                        document.body.style.cursor = 'default';
+
+                        // And save the session.
+                        that.saveLocally();
+                    }, 1000);
                 } else if (that.suppressOutput[turtle]) {
                     setTimeout(function () {
-                        __checkLilypond();
+                        __checkCompletionState();
                     }, 250);
                 }
             };
 
-            if (!that.turtles.running() && queueStart === 0 && that.suppressOutput[turtle] && !that.justCounting[turtle]) {
-                if (!that.checkingLilypond) {
-                    that.checkingLilypond = true;
+            if (!that.turtles.running() && queueStart === 0 && !that.justCounting[turtle]) {
+                if (!that.checkingCompletionState) {
+                    that.checkingCompletionState = true;
                     setTimeout(function () {
-                        __checkLilypond();
+                        __checkCompletionState();
                     }, 250);
                 }
             }
 
-            // Nothing else to do... so cleaning up.
-            if (that.turtles.turtleList[turtle].queue.length === 0 || blk !== last(that.turtles.turtleList[turtle].queue).parentBlk) {
-                setTimeout(function () {
-                    if (that.blocks.visible) {
-                        that.blocks.unhighlight(blk);
-                    }
-                }, that.turtleDelay);
-            }
-
-            // Unhighlight any parent blocks still highlighted.
-            for (var b in that.parentFlowQueue[turtle]) {
-                if (that.blocks.visible) {
-                    that.blocks.unhighlight(that.parentFlowQueue[turtle][b]);
+            if (!that.suppressOutput[turtle] && !that.justCounting[turtle]) {
+                // Nothing else to do... so cleaning up.
+                if (that.turtles.turtleList[turtle].queue.length === 0 || blk !== last(that.turtles.turtleList[turtle].queue).parentBlk) {
+                    setTimeout(function () {
+                        if (that.blocks.visible) {
+                            that.blocks.unhighlight(blk);
+                        }
+                    }, that.turtleDelay);
                 }
-            }
 
-            // Make sure the turtles are on top.
-            var i = that.stage.getNumChildren() - 1;
-            that.stage.setChildIndex(that.turtles.turtleList[turtle].container, i);
-            that.refreshCanvas();
+                // Unhighlight any parent blocks still highlighted.
+                for (var b in that.parentFlowQueue[turtle]) {
+                    if (that.blocks.visible) {
+                        that.blocks.unhighlight(that.parentFlowQueue[turtle][b]);
+                    }
+                }
+
+                // Make sure the turtles are on top.
+                var i = that.stage.getNumChildren() - 1;
+                that.stage.setChildIndex(that.turtles.turtleList[turtle].container, i);
+                that.refreshCanvas();
+            }
 
             for (var arg in that.evalOnStopList) {
                 eval(that.evalOnStopList[arg]);
             }
 
+            if (!that.turtles.running() && queueStart === 0) {
+                // TODO: Enable playback button here
+                console.log('fin');
+            }
         }
-
-        clearTimeout(this.saveTimeout);
-
-        var that = this;
-
-        this.saveTimeout = setTimeout(function () {
-            // Save at the end to save an image
-            // console.log('in saveTimeout');
-            that.saveLocally();
-        }, DEFAULTDELAY * 1.5);
     };
 
     this._setSynthVolume = function (vol, turtle) {
@@ -5529,7 +5735,6 @@ function Logo () {
     };
 
     this._processNote = function (noteValue, blk, turtle) {
-
         if (this.bpm[turtle].length > 0) {
             var bpmFactor = TONEBPM / last(this.bpm[turtle]);
         } else {
@@ -5678,7 +5883,7 @@ function Logo () {
         } else {
             // We start the music clock as the first note is being
             // played.
-            if (this.firstNoteTime == null && !this.suppressOutput[turtle]) {
+            if (this.firstNoteTime == null) {  // && !this.suppressOutput[turtle]) {
                 var d = new Date();
                 this.firstNoteTime = d.getTime();
             }
@@ -5694,6 +5899,7 @@ function Logo () {
                 // When we are "drifting", we don't bother with lag.
                 var turtleLag = 0;
             }
+
             // If we are in a tie, depending upon parity, we either
             // add the duration from the previous note to the current
             // note, or we cache the duration and set the wait to
@@ -5787,7 +5993,6 @@ function Logo () {
             // initial notevalue. When that notevalue is encountered
             // again, the swing terminates, e.g., 8->4->4->4->8
             // 8->4->4->4->8
-            // FIXME: Will not work when using dup and skip.
             // FIXME: Could behave weirdly with tie.
             if (this.swing[turtle].length > 0) {
                 // Deprecated
@@ -5824,12 +6029,13 @@ function Logo () {
             // played. doWait sets the wait time for the turtle before
             // the next block is executed.
             var duration = noteBeatValue * this.beatFactor[turtle];  // beat value
-            if (duration > 0 && !this.suppressOutput[turtle]) {
+            if (duration > 0) {
+                this.previousTurtleTime[turtle] = this.turtleTime[turtle];
                 this.turtleTime[turtle] += ((bpmFactor / duration) + (this.noteDelay / 1000));
-                this._doWait(turtle, Math.max(((bpmFactor / duration) + (this.noteDelay / 1000)) - turtleLag, 0));
+                if (!this.suppressOutput[turtle]) {
+                    this._doWait(turtle, Math.max(((bpmFactor / duration) + (this.noteDelay / 1000)) - turtleLag, 0));
+                }
             }
-
-            var waitTime = 0;
 
             var forceSilence = false;
             if (this.skipFactor[turtle] > 1) {
@@ -5839,11 +6045,8 @@ function Logo () {
                 this.skipIndex[turtle] += 1;
             }
 
-            if (this.suppressOutput[turtle]) {
-                waitTime = 0;
-            }
-
-            __playnote = function (that) {
+            var that = this;
+            __playnote = function () {
                 // Stop playing notes if the stop button is pressed.
                 if (that.stopTurtle) {
                     return;
@@ -5883,17 +6086,15 @@ function Logo () {
                     } else {
                         var beatValue = bpmFactor / (noteBeatValue * that.noteBeatValues[turtle][0]);
                     }
-                } else {
+                } else if (that.noteBeatValues[turtle].length > 0) {
                     var beatValue = bpmFactor / (noteBeatValue * that.noteBeatValues[turtle][0]);
+                } else {
+                    var beatValue = bpmFactor / noteBeatValue;
                 }
 
                 if (doVibrato) {
                     vibratoValue = beatValue * (duration / vibratoRate);
                 }
-
-                that._dispatchTurtleSignals(turtle, beatValue, blk, noteBeatValue);
-                // After the note plays, clear the embedded graphics queue.
-                that.embeddedGraphics[turtle] = [];
 
                 // Process pitches
                 if (that.notePitches[turtle].length > 0) {
@@ -5937,8 +6138,6 @@ function Logo () {
                             if (!that.justCounting[turtle]) {
                                 that.updateNotation(note, that.tieCarryOver[turtle], turtle, insideChord);
                             }
-                        } else {
-                            // console.log('duration == ' + duration + ' and tieCarryOver === 0 and drift is ' + drift);
                         }
                     }
 
@@ -5949,7 +6148,7 @@ function Logo () {
                     }
 
                     if (!that.suppressOutput[turtle]) {
-                        that.turtles.turtleList[turtle].blink(duration,last(that.polyVolume[turtle]));
+                        that.turtles.turtleList[turtle].blink(duration, last(that.polyVolume[turtle]));
                     }
 
                     if (notes.length > 0) {
@@ -5974,7 +6173,7 @@ function Logo () {
                             }
                         }
 
-                        if (!that.suppressOutput[turtle] && duration > 0) {
+                        if (duration > 0) {
                             if (_THIS_IS_MUSIC_BLOCKS_ && !forceSilence) {
                                 // Parameters related to effects
                                 var paramsEffects = {
@@ -6001,26 +6200,67 @@ function Logo () {
                                         that.errorMsg(last(that.oscList[turtle]) + ': ' +  _('synth cannot play chords.'), blk);
                                     }
 
-                                    that.synth.trigger(notes, beatValue, last(that.oscList[turtle]), paramsEffects, null);
+                                    if (!that.suppressOutput[turtle]) {
+                                        that.synth.trigger(notes, beatValue, last(that.oscList[turtle]), paramsEffects, null);
+                                    }
+
+                                    if (!that.justCounting[turtle]) {
+                                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'notes', notes, beatValue, last(that.oscList[turtle]), paramsEffects, null]);
+                                    }
                                 } else if (that.drumStyle[turtle].length > 0) {
-                                    that.synth.trigger(notes, beatValue, last(that.drumStyle[turtle]), null, null);
+                                    if (!that.suppressOutput[turtle]) {
+                                        that.synth.trigger(notes, beatValue, last(that.drumStyle[turtle]), null, null);
+                                    }
+
+                                    if (!that.justCounting[turtle]) {
+                                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'notes', notes, beatValue, that.drumStyle[turtle], null, null]);
+                                    }
                                 } else if (that.turtles.turtleList[turtle].drum) {
-                                    that.synth.trigger(notes, beatValue, 'drum', null, null);
+                                    if (!that.suppressOutput[turtle]) {
+                                        that.synth.trigger(notes, beatValue, 'drum', null, null);
+                                    }
+
+                                    if (!that.justCounting[turtle]) {
+                                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'notes', notes, beatValue, 'drum', null, null]);
+                                    }
                                 } else {
                                     for (var d = 0; d < notes.length; d++) {
                                         if (notes[d] in that.pitchDrumTable[turtle]) {
-                                            that.synth.trigger(notes[d], beatValue, that.pitchDrumTable[turtle][notes[d]], null, null);
+                                            if (!that.suppressOutput[turtle]) {
+                                                that.synth.trigger(notes[d], beatValue, that.pitchDrumTable[turtle][notes[d]], null, null);
+                                            }
+
+                                            if (!that.justCounting[turtle]) {
+                                                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'notes', notes[d], beatValue, that.pitchDrumTable[turtle][notes[d]], null, null]);
+                                            }
                                         } else if (turtle in that.instrumentNames && last(that.instrumentNames[turtle])) {
-                                            that.synth.trigger(notes[d], beatValue, last(that.instrumentNames[turtle]), paramsEffects, filters);
+                                            if (!that.suppressOutput[turtle]) {
+                                                that.synth.trigger(notes[d], beatValue, last(that.instrumentNames[turtle]), paramsEffects, filters);
+                                            }
+
+                                            if (!that.justCounting[turtle]) {
+                                                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'notes', notes[d], beatValue, last(that.instrumentNames[turtle]), paramsEffects, filters]);
+                                            }
                                         } else if (turtle in that.voices && last(that.voices[turtle])) {
-                                            that.synth.trigger(notes[d], beatValue, last(that.voices[turtle]), paramsEffects, null);
+                                            if (!that.suppressOutput[turtle]) {
+                                                that.synth.trigger(notes[d], beatValue, last(that.voices[turtle]), paramsEffects, null);
+                                            }
+
+                                            if (!that.justCounting[turtle]) {
+                                                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'notes', notes[d], beatValue, last(that.voices[turtle]), paramsEffects, null]);
+                                            }
                                         } else {
-                                            that.synth.trigger(notes[d], beatValue, 'default', paramsEffects, null);
+                                            if (!that.suppressOutput[turtle]) {
+                                                that.synth.trigger(notes[d], beatValue, 'default', paramsEffects, null);
+                                            }
+
+                                            if (!that.justCounting[turtle]) {
+                                                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'notes', notes[d], beatValue, 'default', paramsEffects, null]);
+                                            }
                                         }
                                     }
                                 }
 
-                                that.synth.start();
                             }
                         }
 
@@ -6045,22 +6285,44 @@ function Logo () {
                         }
 
                         if (!that.suppressOutput[turtle]) {
-                            that.turtles.turtleList[turtle].blink(duration,last(that.polyVolume[turtle]));
+                            that.turtles.turtleList[turtle].blink(duration, last(that.polyVolume[turtle]));
                         }
                     }
 
-                    if (!that.suppressOutput[turtle] && duration > 0) {
+                    if (duration > 0) {
                         if (_THIS_IS_MUSIC_BLOCKS_ && !forceSilence) {
                             for (var i = 0; i < drums.length; i++) {
                                 if (that.drumStyle[turtle].length > 0) {
-                                    that.synth.trigger(['C2'], beatValue, last(that.drumStyle[turtle]), null, null);
+                                    if (!that.suppressOutput[turtle]) {
+                                        that.synth.trigger(['C2'], beatValue, last(that.drumStyle[turtle]), null, null);
+                                    }
+
+                                    if (!that.justCounting[turtle]) {
+                                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'notes', ['C2'], beatValue, last(that.drumStyle[turtle]), null, null]);
+                                    }
                                 } else {
-                                    that.synth.trigger(['C2'], beatValue, drums[i], null, null);
+                                    if (!that.suppressOutput[turtle]) {
+                                        that.synth.trigger(['C2'], beatValue, drums[i], null, null);
+                                    }
+
+                                    if (!that.justCounting[turtle]) {
+                                        that.playbackQueue[turtle].push([that.previousTurtleTime[turtle], 'notes', ['C2'], beatValue, drums[i], null, null]);
+                                    }
                                 }
                             }
                         }
                     }
                 }
+
+                if (!that.suppressOutput[turtle]) {
+                    if (_THIS_IS_MUSIC_BLOCKS_ && !forceSilence) {
+                        that.synth.start();
+                    }
+                }
+
+                that._dispatchTurtleSignals(turtle, beatValue, blk, noteBeatValue);
+                // After the note plays, clear the embedded graphics queue.
+                that.embeddedGraphics[turtle] = [];
 
                 // Ensure note value block unhighlights after note plays.
                 setTimeout(function () {
@@ -6070,14 +6332,12 @@ function Logo () {
                 }, beatValue * 1000);
             };
 
-            if (waitTime === 0 || this.suppressOutput[turtle]) {
-                __playnote(this);
+            if (this.noteDelay === 0 || this.suppressOutput[turtle]) {
+                __playnote();
             } else {
-                var that = this;
-
                 setTimeout(function () {
-                    __playnote(that);
-                }, waitTime + this.noteDelay);
+                    __playnote();
+                }, this.noteDelay);
             }
 
             if (this.crescendoDelta[turtle].length > 0) {
@@ -6087,13 +6347,200 @@ function Logo () {
 
                 var len = this.crescendoVolume[turtle].length
                 this.crescendoVolume[turtle][len - 1] += this.crescendoDelta[turtle][len - 1];
-                this._setSynthVolume(this.crescendoVolume[turtle][len - 1], turtle);
+                if (!that.suppressOutput[turtle]) {
+                    this._setSynthVolume(this.crescendoVolume[turtle][len - 1], turtle);
+                }
+
                 var len2 = this.polyVolume[turtle].length;
                 this.polyVolume[turtle][len2 - 1] = this.crescendoVolume[turtle][len - 1];
             }
         }
 
         this.pushedNote[turtle] = false;
+    };
+
+    this.playback = function (whichMouse) {
+        if (this.turtles.running()) {
+            if (this.playbackTime === 0) {
+                return;
+            } else {
+                this.stopTurtle = true;
+                return;
+            }
+        } else if (this.playbackTime === 0) {
+            var inFillClamp = false;
+            var inHollowLineClamp = false;
+        }
+
+        var d = new Date();
+        this.firstNoteTime = d.getTime() - 1000 * this.playbackTime;
+
+        var that = this;
+
+        __playbackLoop = function (turtle, idx) {
+            that.playbackTime = that.playbackQueue[turtle][idx][0];
+
+            if (!that.stopTurtle) {
+                switch(that.playbackQueue[turtle][idx][1]) {
+                case 'fill':
+                    if (inFillClamp) {
+                        that.turtles.turtleList[turtle].doEndFill();
+                        inFillClamp = false;
+                    } else {
+                        that.turtles.turtleList[turtle].doStartFill();
+                        inFillClamp = true;
+                    }
+                    break;
+                case 'hollowline':
+                    if (inHollowLineClamp) {
+                        that.turtles.turtleList[turtle].doEndHollowLine();
+                        inHollowLineClamp = false;
+                    } else {
+                        that.turtles.turtleList[turtle].doStartHollowLine();
+                        inHollowLineClamp = true;
+                    }
+                    break;
+                case 'notes':
+                    that.turtles.turtleList[turtle].blink(that.playbackQueue[turtle][idx][3], 50);
+                    that.synth.trigger(that.playbackQueue[turtle][idx][2], that.playbackQueue[turtle][idx][3], that.playbackQueue[turtle][idx][4], that.playbackQueue[turtle][idx][5], that.playbackQueue[turtle][idx][6]);
+                    break;
+                case 'controlpoint1':
+                    that.cp1x[turtle] = that.playbackQueue[turtle][idx][2];
+                    that.cp1y[turtle] = that.playbackQueue[turtle][idx][3];
+                    break;
+                case 'controlpoint2':
+                    that.cp2x[turtle] = that.playbackQueue[turtle][idx][2];
+                    that.cp2y[turtle] = that.playbackQueue[turtle][idx][3];
+                    break;
+                case 'bezier':
+                    that.turtles.turtleList[turtle].doBezier(that.cp1x[turtle], that.cp1y[turtle], that.cp2x[turtle], that.cp2y[turtle], that.playbackQueue[turtle][idx][2], that.playbackQueue[turtle][idx][3]);
+                    break;
+                case 'show':
+                    that._processShow(turtle, that.playbackQueue[turtle][idx][2], that.playbackQueue[turtle][idx][3]);
+                    break;
+                case 'speak':
+                    that._processSpeak(that.playbackQueue[turtle][idx][2]);
+                    break;
+                case 'print':
+                    that.textMsg(that.playbackQueue[turtle][idx][2].toString());
+                    break;
+                case 'setvolume':
+                    that._setSynthVolume(that.playbackQueue[turtle][idx][2], turtle);
+                    break;
+                case 'arc':
+                    that.turtles.turtleList[turtle].doArc(that.playbackQueue[turtle][idx][2], that.playbackQueue[turtle][idx][3]);
+                    break;
+                case 'setxy':
+                    that.turtles.turtleList[turtle].doSetXY(that.playbackQueue[turtle][idx][2], that.playbackQueue[turtle][idx][3]);
+                    break;
+                case 'forward':
+                    that.turtles.turtleList[turtle].doForward(that.playbackQueue[turtle][idx][2]);
+                    break;
+                case 'right':
+                    that.turtles.turtleList[turtle].doRight(that.playbackQueue[turtle][idx][2]);
+                    break;
+                case 'setheading':
+                    that.turtles.turtleList[turtle].doSetHeading(that.playbackQueue[turtle][idx][2]);
+                    break;
+                case 'setcolor':
+                    that.turtles.turtleList[turtle].doSetColor(that.playbackQueue[turtle][idx][2]);
+                    break;
+                case 'sethue':
+                    that.turtles.turtleList[turtle].doSetHue(that.playbackQueue[turtle][idx][2]);
+                    break;
+                case 'setshade':
+                    that.turtles.turtleList[turtle].doSetValue(that.playbackQueue[turtle][idx][2]);
+                    break;
+                case 'settranslucency':
+                    that.turtles.turtleList[turtle].doSetPenAlpha(that.playbackQueue[turtle][idx][2]);
+                    break;
+                case 'setgrey':
+                    that.turtles.turtleList[turtle].doSetChroma(that.playbackQueue[turtle][idx][2]);
+                    break;
+                case 'setpensize':
+                    that.turtles.turtleList[turtle].doSetPensize(that.playbackQueue[turtle][idx][2]);
+                    break;
+                case 'penup':
+                    that.turtles.turtleList[turtle].doPenUp();
+                    break;
+                case 'pendown':
+                    that.turtles.turtleList[turtle].doPenDown();
+                    break;
+                default:
+                    console.log(that.playbackQueue[turtle][idx][1]);
+                    break;
+                }
+
+                var d = new Date();
+                var elapsedTime = d.getTime() - that.firstNoteTime;
+                idx += 1;
+                if (that.playbackQueue[turtle].length > idx) {
+                    var timeout = that.playbackQueue[turtle][idx][0] * 1000 - elapsedTime;
+                    if (timeout < 0) {
+                        timeout = 0;
+                    }
+
+                    setTimeout(function () {
+                        __playbackLoop(turtle, idx);
+                    }, timeout);
+                } else {
+                    if (turtle < that.turtles.turtleList.length) {
+                        that.turtles.turtleList[turtle].running = false;
+                    }
+
+                    if (!that.turtles.running()) {
+                        that.onStopTurtle();
+                        that.playbackTime = 0;
+                    }
+                }
+            } else {
+                that.turtles.turtleList[turtle].running = false;
+            }
+        };
+
+        __playback = function (turtle) {
+            setTimeout(function () {
+                __playbackLoop(turtle, 0);
+            }, that.playbackQueue[turtle][0][0] * 1000);
+        };
+
+        __resumePlayback = function (turtle) {
+            for (var idx = 0; idx < that.playbackQueue[turtle].length; idx++) {
+                if (that.playbackQueue[turtle][idx][0] >= that.playbackTime) {
+                    break;
+                }
+            }
+
+            console.log('resume index: ' + idx);
+
+            if (idx < that.playbackQueue[turtle].length) {
+                __playbackLoop(turtle, idx);
+            }
+        };
+
+        this.onRunTurtle();
+        this.stopTurtle = false;
+
+        if (whichMouse < 0) {
+            for (var turtle in this.playbackQueue) {
+                if (this.playbackQueue[turtle].length > 0) {
+                    if (turtle < this.turtles.turtleList.length) {
+                        this.turtles.turtleList[turtle].running = true;
+                    }
+
+                    if (this.playbackTime > 0) {
+                        console.log('resuming play at ' + this.playbackTime);
+                        __resumePlayback(turtle);
+                    } else {
+                        console.log('play');
+                        __playback(turtle);
+                    }
+                }
+            }
+        } else if (whichMouse < this.turtles.turtleList.length) {
+            this.turtles.turtleList[whichMouse].running = true;
+            __playback(whichMouse);
+        }
     };
 
     this._dispatchTurtleSignals = function (turtle, beatValue, blk, noteBeatValue) {
@@ -6104,10 +6551,20 @@ function Logo () {
         }
 
         var that = this;
+        var inFillClamp = false;
+        var inHollowLineClamp = false;
+        var suppressOutput = this.suppressOutput[turtle];
 
         function __pen(turtle, name, arg, timeout) {
-            setTimeout(function () {
+
+            function _penSwitch(name) {
                 switch(name) {
+                case 'penup':
+                    that.turtles.turtleList[turtle].doPenUp();
+                    break;
+                case 'pendown':
+                    that.turtles.turtleList[turtle].doPenDown();
+                    break;
                 case 'setcolor':
                     that.turtles.turtleList[turtle].doSetColor(arg);
                     break;
@@ -6127,25 +6584,192 @@ function Logo () {
                     that.turtles.turtleList[turtle].doSetPensize(arg);
                     break;
                 }
-            }, timeout);
+            };
+
+            if (suppressOutput) {
+                _penSwitch(name);
+            } else {
+                setTimeout(function () {
+                    _penSwitch(name);
+                }, timeout);
+            }
         };
 
         function __right(turtle, arg, timeout) {
-            setTimeout(function () {
+            if (suppressOutput) {
+                var savedPenState = that.turtles.turtleList[turtle].penState;
+                that.turtles.turtleList[turtle].penState = false;
                 that.turtles.turtleList[turtle].doRight(arg);
-            }, timeout);
+                that.turtles.turtleList[turtle].penState = savedPenState;
+            } else {
+                setTimeout(function () {
+                    that.turtles.turtleList[turtle].doRight(arg);
+                }, timeout);
+            }
+        };
+
+        function __setheading(turtle, arg, timeout) {
+            if (suppressOutput) {
+                that.turtles.turtleList[turtle].doSetHeading(arg);
+            } else {
+                setTimeout(function () {
+                    that.turtles.turtleList[turtle].doSetHeading(arg);
+                }, timeout);
+            }
         };
 
         function __forward(turtle, arg, timeout) {
-            setTimeout(function () {
+            if (suppressOutput) {
+                var savedPenState = that.turtles.turtleList[turtle].penState;
+                that.turtles.turtleList[turtle].penState = false;
                 that.turtles.turtleList[turtle].doForward(arg);
+                that.turtles.turtleList[turtle].penState = savedPenState;
+            } else {
+                setTimeout(function () {
+                    that.turtles.turtleList[turtle].doForward(arg);
+                }, timeout);
+            }
+        };
+
+        function __setxy(turtle, arg1, arg2, timeout) {
+            if (suppressOutput) {
+                var savedPenState = that.turtles.turtleList[turtle].penState;
+                that.turtles.turtleList[turtle].penState = false;
+                that.turtles.turtleList[turtle].doSetXY(arg1, arg2);
+                that.turtles.turtleList[turtle].penState = savedPenState;
+            } else {
+                setTimeout(function () {
+                    that.turtles.turtleList[turtle].doSetXY(arg1, arg2);
+                }, timeout);
+            }
+        };
+
+        function __show(turtle, arg1, arg2, timeout) {
+            if (suppressOutput) {
+                return;
+            }
+
+            setTimeout(function () {
+                that._processShow(turtle, arg1, arg2);
+            }, timeout);
+        };
+
+        function __speak(turtle, arg, timeout) {
+            if (suppressOutput) {
+                return;
+            }
+
+            setTimeout(function () {
+                that._processSpeak(arg);
+            }, timeout);
+        };
+
+        function __print(arg, timeout) {
+            if (suppressOutput) {
+                return;
+            }
+
+            setTimeout(function () {
+                that.textMsg(arg.toString());
             }, timeout);
         };
 
         function __arc(turtle, arg1, arg2, timeout) {
-            setTimeout(function () {
+            if (suppressOutput) {
+                var savedPenState = that.turtles.turtleList[turtle].penState;
+                that.turtles.turtleList[turtle].penState = false;
                 that.turtles.turtleList[turtle].doArc(arg1, arg2);
-            }, timeout);
+                that.turtles.turtleList[turtle].penState = savedPenState;
+            } else {
+                setTimeout(function () {
+                    that.turtles.turtleList[turtle].doArc(arg1, arg2);
+                }, timeout);
+            }
+        };
+
+        function __cp1(turtle, arg1, arg2, timeout) {
+            if (suppressOutput) {
+                that.cp1x[turtle] = arg1;
+                that.cp1y[turtle] = arg2;
+            } else {
+                setTimeout(function () {
+                    that.cp1x[turtle] = arg1;
+                    that.cp1y[turtle] = arg2;
+                }, timeout);
+            }
+        };
+
+        function __cp2(turtle, arg1, arg2, timeout) {
+            if (suppressOutput) {
+                that.cp2x[turtle] = arg1;
+                that.cp2y[turtle] = arg2;
+            } else {
+                setTimeout(function () {
+                    that.cp2x[turtle] = arg1;
+                    that.cp2y[turtle] = arg2;
+                }, timeout);
+            }
+        };
+
+        function __bezier(turtle, arg1, arg2, timeout) {
+            if (suppressOutput) {
+                var savedPenState = that.turtles.turtleList[turtle].penState;
+                that.turtles.turtleList[turtle].penState = false;
+                that.turtles.turtleList[turtle].doBezier(that.cp1x[turtle], that.cp1y[turtle], that.cp2x[turtle], that.cp2y[turtle], arg1, arg2);
+                that.turtles.turtleList[turtle].penState = savedPenState;
+            } else {
+                setTimeout(function () {
+                    that.turtles.turtleList[turtle].doBezier(that.cp1x[turtle], that.cp1y[turtle], that.cp2x[turtle], that.cp2y[turtle], arg1, arg2);
+                }, timeout);
+            }
+        };
+
+        function __fill(turtle, timeout) {
+            if (suppressOutput) {
+                var savedPenState = that.turtles.turtleList[turtle].penState;
+                that.turtles.turtleList[turtle].penState = false;
+                if (inFillClamp) {
+                    that.turtles.turtleList[turtle].doEndFill();
+                    inFillClamp = false;
+                } else {
+                    that.turtles.turtleList[turtle].doStartFill();
+                    inFillClamp = true;
+                }
+
+                that.turtles.turtleList[turtle].penState = savedPenState;
+            } else {
+                setTimeout(function () {
+                    if (inFillClamp) {
+                        that.turtles.turtleList[turtle].doEndFill();
+                        inFillClamp = false;
+                    } else {
+                        that.turtles.turtleList[turtle].doStartFill();
+                        inFillClamp = true;
+                    }
+                }, timeout);
+            }
+        };
+
+        function __hollowline(turtle, timeout) {
+            if (suppressOutput) {
+                if (inHollowLineClamp) {
+                    that.turtles.turtleList[turtle].doEndHollowLine();
+                    inHollowLineClamp = false;
+                } else {
+                    that.turtles.turtleList[turtle].doStartHollowLine();
+                    inHollowLineClamp = true;
+                }
+            } else {
+                setTimeout(function () {
+                    if (inHollowLineClamp) {
+                        that.turtles.turtleList[turtle].doEndHollowLine();
+                        inHollowLineClamp = false;
+                    } else {
+                        that.turtles.turtleList[turtle].doStartHollowLine();
+                        inHollowLineClamp = true;
+                    }
+                }, timeout);
+            }
         };
 
         var extendedGraphicsCounter = 0;
@@ -6202,11 +6826,60 @@ function Logo () {
             case 'setpensize':
                 var arg = this.parseArg(this, turtle, this.blocks.blockList[b].connections[1], b, this.receivedArg);
                 __pen(turtle, name, arg, waitTime);
+
+                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + waitTime / 1000, name, arg]);
+                break;
+            case 'penup':
+            case 'pendown':
+                if (!suppressOutput) {
+                    __pen(turtle, name, null, waitTime);
+                }
+
+                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + waitTime / 1000, name]);
+                break;
+            case 'fill':
+                __fill(turtle, waitTime);
+                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + waitTime / 1000, 'fill']);
+                break;
+            case 'hollowline':
+                __hollowline(turtle, waitTime);
+
+                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + waitTime / 1000, 'hollowline']);
+                break;
+            case 'controlpoint1':
+                var arg1 = this.parseArg(this, turtle, this.blocks.blockList[b].connections[1], b, this.receivedArg);
+                var arg2 = this.parseArg(this, turtle, this.blocks.blockList[b].connections[2], b, this.receivedArg);
+                __cp1(turtle, arg1, arg2, waitTime);
+
+                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + waitTime / 1000, 'controlpoint1', arg1, arg2]);
+                break;
+            case 'controlpoint2':
+                var arg1 = this.parseArg(this, turtle, this.blocks.blockList[b].connections[1], b, this.receivedArg);
+                var arg2 = this.parseArg(this, turtle, this.blocks.blockList[b].connections[2], b, this.receivedArg);
+                __cp2(turtle, arg1, arg2, waitTime);
+
+                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + waitTime / 1000, 'controlpoint2', arg1, arg2]);
+                break;
+            case 'bezier':
+                // TODO: Is there a reasonable way to break the bezier
+                // curve up into small steps?
+                var arg1 = this.parseArg(this, turtle, this.blocks.blockList[b].connections[1], b, this.receivedArg);
+                var arg2 = this.parseArg(this, turtle, this.blocks.blockList[b].connections[2], b, this.receivedArg);
+                __bezier(turtle, arg1, arg2, waitTime);
+                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + waitTime / 1000, 'bezier', arg1, arg2]);
+                break;
+            case 'setheading':
+                var arg = that.parseArg(that, turtle, that.blocks.blockList[b].connections[1], b, that.receivedArg);
+                __setheading(turtle, arg, waitTime);
+                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + waitTime / 1000, 'setheading', arg]);
                 break;
             case 'right':
                 var arg = that.parseArg(that, turtle, that.blocks.blockList[b].connections[1], b, that.receivedArg);
                 for (var t = 0; t < (NOTEDIV / this.dispatchFactor[turtle]); t++) {
-                    __right(turtle, arg / (NOTEDIV / that.dispatchFactor[turtle]), waitTime + t * stepTime * this.dispatchFactor[turtle]);
+                    var deltaTime = waitTime + t * stepTime * this.dispatchFactor[turtle];
+                    var deltaArg = arg / (NOTEDIV / that.dispatchFactor[turtle]);
+                    __right(turtle, deltaArg, deltaTime);
+                    that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + deltaTime / 1000, 'right', deltaArg]);
                 }
 
                 waitTime += NOTEDIV * stepTime;
@@ -6214,7 +6887,10 @@ function Logo () {
             case 'left':
                 var arg = that.parseArg(that, turtle, that.blocks.blockList[b].connections[1], b, that.receivedArg);
                 for (var t = 0; t < (NOTEDIV / this.dispatchFactor[turtle]); t++) {
-                    __right(turtle, -arg / (NOTEDIV / that.dispatchFactor[turtle]), waitTime + t * stepTime * this.dispatchFactor[turtle]);
+                    var deltaTime = waitTime + t * stepTime * this.dispatchFactor[turtle];
+                    var deltaArg = arg / (NOTEDIV / that.dispatchFactor[turtle]);
+                    __right(turtle, -deltaArg, deltaTime);
+                    that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + deltaTime / 1000, 'right', -deltaArg]);
                 }
 
                 waitTime += NOTEDIV * stepTime;
@@ -6222,7 +6898,10 @@ function Logo () {
             case 'forward':
                 var arg = that.parseArg(that, turtle, that.blocks.blockList[b].connections[1], b, that.receivedArg);
                 for (var t = 0; t < (NOTEDIV / this.dispatchFactor[turtle]); t++) {
-                    __forward(turtle, arg / (NOTEDIV / that.dispatchFactor[turtle]), waitTime + t * stepTime * this.dispatchFactor[turtle]);
+                    var deltaTime = waitTime + t * stepTime * this.dispatchFactor[turtle];
+                    var deltaArg = arg / (NOTEDIV / that.dispatchFactor[turtle]);
+                    __forward(turtle, deltaArg, deltaTime);
+                    that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + deltaTime / 1000, 'forward', deltaArg]);
                 }
 
                 waitTime += NOTEDIV * stepTime;
@@ -6230,16 +6909,44 @@ function Logo () {
             case 'back':
                 var arg = that.parseArg(that, turtle, that.blocks.blockList[b].connections[1], b, that.receivedArg);
                 for (var t = 0; t < (NOTEDIV / this.dispatchFactor[turtle]); t++) {
-                    __forward(turtle, -arg / (NOTEDIV / that.dispatchFactor[turtle]), waitTime + t * stepTime * this.dispatchFactor[turtle]);
+                    var deltaTime = waitTime + t * stepTime * this.dispatchFactor[turtle];
+                    var deltaArg = arg / (NOTEDIV / that.dispatchFactor[turtle]);
+                    __forward(turtle, -deltaArg, deltaTime);
+                    that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + deltaTime / 1000, 'forward', -deltaArg]);
                 }
 
                 waitTime += NOTEDIV * stepTime;
+                break;
+            case 'setxy':
+                var arg1 = this.parseArg(this, turtle, this.blocks.blockList[b].connections[1], b, this.receivedArg);
+                var arg2 = this.parseArg(this, turtle, this.blocks.blockList[b].connections[2], b, this.receivedArg);
+                __setxy(turtle, arg1, arg2, waitTime);
+                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + waitTime / 1000, 'setxy', arg1, arg2]);
+                break;
+            case 'show':
+                var arg1 = this.parseArg(this, turtle, this.blocks.blockList[b].connections[1], b, this.receivedArg);
+                var arg2 = this.parseArg(this, turtle, this.blocks.blockList[b].connections[2], b, this.receivedArg);
+                __show(turtle, arg1, arg2, waitTime);
+                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + waitTime / 1000, 'show', arg1, arg2]);
+                break;
+            case 'speak':
+                var arg = this.parseArg(this, turtle, this.blocks.blockList[b].connections[1], b, this.receivedArg);
+                __speak(turtle, arg, waitTime);
+                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + waitTime / 1000, 'speak', arg]);
+                break;
+            case 'print':
+                var arg = this.parseArg(this, turtle, this.blocks.blockList[b].connections[1], b, this.receivedArg);
+                __print(arg, waitTime);
+                that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + waitTime / 1000, 'print', arg]);
                 break;
             case 'arc':
                 var arg1 = this.parseArg(this, turtle, this.blocks.blockList[b].connections[1], b, this.receivedArg);
                 var arg2 = this.parseArg(this, turtle, this.blocks.blockList[b].connections[2], b, this.receivedArg);
                 for (var t = 0; t < (NOTEDIV / this.dispatchFactor[turtle]); t++) {
-                    __arc(turtle, arg1 / (NOTEDIV / that.dispatchFactor[turtle]), arg2, waitTime + t * stepTime * this.dispatchFactor[turtle]);
+                    var deltaTime = waitTime + t * stepTime * this.dispatchFactor[turtle];
+                    var deltaArg = arg1 / (NOTEDIV / that.dispatchFactor[turtle]);
+                    __arc(turtle, deltaArg, arg2, deltaTime);
+                    that.playbackQueue[turtle].push([that.previousTurtleTime[turtle] + deltaTime / 1000, 'arc', deltaArg, arg2]);
                 }
 
                 waitTime += NOTEDIV * stepTime;
@@ -6285,6 +6992,45 @@ function Logo () {
                     this.endOfClampSignals[turtle][nextBlock] = [listenerName];
                 }
             }
+        }
+    };
+
+    this._processSpeak = function (text) {
+        var new_text = '';
+        for (var i = 0; i < text.length; i++) {
+            if ((text[i] >= 'a' && text[i] <= 'z') || (text[i] >= 'A' && text[i] <= 'Z') || text[i] === ',' || text[i] === '.' || text[i] === ' ')
+                new_text += text[i];
+        }
+
+        this.meSpeak.speak(new_text);
+    };
+
+    this._processShow = function (turtle, arg0, arg1) {
+        if (typeof(arg1) === 'string') {
+            var len = arg1.length;
+            if (len === 14 && arg1.substr(0, 14) === CAMERAVALUE) {
+                doUseCamera(args, this.turtles, turtle, false, this.cameraID, this.setCameraID, this.errorMsg);
+            } else if (len === 13 && arg1.substr(0, 13) === VIDEOVALUE) {
+                doUseCamera(args, this.turtles, turtle, true, this.cameraID, this.setCameraID, this.errorMsg);
+            } else if (len > 10 && arg1.substr(0, 10) === 'data:image') {
+                this.turtles.turtleList[turtle].doShowImage(arg0, arg1);
+            } else if (len > 8 && arg1.substr(0, 8) === 'https://') {
+                this.turtles.turtleList[turtle].doShowURL(arg0, arg1);
+            } else if (len > 7 && arg1.substr(0, 7) === 'http://') {
+                this.turtles.turtleList[turtle].doShowURL(arg0, arg1);
+            } else if (len > 7 && arg1.substr(0, 7) === 'file://') {
+                this.turtles.turtleList[turtle].doShowURL(arg0, arg1);
+            } else {
+                this.turtles.turtleList[turtle].doShowText(arg0, arg1);
+            }
+        } else if (typeof(arg1) === 'object' && this.blocks.blockList[this.blocks.blockList[blk].connections[2]].name === 'loadFile') {
+            if (arg1) {
+                this.turtles.turtleList[turtle].doShowText(arg0, arg1[1]);
+            } else {
+                this.errorMsg(_('You must select a file.'));
+            }
+        } else {
+            this.turtles.turtleList[turtle].doShowText(arg0, arg1);
         }
     };
 
@@ -7242,14 +7988,47 @@ i]) - that.pitchNumberOffset;
                 } else {
                     var saveCountingStatus = that.justCounting[turtle];
                     var saveSuppressStatus = that.suppressOutput[turtle];
+
+                    // We need to save the state of the boxes and heap
+                    // although there is a potential of a boxes
+                    // collision with other turtles.
+                    var saveBoxes = JSON.stringify(that.boxes);
+                    var saveTurtleHeaps = JSON.stringify(that.turtleHeaps[turtle]);
+                    // And the turtle state
+                    var saveX = that.turtles.turtleList[turtle].x;
+                    var saveY = that.turtles.turtleList[turtle].y;
+                    var saveColor = that.turtles.turtleList[turtle].color;
+                    var saveValue = that.turtles.turtleList[turtle].value;
+                    var saveChroma = that.turtles.turtleList[turtle].chroma;
+                    var saveStroke = that.turtles.turtleList[turtle].stroke;
+                    var saveCanvasAlpha = that.turtles.turtleList[turtle].canvasAlpha;
+                    var saveOrientation = that.turtles.turtleList[turtle].orientation;
+                    var savePenState = that.turtles.turtleList[turtle].penState;
+
                     that.suppressOutput[turtle] = true;
                     that.justCounting[turtle] = true;
+
                     var actionArgs = [];
                     var saveNoteCount = that.notesPlayed[turtle];
                     that.turtles.turtleList[turtle].running = true;
                     that._runFromBlockNow(that, turtle, cblk, true, actionArgs, that.turtles.turtleList[turtle].queue.length);
                     that.blocks.blockList[blk].value = that.notesPlayed[turtle] - saveNoteCount;
                     that.notesPlayed[turtle] = saveNoteCount;
+
+                    // Restore previous state
+                    that.boxes = JSON.parse(saveBoxes);
+                    that.turtleHeaps[turtle] = JSON.parse(saveTurtleHeaps);
+
+                    that.turtles.turtleList[turtle].doPenUp();
+                    that.turtles.turtleList[turtle].doSetXY(saveX, saveY);
+                    that.turtles.turtleList[turtle].color = saveColor;
+                    that.turtles.turtleList[turtle].value = saveValue;
+                    that.turtles.turtleList[turtle].chroma = saveChroma;
+                    that.turtles.turtleList[turtle].stroke = saveStroke;
+                    that.turtles.turtleList[turtle].canvasAlpha = saveCanvasAlpha;
+                    that.turtles.turtleList[turtle].orientation = saveOrientation;
+                    that.turtles.turtleList[turtle].penState = savePenState;
+
                     that.justCounting[turtle] = saveCountingStatus;
                     that.suppressOutput[turtle] = saveSuppressStatus;
                 }

@@ -20,34 +20,36 @@ const _THIS_IS_TURTLE_BLOCKS_ = !_THIS_IS_MUSIC_BLOCKS_;
 
 const _ERRORMSGTIMEOUT_ = 15000;
 
-function facebookInit() {
-    window.fbAsyncInit = function () {
-        FB.init({
-            appId: '1496189893985945',
-            xfbml: true,
-            version: 'v2.1'
-        });
 
-        // ADD ADDITIONAL FACEBOOK CODE HERE
+if (_THIS_IS_TURTLE_BLOCKS_) {
+    function facebookInit() {
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1496189893985945',
+                xfbml: true,
+                version: 'v2.1'
+            });
+
+            // ADD ADDITIONAL FACEBOOK CODE HERE
+        };
     };
-};
 
 
-try {
-    (function (d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
+    try {
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {
+                return;
+            }
 
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-} catch (e) {
-};
-
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    } catch (e) {
+    };
+}
 
 var lang = document.webL10n.getLanguage();
 if (lang.indexOf('-') !== -1) {
@@ -56,7 +58,7 @@ if (lang.indexOf('-') !== -1) {
 }
 
 if (_THIS_IS_MUSIC_BLOCKS_) {
-    MYDEFINES = ["activity/sugarizer-compatibility", 'activity/platformstyle', 'easeljs-0.8.2.min', 'tweenjs-0.6.2.min', 'preloadjs-0.6.2.min', 'Tone.min', 'howler', 'p5.min', 'p5.sound.min', 'p5.dom.min', 'mespeak', 'Chart', 'dsp', 'activity/utils', 'activity/artwork', 'activity/status', 'activity/munsell', 'activity/trash', 'activity/boundary', 'activity/turtle', 'activity/palette', 'activity/protoblocks', 'activity/blocks', 'activity/block', 'activity/turtledefs', 'activity/logo', 'activity/clearbox', 'activity/savebox', 'activity/utilitybox', 'activity/samplesviewer', 'activity/basicblocks', 'activity/blockfactory', 'activity/analytics', 'activity/modewidget', 'activity/soundsamples', 'activity/pitchtimematrix', 'activity/pitchdrummatrix', 'activity/rhythmruler', 'activity/pitchstaircase', 'activity/tempo', 'activity/pitchslider', 'activity/timbre', 'activity/macros', 'activity/musicutils', 'activity/lilypond', 'activity/abc', 'prefixfree.min'];
+    MYDEFINES = ["activity/sugarizer-compatibility", 'activity/platformstyle', 'easeljs-0.8.2.min', 'tweenjs-0.6.2.min', 'preloadjs-0.6.2.min', 'Tone.min', 'howler', 'p5.min', 'p5.sound.min', 'p5.dom.min', 'mespeak', 'Chart', 'dsp', 'activity/utils', 'activity/artwork', 'activity/status', 'activity/munsell', 'activity/trash', 'activity/boundary', 'activity/turtle', 'activity/palette', 'activity/protoblocks', 'activity/blocks', 'activity/block', 'activity/turtledefs', 'activity/logo', 'activity/clearbox', 'activity/savebox', 'activity/utilitybox', 'activity/samplesviewer', 'activity/basicblocks', 'activity/blockfactory', 'activity/analytics', 'activity/modewidget', 'activity/soundsamples', 'activity/pitchtimematrix', 'activity/pitchdrummatrix', 'activity/rhythmruler', 'activity/pitchstaircase', 'activity/tempo', 'activity/pitchslider', 'activity/timbre', 'activity/macros', 'activity/musicutils', 'activity/lilypond', 'activity/abc', 'activity/playbackbox', 'prefixfree.min'];
 } else {
     MYDEFINES = ["activity/sugarizer-compatibility", 'activity/platformstyle', 'easeljs-0.8.2.min', 'tweenjs-0.6.2.min', 'preloadjs-0.6.2.min', 'howler', 'p5.min', 'p5.sound.min', 'p5.dom.min', 'mespeak', 'Chart', 'activity/utils', 'activity/artwork', 'activity/status', 'activity/munsell', 'activity/trash', 'activity/boundary', 'activity/turtle', 'activity/palette', 'activity/protoblocks', 'activity/blocks', 'activity/block', 'activity/turtledefs', 'activity/logo', 'activity/clearbox', 'activity/savebox', 'activity/utilitybox', 'activity/samplesviewer', 'activity/basicblocks', 'activity/blockfactory', 'activity/analytics', 'activity/macros', 'activity/musicutils', 'activity/lilypond', 'prefixfree.min'];
 }
@@ -111,6 +113,7 @@ define(MYDEFINES, function (compatibility) {
         var logo;
         var clearBox;
         var utilityBox;
+        var playbackBox = null;
         var thumbnails;
         var buttonsVisible = true;
         var headerContainer = null;
@@ -177,6 +180,7 @@ define(MYDEFINES, function (compatibility) {
         var onscreenButtons = [];
         var onscreenMenu = [];
         var utilityButton = null;
+        var playbackButton = null;
         var saveButton = null;
 
         var helpContainer = null;
@@ -524,23 +528,18 @@ define(MYDEFINES, function (compatibility) {
         };
 
         var cartesianVisible = false;
-
-        function _doCartesian() {
-            if (cartesianVisible) {
-                _hideCartesian();
-                cartesianVisible = false;
-            } else {
-                _showCartesian();
-                cartesianVisible = true;
-            }
-        };
-
         var polarVisible = false;
 
-        function _doPolar() {
-            if (polarVisible) {
+        function _doCartesianPolar() {
+            if (cartesianVisible && polarVisible) {
+                _hideCartesian();
+                cartesianVisible = false;
+            } else if (!cartesianVisible && polarVisible) {
                 _hidePolar();
                 polarVisible = false;
+            } else if (!cartesianVisible && !polarVisible) {
+                _showCartesian();
+                cartesianVisible = true;
             } else {
                 _showPolar();
                 polarVisible = true;
@@ -624,6 +623,55 @@ define(MYDEFINES, function (compatibility) {
                 blocks.setBlockScale(BLOCKSCALES[blockscale]);
             }
         };
+
+        function getPlaybackQueueStatus () {
+            return Object.keys(logo.playbackQueue).length > 0;
+        };
+        
+        function setPlaybackStatus () {
+            if (playbackBox != null) {
+                playbackBox.setPlaybackStatus();
+            }
+        };
+
+        function doPausePlayback () {
+            logo.playback(-1);
+            playbackBox.playButton.visible = true;
+            playbackBox.pauseButton.visible = false;
+        };
+
+        function doPlayback() {
+            logo.playback(-1);
+            playbackBox.playButton.visible = false;
+            playbackBox.pauseButton.visible = true;
+            playbackBox.norewindButton.visible = false;
+            playbackBox.rewindButton.visible = true;
+        };
+
+        function doRestartPlayback() {
+            logo.doStopTurtle();
+
+            setTimeout(function () {
+                // logo.playback(-1);
+                playbackBox.playButton.visible = true;
+                playbackBox.pauseButton.visible = false;
+                playbackBox.norewindButton.visible = true;
+                playbackBox.rewindButton.visible = false;
+            }, 500);
+        };
+
+        function doCompile() {
+            // Show busy cursor.
+            document.body.style.cursor = 'wait';
+
+            console.log('Compiling music for playback');
+            // Suppress music and turtle output when generating
+            // compiled output.
+            logo.playbackQueue = {};
+            logo.compiling = true;
+            logo.runLogoCommands();
+        };
+
 
         // Do we need to update the stage?
         var update = true;
@@ -714,6 +762,7 @@ define(MYDEFINES, function (compatibility) {
                 .setUpdateStage(stage.update)
                 .setGetStageScale(getStageScale)
                 .setTurtles(turtles)
+                .setSetPlaybackStatus(setPlaybackStatus)
                 .setErrorMsg(errorMsg);
             blocks.makeCopyPasteButtons(_makeButton, updatePasteButton);
 
@@ -749,6 +798,7 @@ define(MYDEFINES, function (compatibility) {
                 .setGetCurrentKeyCode(getCurrentKeyCode)
                 .setClearCurrentKeyCode(clearCurrentKeyCode)
                 .setMeSpeak(meSpeak)
+                .setSetPlaybackStatus(setPlaybackStatus)
                 .setSaveLocally(saveLocally);
 
             blocks.setLogo(logo);
@@ -789,6 +839,16 @@ define(MYDEFINES, function (compatibility) {
                 .setPlugins(doOpenPlugin)
                 .setStats(doAnalytics)
                 .setScroller(toggleScroller);
+
+            playbackBox = new PlaybackBox();
+            playbackBox
+                .setStage(stage)
+                .setRefreshCanvas(refreshCanvas)
+                .setQueueStatus(getPlaybackQueueStatus)
+                .setPlay(doPlayback)
+                .setCompile(doCompile)
+                .setPause(doPausePlayback)
+                .setRewind(doRestartPlayback);
 
             thumbnails = new SamplesViewer();
             thumbnails
@@ -854,7 +914,9 @@ define(MYDEFINES, function (compatibility) {
                                 sendAllToTrash(false, false);
                                 refreshCanvas();
 
+                                logo.playbackQueue = {};
                                 blocks.loadNewBlocks(obj);
+                                setPlaybackStatus();
                             } catch (e) {
                                 errorMsg(_('Cannot load project from the file. Please check the file type.'));
                             }
@@ -893,7 +955,9 @@ define(MYDEFINES, function (compatibility) {
                                 sendAllToTrash(false, false);
                                 refreshCanvas();
     
+                                logo.playbackQueue = {};
                                 blocks.loadNewBlocks(obj);
+                                setPlaybackStatus();
                             } catch (e) {
                                 errorMsg(_('Cannot load project from the file. Please check the file type.'));
                             }
@@ -1327,6 +1391,9 @@ define(MYDEFINES, function (compatibility) {
                 case 83: // 'S'
                     logo.doStopTurtle();
                     break;
+                case 80: // 'P'
+                    logo.playback(-1);  // play all
+                    break;
                 }
             } else if (event.ctrlKey) {
             } else {
@@ -1604,6 +1671,10 @@ define(MYDEFINES, function (compatibility) {
             utilityBox.init(turtleBlocksScale, utilityButton.x - 27, utilityButton.y, _makeButton);
         };
 
+        function _doPlaybackBox() {
+            playbackBox.init(turtleBlocksScale, playbackButton.x - 27, playbackButton.y, _makeButton, logo);
+        };
+
         function sendAllToTrash(addStartBlock, doNotSave) {
             // First, hide the palettes as they will need updating.
             for (var name in blocks.palettes.dict) {
@@ -1640,7 +1711,9 @@ define(MYDEFINES, function (compatibility) {
             }
 
             if (addStartBlock) {
+                logo.playbackQueue = {};
                 blocks.loadNewBlocks(DATAOBJS);
+                setPlaybackStatus();
             } else if (!doNotSave) {
                 // Overwrite session data too.
                 saveLocally();
@@ -1687,6 +1760,7 @@ define(MYDEFINES, function (compatibility) {
             // TODO: plugin support
             if (stopTurtleContainer.visible) {
                 _hideStopButton();
+                setPlaybackStatus();
             }
         };
 
@@ -1972,6 +2046,7 @@ define(MYDEFINES, function (compatibility) {
 
                 try {
                     try {
+                        console.log('testing httpGet');
                         httpGet(null);
                         console.log('running from server or the user can access to examples.');
                         server = true;
@@ -1981,6 +2056,7 @@ define(MYDEFINES, function (compatibility) {
                     }
 
                     if (server) {
+                        console.log('testing server');
                         var rawData = httpGet(projectName);
                         var cleanData = rawData.replace('\n', '');
                     }
@@ -1991,7 +2067,9 @@ define(MYDEFINES, function (compatibility) {
                     }
 
                     var obj = JSON.parse(cleanData);
+                    logo.playbackQueue = {};
                     blocks.loadNewBlocks(obj);
+                    setPlaybackStatus();
                     saveLocally();
                 } catch (e) {
                     console.log(e);
@@ -2046,7 +2124,9 @@ define(MYDEFINES, function (compatibility) {
 
             try {
                 var obj = JSON.parse(data);
+                logo.playbackQueue = {};
                 blocks.loadNewBlocks(obj);
+                setPlaybackStatus();
             } catch (e) {
                 console.log('loadRawProject: could not parse project data');
                 errorMsg(e);
@@ -2120,7 +2200,9 @@ define(MYDEFINES, function (compatibility) {
             console.log('LOAD START')
             justLoadStart = function () {
                 console.log('loading start and a matrix');
+                logo.playbackQueue = {};
                 blocks.loadNewBlocks(DATAOBJS);
+                setPlaybackStatus();
             };
 
             if (sugarizerCompatibility.isInsideSugarizer()) {
@@ -2172,7 +2254,9 @@ define(MYDEFINES, function (compatibility) {
                             blocks.palettes.dict[name].hideMenu(true);
                         }
 
+                        logo.playbackQueue = {};
                         blocks.loadNewBlocks(JSON.parse(sessionData));
+                        setPlaybackStatus();
                     }
                 } catch (e) {
                     console.log(e);
@@ -2457,6 +2541,19 @@ define(MYDEFINES, function (compatibility) {
                 data.push([blockMap.indexOf(blk), [myBlock.name, args], myBlock.container.x, myBlock.container.y, connections]);
             }
 
+            // Next, save the playback queue.
+            var i = data.length;
+            if (i > 0) {
+                for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
+                    if (turtle in logo.playbackQueue) {
+                        for (var j = 0; j < logo.playbackQueue[turtle].length; j++) {
+                            data.push([i, turtle, logo.playbackQueue[turtle][j]]);
+                            i += 1;
+                        }
+                    }
+                }
+            }
+
             return JSON.stringify(data);
         };
 
@@ -2522,6 +2619,8 @@ handleComplete);
         };
 
         function _setupAndroidToolbar(showPalettesPopover) {
+            // NOTE: see getMainToolbarButtonNames in turtledefs.js
+
             if (headerContainer !== undefined) {
                 stage.removeChild(headerContainer);
                 for (var i in onscreenButtons) {
@@ -2625,6 +2724,7 @@ handleComplete);
                 }
             }
 
+            // NOTE: see getAuxToolbarButtonNames in turtledefs.js
             // Misc. other buttons
             if (_THIS_IS_MUSIC_BLOCKS_) {
                 var menuNames = [
@@ -2633,8 +2733,8 @@ handleComplete);
                     ['save', doSave, _('Save project')],
                     // ['lilypond', _doLilypond, _('Save sheet music')],
                     ['paste-disabled', pasteStack, _('Long press on block(s) to copy. Click here to paste.')],
-                    ['Cartesian', _doCartesian, _('Cartesian')],
-                    ['polar', _doPolar, _('Polar')],
+                    ['Cartesian', _doCartesianPolar, _('Cartesian') + '/' + _('Polar')],
+                    ['compile', _doPlaybackBox, _('playback')],
                     ['utility', _doUtilityBox, _('Settings')],
                     ['empty-trash', _deleteBlocksBox, _('Delete all')],
                     ['restore-trash', _restoreTrash, _('Undo')]
@@ -2645,8 +2745,7 @@ handleComplete);
                     ['open', doLoad, _('Load project from files')],
                     ['save', doSave, _('Save project')],
                     ['paste-disabled', pasteStack, _('Paste')],
-                    ['Cartesian', _doCartesian, _('Cartesian')],
-                    ['polar', _doPolar, _('Polar')],
+                    ['Cartesian', _doCartesianPolar, _('Cartesian') + '/' + _('Polar')],
                     ['utility', _doUtilityBox, _('Settings')],
                     ['empty-trash', _deleteBlocksBox, _('Delete all')],
                     ['restore-trash', _restoreTrash, _('Undo')]
@@ -2682,6 +2781,8 @@ handleComplete);
                     utilityButton = container;
                 } else if (menuNames[i][0] === 'save') {
                     saveButton = container;
+                } else if (menuNames[i][0] === 'compile') {
+                    playbackButton = container;
                 }
 
                 container.visible = false;
