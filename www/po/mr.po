@@ -36,117 +36,186 @@
 #: js/block.js:534
 #: js/pitchdrummatrix.js:235
 #: js/musicutils.js:40
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
+#: js/synthutils.js:14
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
+#: js/block.js:535
+#: js/pitchdrummatrix.js:235
+#: js/musicutils.js:43
 msgid "rest"
 msgstr ""
 
-#: js/block.js:636
-#: js/block.js:2006
-#: js/block.js:2015
-#: js/block.js:2027
-#: js/activity.js:1686
-#: js/analytics.js:380
-#: js/palette.js:633
-#: js/palette.js:642
-#: js/palette.js:651
-#: js/palette.js:660
-#: js/palette.js:1851
-#: js/palette.js:1862
-#: js/palette.js:1873
-#: js/palette.js:1884
-#: js/turtledefs.js:21
-#: js/basicblocks.js:917
-#: js/basicblocks.js:928
-#: js/basicblocks.js:2196
-#: js/basicblocks.js:2225
-#: js/basicblocks.js:2232
-#: js/basicblocks.js:2260
-#: js/basicblocks.js:2270
-#: js/basicblocks.js:2302
-#: js/basicblocks.js:2335
-#: js/basicblocks.js:2339
-#: js/basicblocks.js:2345
-#: js/macros.js:24
-#: js/blocks.js:727
-#: js/blocks.js:2113
-#: js/blocks.js:2114
-#: js/blocks.js:2301
-#: js/blocks.js:2470
-#: js/blocks.js:2601
-#: js/blocks.js:3104
-#: js/blocks.js:3915
-#: js/blocks.js:4059
+#: js/block.js:643
+#: js/block.js:2090
+#: js/block.js:2099
+#: js/block.js:2111
+#: js/activity.js:1968
+#: js/analytics.js:385
+#: js/palette.js:656
+#: js/palette.js:665
+#: js/palette.js:674
+#: js/palette.js:683
+#: js/palette.js:1905
+#: js/palette.js:1916
+#: js/palette.js:1927
+#: js/palette.js:1938
+#: js/turtledefs.js:23
+#: js/basicblocks.js:1020
+#: js/basicblocks.js:1031
+#: js/basicblocks.js:2398
+#: js/basicblocks.js:2429
+#: js/basicblocks.js:2436
+#: js/basicblocks.js:2465
+#: js/basicblocks.js:2475
+#: js/basicblocks.js:2507
+#: js/basicblocks.js:2540
+#: js/basicblocks.js:2544
+#: js/basicblocks.js:2550
+#: js/macros.js:46
+#: js/blocks.js:794
+#: js/blocks.js:2191
+#: js/blocks.js:2192
+#: js/blocks.js:2384
+#: js/blocks.js:2553
+#: js/blocks.js:2684
+#: js/blocks.js:3218
+#: js/blocks.js:3991
+#: js/blocks.js:4134
 #.TRANS: a stack of blocks to run (an action to take)
 msgid "action"
 msgstr "क्रिया"
 
-#: js/block.js:639
-#: js/logo.js:1158
+#: js/block.js:646
+#: js/logo.js:1202
 #: js/turtle.js:564
 #: js/turtle.js:565
-#: js/basicblocks.js:2327
-#: js/lilypond.js:329
-#: js/lilypond.js:386
-#: js/lilypond.js:406
+#: js/basicblocks.js:2532
+#: js/lilypond.js:366
+#: js/lilypond.js:423
+#: js/lilypond.js:443
 msgid "start"
 msgstr "सुरूवात"
 
-#: js/block.js:642
+#: js/block.js:649
 msgid "matrix"
 msgstr ""
 
-#: js/block.js:645
-#: js/basicblocks.js:676
+#: js/block.js:652
+#: js/basicblocks.js:747
 #: plugins/rodi.rtp:328
 msgid "status"
 msgstr ""
 
-#: js/block.js:648
-#: js/block.js:669
-#: js/palette.js:681
+#: js/block.js:655
+#: js/block.js:676
+#: js/palette.js:704
 #: js/turtle.js:406
-#: js/turtledefs.js:21
-#: js/basicblocks.js:852
-#: js/basicblocks.js:1676
+#: js/turtledefs.js:23
+#: js/basicblocks.js:941
+#: js/basicblocks.js:1870
 msgid "drum"
 msgstr ""
 
-#: js/block.js:651
+#: js/block.js:658
 msgid "ruler"
 msgstr ""
 
-#: js/block.js:654
-#: js/basicblocks.js:601
+#: js/block.js:661
+#: js/basicblocks.js:665
 #.TRANS: timbre is the character or quality of a musical sound
 msgid "timbre"
 msgstr ""
 
-#: js/block.js:657
+#: js/block.js:664
 msgid "stair"
 msgstr ""
 
-#: js/block.js:660
-#: js/basicblocks.js:619
+#: js/block.js:667
+#: js/basicblocks.js:683
 #.TRANS: the speed at music is should be played.
 msgid "tempo"
 msgstr ""
 
-#: js/block.js:663
-#: js/basicblocks.js:1490
+#: js/block.js:670
+#: js/basicblocks.js:1684
 #.TRANS: mode, e.g., Major in C Major
 msgid "mode"
 msgstr ""
 
-#: js/block.js:666
+#: js/block.js:673
 msgid "slider"
 msgstr ""
 
-#: js/block.js:1560
-#: js/logo.js:8421
-#: js/musicutils.js:1176
+#: js/block.js:1587
+#: js/musicutils.js:1338
+#: js/musicutils.js:1629
 #.TRANS: the note names must be separated by single spaces
 #.TRANS: the note names must be separated by single spaces
 #.TRANS: the note names must be separated by single spaces
 msgid "ti la sol fa mi re do"
+msgstr ""
+
+#: js/block.js:1860
+#: js/block.js:1864
+#: js/block.js:1864
+#: js/block.js:1867
+#: js/block.js:1867
+#: js/logo.js:658
+#: js/logo.js:7504
+#: js/palette.js:719
+msgid "true"
+msgstr ""
+
+#: js/block.js:1860
+#: js/block.js:1865
+#: js/block.js:1865
+#: js/block.js:1868
+#: js/block.js:1868
+#: js/logo.js:660
+msgid "false"
 msgstr ""
 
 #: js/samplesviewer.js:73
@@ -166,845 +235,930 @@ msgstr "प्रकाशित करा"
 
 #: js/samplesviewer.js:77
 #: js/samplesviewer.js:77
-#: js/samplesviewer.js:93
-#: js/samplesviewer.js:93
+#: js/samplesviewer.js:101
+#: js/samplesviewer.js:101
 msgid "Share"
 msgstr ""
 
+#: js/samplesviewer.js:80
+msgid "Copy this link to share your project."
+msgstr ""
+
+#: js/samplesviewer.js:81
 #: js/samplesviewer.js:84
-#: js/samplesviewer.js:84
-#: js/samplesviewer.js:100
-#: js/samplesviewer.js:100
+msgid "Advanced options"
+msgstr ""
+
+#: js/samplesviewer.js:85
+msgid "Run project on startup."
+msgstr ""
+
+#: js/samplesviewer.js:86
+msgid "Show code blocks on startup."
+msgstr ""
+
+#: js/samplesviewer.js:87
+msgid "Collapse code blocks on startup."
+msgstr ""
+
+#: js/samplesviewer.js:91
+#: js/samplesviewer.js:91
+#: js/samplesviewer.js:115
+#: js/samplesviewer.js:115
 msgid "Download"
 msgstr "डाउनलोड"
 
-#: js/samplesviewer.js:575
+#: js/samplesviewer.js:92
+#: js/samplesviewer.js:92
+#: js/samplesviewer.js:116
+#: js/samplesviewer.js:116
+msgid "Merge with current project"
+msgstr ""
+
+#: js/samplesviewer.js:693
 msgid "Planet"
 msgstr "ग्रह"
 
-#: js/samplesviewer.js:576
+#: js/samplesviewer.js:694
 msgid "On my device"
 msgstr ""
 
-#: js/samplesviewer.js:577
+#: js/samplesviewer.js:695
 msgid "Worldwide"
 msgstr "जगभरात"
 
-#: js/activity.js:539
+#: js/activity.js:565
 #.TRANS: hide Polar coordinate overlay grid
 msgid "hide grid"
 msgstr ""
 
-#: js/activity.js:546
-#: js/activity.js:552
-#: js/activity.js:2766
-#: js/activity.js:2778
-#: js/turtledefs.js:98
+#: js/activity.js:572
+#: js/activity.js:578
+#: js/activity.js:3111
+#: js/activity.js:3123
+#: js/turtledefs.js:100
 #.TRANS: show Cartesian coordinate overlay grid
 msgid "Cartesian"
 msgstr "कार्टेशियन"
 
-#: js/activity.js:552
-#: js/activity.js:559
-#: js/activity.js:2766
-#: js/activity.js:2778
-#: js/turtledefs.js:98
-#: js/turtledefs.js:99
+#: js/activity.js:578
+#: js/activity.js:585
+#: js/activity.js:3111
+#: js/activity.js:3123
+#: js/turtledefs.js:100
+#: js/turtledefs.js:101
 #.TRANS: show Polar coordinate overlay grid
 msgid "Polar"
 msgstr "ध्रुवीय"
 
-#: js/activity.js:576
+#: js/activity.js:602
 msgid "Close"
 msgstr ""
 
-#: js/activity.js:922
-#: js/activity.js:940
-#: js/activity.js:964
-#: js/activity.js:981
+#: js/activity.js:954
+#: js/activity.js:988
+#: js/activity.js:1012
+#: js/activity.js:1029
 msgid "Cannot load project from the file. Please check the file type."
 msgstr ""
 
-#: js/activity.js:2675
-msgid "Run fast / long press to run slowly / extra-long press to run music slowly"
+#: js/activity.js:1496
+msgid "This block is deprecated."
 msgstr ""
 
-#: js/activity.js:2676
-#: js/activity.js:2689
-#: js/turtledefs.js:81
+#: js/activity.js:1498
+msgid "Block cannot be found."
+msgstr ""
+
+#: js/activity.js:3003
+#: js/activity.js:3017
+#: js/turtledefs.js:82
+msgid "Run fast"
+msgstr "वेगाने चालवा"
+
+#: js/activity.js:3003
+#: js/activity.js:3017
+msgid "long press to run slowly"
+msgstr ""
+
+#: js/activity.js:3003
+msgid "extra-long press to run music slowly"
+msgstr ""
+
+#: js/activity.js:3004
+#: js/activity.js:3018
+#: js/turtledefs.js:85
 msgid "Run step by step"
 msgstr ""
 
-#: js/activity.js:2677
-#: js/turtledefs.js:82
+#: js/activity.js:3005
+#: js/turtledefs.js:86
 msgid "Run note by note"
 msgstr ""
 
-#: js/activity.js:2678
-#: js/activity.js:2690
-#: js/turtledefs.js:83
+#: js/activity.js:3006
+#: js/activity.js:3020
+msgid "Hard stop"
+msgstr ""
+
+#: js/activity.js:3007
+#: js/activity.js:3019
+#: js/turtledefs.js:87
 msgid "Stop"
 msgstr "थांबवा"
 
-#: js/activity.js:2679
-#: js/activity.js:2691
-#: js/turtledefs.js:84
+#: js/activity.js:3008
+#: js/activity.js:3021
+#: js/turtledefs.js:88
 msgid "Clean"
 msgstr "स्वच्छ"
 
-#: js/activity.js:2680
-#: js/turtledefs.js:85
+#: js/activity.js:3009
 msgid "Show/hide palettes"
 msgstr "पॅलेटलेट्स दाखवा/लपवा"
 
-#: js/activity.js:2681
-#: js/activity.js:2692
-#: js/turtledefs.js:86
+#: js/activity.js:3010
+#: js/activity.js:3022
+#: js/turtledefs.js:89
 msgid "Show/hide blocks"
 msgstr "ब्लॉक दाखवा/लपवा"
 
-#: js/activity.js:2682
-#: js/activity.js:2693
-#: js/turtledefs.js:87
+#: js/activity.js:3011
+#: js/activity.js:3023
+#: js/turtledefs.js:90
 msgid "Expand/collapse collapsable blocks"
 msgstr ""
 
-#: js/activity.js:2683
-#: js/activity.js:2694
-#: js/activity.js:2733
-#: js/turtledefs.js:88
+#: js/activity.js:3012
+#: js/activity.js:3024
+#: js/activity.js:3066
+#: js/turtledefs.js:91
 msgid "Home"
 msgstr ""
 
-#: js/activity.js:2684
-#: js/activity.js:2695
-#: js/turtledefs.js:89
+#: js/activity.js:3013
+#: js/activity.js:3025
+#: js/turtledefs.js:92
 msgid "Help"
 msgstr "मदत"
 
-#: js/activity.js:2688
-msgid "Run fast / long press to run slowly"
-msgstr ""
-
-#: js/activity.js:2762
-#: js/activity.js:2774
-#: js/turtledefs.js:91
+#: js/activity.js:3107
+#: js/activity.js:3119
+#: js/turtledefs.js:94
 msgid "Load samples from server"
 msgstr "सर्व्हर नमुने लोड करा"
 
-#: js/activity.js:2763
-#: js/activity.js:2775
-#: js/turtledefs.js:92
+#: js/activity.js:3108
+#: js/activity.js:3120
+#: js/turtledefs.js:95
 msgid "Load project from files"
 msgstr ""
 
-#: js/activity.js:2764
-#: js/activity.js:2776
-#: js/turtledefs.js:93
+#: js/activity.js:3109
+#: js/activity.js:3121
+#: js/turtledefs.js:96
 msgid "Save project"
 msgstr "प्रकल्प जतन करा"
 
-#: js/activity.js:2765
-msgid "Long press on block(s) to copy. Click here to paste."
+#: js/activity.js:3110
+msgid "Long press on blocks to copy."
 msgstr ""
 
-#: js/activity.js:2767
-#: js/activity.js:2779
+#: js/activity.js:3110
+msgid "Click here to paste."
+msgstr ""
+
+#: js/activity.js:3112
+#: js/activity.js:3124
 msgid "playback"
 msgstr ""
 
-#: js/activity.js:2768
-#: js/activity.js:2780
-#: js/turtledefs.js:100
+#: js/activity.js:3113
+#: js/activity.js:3125
+#: js/turtledefs.js:102
 msgid "Settings"
 msgstr "सेटिंग"
 
-#: js/activity.js:2769
-#: js/activity.js:2781
-#: js/turtledefs.js:106
+#: js/activity.js:3114
+#: js/activity.js:3126
+#: js/turtledefs.js:109
 msgid "Delete all"
 msgstr "सर्व हटवा"
 
-#: js/activity.js:2770
-#: js/activity.js:2782
-#: js/turtledefs.js:107
+#: js/activity.js:3115
+#: js/activity.js:3127
+#: js/turtledefs.js:110
 msgid "Undo"
 msgstr "पूर्ववत"
 
-#: js/activity.js:2777
-#: js/turtledefs.js:96
+#: js/activity.js:3122
+#: js/turtledefs.js:99
 msgid "Paste"
 msgstr "पेस्ट"
 
-#: js/analytics.js:380
-#: js/turtledefs.js:21
-#: js/basicblocks.js:572
-#: js/basicblocks.js:587
-#: js/rhythmruler.js:911
+#: js/analytics.js:385
+#: js/turtledefs.js:23
+#: js/basicblocks.js:636
+#: js/basicblocks.js:651
+#: js/rhythmruler.js:936
 #.TRANS: an arrangement of notes based on duration
 #.TRANS: an arrangement of notes based on duration
 msgid "rhythm"
 msgstr ""
 
-#: js/analytics.js:380
-#: js/turtledefs.js:21
-#: js/basicblocks.js:357
-#: js/basicblocks.js:2841
+#: js/analytics.js:385
+#: js/turtledefs.js:23
+#: js/basicblocks.js:421
+#: js/basicblocks.js:3088
 #.TRANS: we specify pitch in terms of a name and an octave. The name can be CDEFGAB or Do Re Mi Fa Sol La Ti. Octave is a number between 1 and 8.
 msgid "pitch"
 msgstr ""
 
-#: js/analytics.js:380
-#: js/turtledefs.js:21
-#: js/basicblocks.js:2516
+#: js/analytics.js:385
+#: js/turtledefs.js:23
 msgid "tone"
 msgstr ""
 
-#: js/analytics.js:380
-#: js/turtledefs.js:21
+#: js/analytics.js:385
+#: js/turtledefs.js:23
 #: js/playback.js:191
 #: js/lilypond.js:16
 msgid "mouse"
 msgstr ""
 
-#: js/analytics.js:380
-#: js/turtledefs.js:21
+#: js/analytics.js:385
+#: js/turtledefs.js:23
 msgid "pen"
 msgstr "पेन"
 
-#: js/analytics.js:380
-#: js/turtledefs.js:21
-#: js/basicblocks.js:335
+#: js/analytics.js:385
+#: js/turtledefs.js:23
+#: js/basicblocks.js:399
 msgid "number"
 msgstr "अंक"
 
-#: js/analytics.js:380
-#: js/turtledefs.js:21
+#: js/analytics.js:385
+#: js/turtledefs.js:23
 msgid "flow"
 msgstr "प्रवाह"
 
-#: js/analytics.js:380
-#: js/turtledefs.js:21
+#: js/analytics.js:385
+#: js/turtledefs.js:23
 msgid "sensors"
 msgstr "सेन्सर्स"
 
-#: js/analytics.js:380
-#: js/turtledefs.js:21
+#: js/analytics.js:385
+#: js/turtledefs.js:23
 msgid "media"
 msgstr "मीडिया"
 
-#: js/analytics.js:380
-#: js/turtledefs.js:21
+#: js/analytics.js:385
+#: js/turtledefs.js:23
 msgid "mice"
 msgstr ""
 
-#: js/status.js:58
-#: js/pitchdrummatrix.js:144
-#: js/pitchslider.js:199
-#: js/pitchtimematrix.js:194
-#: js/playback.js:77
-#: js/timbre.js:661
-#: js/tempo.js:234
-#: js/rhythmruler.js:1154
-#: js/modewidget.js:102
-#: js/pitchstaircase.js:460
-msgid "close"
+#: js/logo.js:31
+msgid "Not a valid pitch name"
 msgstr ""
 
-#: js/status.js:67
-#: js/pitchdrummatrix.js:153
-#: js/pitchslider.js:216
-#: js/pitchtimematrix.js:209
-#: js/playback.js:87
-#: js/timbre.js:669
-#: js/tempo.js:249
-#: js/rhythmruler.js:1192
-#: js/modewidget.js:111
-#: js/pitchstaircase.js:478
-msgid "drag"
-msgstr ""
-
-#: js/status.js:212
-#: js/basicblocks.js:253
-#: js/basicblocks.js:268
-#: plugins/rodi.rtp:196
-msgid "note"
-msgstr "नोंद"
-
-#: js/logo.js:644
-msgid "true"
-msgstr ""
-
-#: js/logo.js:646
-msgid "false"
-msgstr ""
-
-#: js/logo.js:916
-#: js/musicutils.js:244
-#: js/basicblocks.js:1406
-#: js/basicblocks.js:1413
-#: js/basicblocks.js:1420
-#: js/basicblocks.js:1427
-#: js/basicblocks.js:1434
-#: js/basicblocks.js:1444
-#: js/macros.js:119
+#: js/logo.js:952
+#: js/basicblocks.js:1524
+#: js/basicblocks.js:1531
+#: js/basicblocks.js:1538
+#: js/basicblocks.js:1545
+#: js/macros.js:158
+#: js/musicutils.js:128
+#: js/musicutils.js:132
+#: js/musicutils.js:142
+#: js/musicutils.js:146
+#: js/musicutils.js:267
 #.TRANS: major scales in music
-#.TRANS: the "major" interval in music
 msgid "major"
 msgstr ""
 
-#: js/logo.js:1315
+#: js/logo.js:1344
 msgid "Block does not support incrementing."
 msgstr ""
 
-#: js/logo.js:2585
-#: js/logo.js:7091
+#: js/logo.js:2200
+#: js/logo.js:2217
+#: js/logo.js:2254
+#: js/logo.js:2271
+#: js/logo.js:7894
+#: js/logo.js:8036
+#: js/logo.js:8096
+#: js/logo.js:8216
+#: js/logo.js:8244
+msgid "Cannot find mouse"
+msgstr ""
+
+#: js/logo.js:2202
+#: js/logo.js:2219
+#: js/logo.js:2256
+#: js/logo.js:2273
+#: js/logo.js:7896
+#: js/logo.js:8038
+#: js/logo.js:8098
+#: js/logo.js:8218
+#: js/logo.js:8246
+msgid "Cannot find turtle"
+msgstr ""
+
+#: js/logo.js:2224
+msgid "Mouse is already running."
+msgstr ""
+
+#: js/logo.js:2226
+msgid "Turtle is already running."
+msgstr ""
+
+#: js/logo.js:2246
+msgid "Cannot find start block"
+msgstr ""
+
+#: js/logo.js:2564
+msgid "Please enter a valid URL."
+msgstr ""
+
+#: js/logo.js:2659
+#: js/logo.js:7386
 msgid "You must select a file."
 msgstr ""
 
-#: js/logo.js:2594
+#: js/logo.js:2668
 #: plugins/heap.rtp:96
 msgid "The file you selected does not contain a valid heap."
 msgstr ""
 
-#: js/logo.js:2598
+#: js/logo.js:2672
 #: plugins/heap.rtp:102
 msgid "The loadHeap block needs a loadFile block."
 msgstr ""
 
-#: js/logo.js:2614
+#: js/logo.js:2688
 msgid "Error parsing JSON data:"
 msgstr ""
 
-#: js/logo.js:2619
+#: js/logo.js:2693
 msgid "404: Page not found"
 msgstr ""
 
-#: js/logo.js:2643
-msgid "turtleHeaps does not contain a valid heap for"
+#: js/logo.js:2717
+msgid "Cannot find a valid heap for"
 msgstr ""
 
-#: js/logo.js:2653
+#: js/logo.js:2727
 msgid "Index must be > 0."
 msgstr ""
 
-#: js/logo.js:2673
-#: js/logo.js:2696
-#: js/logo.js:2717
-#: js/timbre.js:524
+#: js/logo.js:2748
+#: js/logo.js:2772
+#: js/logo.js:2796
+#: js/timbre.js:547
 msgid "Unable to use synth due to existing oscillator"
 msgstr ""
 
-#: js/logo.js:2679
-#: js/logo.js:2701
+#: js/logo.js:2754
+#: js/logo.js:2778
 msgid "The input cannot be negative."
 msgstr ""
 
-#: js/logo.js:2744
-#: js/logo.js:2764
-msgid "Beats per minute must be > 30."
-msgstr ""
-
-#: js/logo.js:2747
-#: js/logo.js:2767
-msgid "Maximum beats per minute is 1000."
-msgstr ""
-
-#: js/logo.js:2919
+#: js/logo.js:2960
 msgid "You must have at least one pitch block and one drum block in the matrix."
 msgstr ""
 
-#: js/logo.js:3059
+#: js/logo.js:3054
+#: js/logo.js:3076
+#: js/logo.js:3104
+#: js/logo.js:3126
+msgid "Beats per minute must be > 30."
+msgstr ""
+
+#: js/logo.js:3057
+#: js/logo.js:3079
+#: js/logo.js:3107
+#: js/logo.js:3129
+msgid "Maximum beats per minute is 1000."
+msgstr ""
+
+#: js/logo.js:3198
 msgid "You must have at least one pitch block and one rhythm block in the matrix."
 msgstr ""
 
-#: js/logo.js:3095
+#: js/logo.js:3234
 msgid "Attack value should be from 0 to 100."
 msgstr ""
 
-#: js/logo.js:3098
+#: js/logo.js:3237
 msgid "Decay value should be from 0 to 100."
 msgstr ""
 
-#: js/logo.js:3101
+#: js/logo.js:3240
 msgid "Sustain value should be from 0 to 100."
 msgstr ""
 
-#: js/logo.js:3104
+#: js/logo.js:3243
 msgid "Release value should be from 0-100."
 msgstr ""
 
-#: js/logo.js:3120
+#: js/logo.js:3259
 msgid "You are adding multiple envelope blocks."
 msgstr ""
 
-#: js/logo.js:3149
+#: js/logo.js:3288
 #.TRANS: rolloff is the steepness of a change in frequency.
 msgid "Rolloff value should be either -12, -24, -48, or -96 decibels/octave."
 msgstr ""
 
-#: js/logo.js:3187
+#: js/logo.js:3326
 msgid "You are adding multiple oscillator blocks."
 msgstr ""
 
-#: js/logo.js:3207
-#: js/basicblocks.js:237
-#: js/basicblocks.js:243
-#: js/macros.js:70
+#: js/logo.js:3346
+#: js/basicblocks.js:219
+#: js/basicblocks.js:225
+#: js/macros.js:106
 #.TRANS: even or odd number
 msgid "even"
 msgstr ""
 
-#: js/logo.js:3211
-#: js/basicblocks.js:237
+#: js/logo.js:3350
+#: js/basicblocks.js:219
 msgid "odd"
 msgstr ""
 
-#: js/logo.js:3282
+#: js/logo.js:3421
 msgid "The Case Block must be used inside of a Switch Block."
 msgstr ""
 
-#: js/logo.js:3355
+#: js/logo.js:3492
 msgid "The Step Pitch Block must be used inside of a Note Block."
 msgstr ""
 
-#: js/logo.js:3526
+#: js/logo.js:3678
 msgid "Drum Block: Did you mean to use a Note block?"
 msgstr ""
 
-#: js/logo.js:3888
+#: js/logo.js:4073
 msgid "Pitch Block: Did you mean to use a Note block?"
 msgstr ""
 
-#: js/logo.js:3916
+#: js/logo.js:4101
 msgid "polyphonic rhythm"
 msgstr ""
 
-#: js/logo.js:3939
+#: js/logo.js:4124
 msgid "Rhythm Block: Did you mean to use a Matrix block?"
 msgstr ""
 
-#: js/logo.js:4131
+#: js/logo.js:4327
 #.TRANS: Note value is the note duration.
 msgid "Note value must be greater than 0."
 msgstr ""
 
-#: js/logo.js:4348
+#: js/logo.js:4590
 msgid "Vibrato intensity must be between 1 and 100."
 msgstr ""
 
-#: js/logo.js:4353
+#: js/logo.js:4595
 msgid "Vibrato rate must be greater than 0."
 msgstr ""
 
-#: js/logo.js:4385
+#: js/logo.js:4627
 msgid "Distortion must be from 0 to 100."
 msgstr ""
 
-#: js/logo.js:4415
-#: js/logo.js:4483
+#: js/logo.js:4657
+#: js/logo.js:4725
 #.TRANS: Depth is the intesity of the tremolo effect.
 #.TRANS: Depth is the intesity of the chorus effect.
 msgid "Depth is out of range."
 msgstr ""
 
-#: js/logo.js:4565
-#: js/logo.js:4586
-msgid "Input to Perfect Block must be 1, 4, 5, or 8"
+#: js/logo.js:5318
+#: js/logo.js:5320
+#: js/logo.js:5373
+#: js/logo.js:5375
+#: js/basicblocks.js:2838
+#: js/macros.js:161
+#: js/synthutils.js:24
+#.TRANS: the default case used in a switch statement in programming
+#.TRANS: polytone synthesizer
+msgid "default"
 msgstr ""
 
-#: js/logo.js:4611
-#: js/logo.js:4632
-msgid "Input to Diminished Block must be 1, 2, 3, 4, 5, 6, 7, or 8"
-msgstr ""
-
-#: js/logo.js:4657
-#: js/logo.js:4678
-msgid "Input to Augmented Block must be 1, 2, 3, 4, 5, 6, 7, or 8"
-msgstr ""
-
-#: js/logo.js:4703
-#: js/logo.js:4725
-msgid "Input to Major Block must be 2, 3, 6, or 7"
-msgstr ""
-
-#: js/logo.js:4750
-#: js/logo.js:4771
-msgid "Input to Minor Block must be 2, 3, 6, or 7"
-msgstr ""
-
-#: js/logo.js:5394
+#: js/logo.js:5573
 msgid "Hertz Block: Did you mean to use a Note block?"
 msgstr ""
 
-#: js/logo.js:5487
-#: js/logo.js:5511
+#: js/logo.js:5655
+#: js/logo.js:5679
 msgid "Tuplet Block: Did you mean to use a Matrix block?"
 msgstr ""
 
-#: js/logo.js:5684
+#: js/logo.js:5854
 msgid "My Project"
 msgstr ""
 
-#: js/logo.js:6243
+#: js/logo.js:6466
 msgid "synth cannot play chords."
 msgstr ""
 
-#: js/logo.js:7987
+#: js/logo.js:8395
 msgid "Note name must be one of A, A♯, B♭, B, C, C♯, D♭, D, D♯, E♭, E, F, F♯, G♭, G, G♯ or A♭."
 msgstr ""
 
-#: js/logo.js:8013
-#: js/basicblocks.js:2399
+#: js/logo.js:8421
+#: js/basicblocks.js:2604
 #: plugins/heap.rtp:42
 #: plugins/heap.rtp:142
 msgid "empty heap"
 msgstr "रिक्त ढीग"
 
-#: js/pitchdrummatrix.js:125
-#: js/pitchtimematrix.js:168
-#: js/playback.js:203
-#: js/timbre.js:499
-#: js/tempo.js:221
-#: js/tempo.js:221
-#: js/rhythmruler.js:1289
-#: js/rhythmruler.js:1297
-#: js/rhythmruler.js:1297
-#: js/pitchstaircase.js:83
-#: plugins/rodi.rtp:195
-msgid "play"
+#: js/logo.js:8569
+#: js/logo.js:8679
+msgid "You must use two pitch blocks when measuring an interval."
 msgstr ""
 
-#: js/pitchdrummatrix.js:132
-#: js/pitchtimematrix.js:174
-#: js/timbre.js:505
-#: js/modewidget.js:66
-#: js/pitchstaircase.js:422
-msgid "save"
-msgstr ""
-
-#: js/pitchdrummatrix.js:138
-#: js/pitchtimematrix.js:179
-#: js/basicblocks.js:1711
-#: js/rhythmruler.js:1149
-#: js/modewidget.js:72
-#.TRANS: erase the screen and return the mice to the center position
-#.TRANS: clear all subdivisions from the ruler.
-msgid "clear"
-msgstr "स्वच्छ"
-
-#: js/clearbox.js:66
+#: js/clearbox.js:70
 msgid "confirm"
 msgstr "पुष्टी"
 
-#: js/pitchslider.js:373
-msgid "move up"
-msgstr ""
-
-#: js/pitchslider.js:387
-msgid "move down"
-msgstr ""
-
-#: js/palette.js:615
-#: js/palette.js:707
-#: js/palette.js:1829
-#: js/basicblocks.js:2155
-#: js/basicblocks.js:2159
-#: js/basicblocks.js:2173
-#: js/basicblocks.js:2181
-#: js/blocks.js:777
-#: js/blocks.js:2389
-#: js/blocks.js:3935
+#: js/palette.js:638
+#: js/palette.js:736
+#: js/palette.js:1883
+#: js/basicblocks.js:2357
+#: js/basicblocks.js:2361
+#: js/basicblocks.js:2375
+#: js/basicblocks.js:2383
+#: js/blocks.js:844
+#: js/blocks.js:2472
+#: js/blocks.js:4011
 #.TRANS: a container into which to put something
 msgid "box"
 msgstr "पेटी"
 
-#: js/palette.js:678
-#: js/basicblocks.js:2555
-#: js/blocks.js:1929
+#: js/palette.js:701
+#: js/basicblocks.js:2802
+#: js/blocks.js:1997
 msgid "text"
 msgstr "मजकूर"
 
-#: js/palette.js:708
-#: js/basicblocks.js:2169
-#: js/blocks.js:2503
+#: js/palette.js:716
+msgid "interval name"
+msgstr ""
+
+#: js/palette.js:737
+#: js/basicblocks.js:2371
+#: js/blocks.js:2586
 #.TRANS: put something into a container for later reference
 msgid "store in"
 msgstr "मध्ये संग्रह करणे"
 
-#: js/palette.js:716
-#: js/blocks.js:1507
+#: js/palette.js:745
+#: js/blocks.js:1572
 msgid "open file"
 msgstr "फाइल उघडा"
 
-#: js/palette.js:810
-#: js/basicblocks.js:1809
+#: js/palette.js:839
+msgid "Click to select a block."
+msgstr ""
+
+#: js/palette.js:839
+#: js/basicblocks.js:2003
 #: plugins/rodi.rtp:71
 #: plugins/rodi.rtp:391
 #.TRANS: move backward (in the opposite direction of the current heading)
 msgid "back"
 msgstr "परत"
 
-#: js/palette.js:818
-#: js/palette.js:819
+#: js/palette.js:847
+#: js/palette.js:848
 #.TRANS: popout: to detach as a separate window
 msgid "hide"
 msgstr ""
 
-#: js/palette.js:821
-#: js/palette.js:822
-#: js/basicblocks.js:2551
+#: js/palette.js:850
+#: js/palette.js:851
+#: js/basicblocks.js:2798
 #.TRANS: a media object
 msgid "show"
 msgstr "दाखवा"
 
-#: js/palette.js:824
-#: js/palette.js:825
+#: js/palette.js:853
+#: js/palette.js:854
 msgid "popout"
 msgstr ""
 
-#: js/musicutils.js:236
-#.TRANS: twelve semi-tone scale for music
-msgid "chromatic"
+#: js/turtle.js:405
+#: js/turtle.js:560
+#: js/turtle.js:561
+#: js/basicblocks.js:2524
+#: js/lilypond.js:366
+#: js/lilypond.js:423
+#: js/lilypond.js:443
+msgid "start drum"
 msgstr ""
 
-#: js/musicutils.js:237
-msgid "algerian"
+#: js/turtledefs.js:17
+msgid "Music Blocks is a collection of tools for exploring musical concepts."
 msgstr ""
 
-#: js/musicutils.js:239
-#: js/basicblocks.js:1189
-#: js/basicblocks.js:1196
-#: js/basicblocks.js:1203
-#: js/basicblocks.js:1210
-#: js/basicblocks.js:1217
-#: js/basicblocks.js:1227
-#.TRANS: modal scale for music
-#.TRANS: the "diminished" interval in music
-msgid "diminished"
+#: js/turtledefs.js:23
+#: js/basicblocks.js:1064
+#.TRANS: musical meter (time signature)
+msgid "meter"
 msgstr ""
 
-#: js/musicutils.js:240
-msgid "spanish"
+#: js/turtledefs.js:23
+msgid "intervals"
 msgstr ""
 
-#: js/musicutils.js:242
-#.TRANS: modal scale for music
-msgid "octatonic"
+#: js/turtledefs.js:23
+#: js/basicblocks.js:3389
+#: js/basicblocks.js:3401
+msgid "volume"
 msgstr ""
 
-#: js/musicutils.js:246
-#.TRANS: harmonic major scale in music
-msgid "harmonic major"
+#: js/turtledefs.js:23
+msgid "boxes"
 msgstr ""
 
-#: js/musicutils.js:248
-#.TRANS: natural minor scales in music
-msgid "natural minor"
+#: js/turtledefs.js:23
+msgid "widgets"
 msgstr ""
 
-#: js/musicutils.js:250
-#.TRANS: harmonic minor scale in music
-msgid "harmonic minor"
+#: js/turtledefs.js:23
+msgid "boolean"
+msgstr "बुलियन"
+
+#: js/turtledefs.js:23
+msgid "heap"
 msgstr ""
 
-#: js/musicutils.js:252
-#.TRANS: melodic minor scale in music
-msgid "melodic minor"
+#: js/turtledefs.js:23
+msgid "extras"
+msgstr "अतिरिक्त"
+
+#: js/turtledefs.js:75
+msgid "Welcome to Music Blocks"
 msgstr ""
 
-#: js/musicutils.js:254
-#.TRANS: modal scale for music
-msgid "ionian"
+#: js/turtledefs.js:75
+msgid "Music Blocks is a collection of manipulative tools for exploring fundamental musical concepts in an integrative and fun way."
 msgstr ""
 
-#: js/musicutils.js:256
-#.TRANS: modal scale for music
-msgid "dorian"
+#: js/turtledefs.js:76
+msgid "Meet Mr. Mouse!"
 msgstr ""
 
-#: js/musicutils.js:258
-#.TRANS: modal scale for music
-msgid "phrygian"
+#: js/turtledefs.js:76
+msgid "Mr Mouse is our Music Blocks conductor."
 msgstr ""
 
-#: js/musicutils.js:260
-#.TRANS: modal scale for music
-msgid "lydian"
+#: js/turtledefs.js:76
+msgid "Mr Mouse encourages you to explore Music Blocks."
 msgstr ""
 
-#: js/musicutils.js:262
-#.TRANS: modal scale for music
-msgid "mixolydian"
+#: js/turtledefs.js:76
+msgid "Let us start our tour!"
 msgstr ""
 
-#: js/musicutils.js:264
-#.TRANS: modal scale for music
-msgid "aeolian"
+#: js/turtledefs.js:78
+#.TRANS: the buttons used to open various palettes of blocks
+msgid "Palette buttons"
+msgstr "पैलेट बटण"
+
+#: js/turtledefs.js:80
+#.TRANS: Please add commas to list: Rhythm, Pitch, Tone, Action, and more.
+msgid "This toolbar contains the palette buttons, including Rhythm Pitch Tone Action and more."
 msgstr ""
 
-#: js/musicutils.js:266
-#.TRANS: modal scale for music
-msgid "locrian"
+#: js/turtledefs.js:80
+msgid "Click to show the palettes of blocks and drag blocks from the palettes onto the canvas to use them."
 msgstr ""
 
-#: js/musicutils.js:268
-#.TRANS: minor jazz scale for music
-msgid "jazz minor"
+#: js/turtledefs.js:81
+msgid "Play music"
 msgstr ""
 
-#: js/musicutils.js:270
-#.TRANS: bebop scale for music
-msgid "bebop"
+#: js/turtledefs.js:81
+#: js/turtledefs.js:86
+msgid "Click to run the music note by note."
 msgstr ""
 
-#: js/musicutils.js:271
-msgid "arabic"
+#: js/turtledefs.js:81
+msgid "Alternatively, you can hit the ENTER or RETURN key."
 msgstr ""
 
-#: js/musicutils.js:272
-msgid "byzantine"
+#: js/turtledefs.js:82
+msgid "Click the run button to run the project in fast mode."
 msgstr ""
 
-#: js/musicutils.js:274
-#.TRANS: musical scale for music by Verdi
-msgid "enigmatic"
+#: js/turtledefs.js:83
+msgid "Run slow"
+msgstr "मंद पाणे चालवा"
+
+#: js/turtledefs.js:83
+msgid "Long press the run button to run the project in slow mode."
 msgstr ""
 
-#: js/musicutils.js:275
-msgid "ethiopian"
+#: js/turtledefs.js:84
+msgid "Run music slow"
 msgstr ""
 
-#: js/musicutils.js:277
-#.TRANS: Ethiopic scale for music
-msgid "geez"
+#: js/turtledefs.js:84
+msgid "Extra-long press the run button to run the music in slow mode."
 msgstr ""
 
-#: js/musicutils.js:278
-msgid "hindu"
+#: js/turtledefs.js:85
+msgid "Click to run the project step by step."
 msgstr ""
 
-#: js/musicutils.js:279
-msgid "hungarian"
+#: js/turtledefs.js:87
+msgid "Stop the music (and the turtles)."
 msgstr ""
 
-#: js/musicutils.js:281
-#.TRANS: minor Romanian scale for music
-msgid "romanian minor"
+#: js/turtledefs.js:87
+msgid "You can also type Alt-S to stop."
 msgstr ""
 
-#: js/musicutils.js:282
-msgid "spanish gypsy"
+#: js/turtledefs.js:88
+msgid "Clear the screen and return the turtles to their initial positions."
+msgstr "स्क्रीन साफ करा आणि कासवाला त्याचा प्रारंभिक भूमिके वर आणा"
+
+#: js/turtledefs.js:89
+msgid "Hide or show the blocks and the palettes."
+msgstr "ब्लॉक आणि पॅलेट दाखवा/लपवा"
+
+#: js/turtledefs.js:90
+msgid "Expand or collapse start and action stacks."
 msgstr ""
 
-#: js/musicutils.js:284
-#.TRANS: musical scale for Mid-Eastern music
-msgid "maqam"
+#: js/turtledefs.js:91
+msgid "Return all blocks to the center of the screen."
 msgstr ""
 
-#: js/musicutils.js:286
-#.TRANS: minor blues scale for music
-msgid "blues"
+#: js/turtledefs.js:92
+msgid "Show these messages."
+msgstr "हे संदेश दर्शवा."
+
+#: js/turtledefs.js:93
+msgid "Expand/collapse option toolbar"
+msgstr "साधनपट्टी दाखवायसाठी / लपवायसाठी पर्याय"
+
+#: js/turtledefs.js:93
+msgid "Click this button to expand or collapse the auxillary toolbar."
 msgstr ""
 
-#: js/musicutils.js:288
-#.TRANS: major blues scale for music
-msgid "major blues"
+#: js/turtledefs.js:94
+msgid "This button opens a viewer for loading example projects."
+msgstr "हे बटण उदाहरणार्थ प्रकल्प लोड करण्यासाठी एक दर्शक उघडते."
+
+#: js/turtledefs.js:95
+msgid "You can also load projects from the file system."
+msgstr "आपण फाइल प्रणाली मधुन पण प्रकल्प लोड करू शकतो."
+
+#: js/turtledefs.js:96
+msgid "Save your project to a file."
 msgstr ""
 
-#: js/musicutils.js:289
-msgid "whole tone"
+#: js/turtledefs.js:97
+#: js/savebox.js:155
+msgid "Save sheet music"
 msgstr ""
 
-#: js/musicutils.js:291
-#.TRANS: pentatonic scale in music
-msgid "pentatonic"
+#: js/turtledefs.js:97
+msgid "Save your project to as a Lilypond file."
 msgstr ""
 
-#: js/musicutils.js:292
-msgid "chinese"
+#: js/turtledefs.js:98
+msgid "Copy"
+msgstr "कॉपी"
+
+#: js/turtledefs.js:98
+msgid "To copy a stack to the clipboard, do a long press on the stack."
 msgstr ""
 
-#: js/musicutils.js:293
-msgid "egyptian"
+#: js/turtledefs.js:98
+msgid "You can also use Alt+C to copy a stack of blocks."
 msgstr ""
 
-#: js/musicutils.js:295
-#.TRANS: Japanese pentatonic scale for music
-msgid "hirajoshi"
+#: js/turtledefs.js:98
+msgid "The Paste Button will highlight."
 msgstr ""
 
-#: js/musicutils.js:296
-msgid "japanese"
+#: js/turtledefs.js:99
+msgid "The paste button is enabled when there are blocks copied onto the clipboard."
 msgstr ""
 
-#: js/musicutils.js:298
-#.TRANS: Italian mathematician
-msgid "fibonacci"
+#: js/turtledefs.js:99
+msgid "You can also use Alt+V to paste a stack of blocks. "
 msgstr ""
 
-#: js/musicutils.js:299
-#: js/basicblocks.js:605
-#: js/basicblocks.js:1164
-#: js/macros.js:143
-#: js/modewidget.js:809
-#.TRANS: user-defined
-msgid "custom"
+#: js/turtledefs.js:100
+msgid "Show or hide a coordinate grid."
 msgstr ""
 
-#: js/musicutils.js:304
-#: js/basicblocks.js:1132
-#: js/macros.js:120
-#.TRANS: musical instrument
-msgid "violin"
+#: js/turtledefs.js:101
+msgid "Show or hide a polar-coordinate grid."
+msgstr "ध्रुवीय-समन्वय ग्रीड दाखवा/लपवा"
+
+#: js/turtledefs.js:102
+msgid "Open a panel for configuring Music Blocks."
+msgstr "एक फळी उघडा टर्टल चा संरांचना साठी "
+
+#: js/turtledefs.js:103
+#: js/utilitybox.js:153
+msgid "Search"
 msgstr ""
 
-#: js/musicutils.js:306
-#.TRANS: musical instrument
-msgid "cello"
+#: js/turtledefs.js:103
+msgid "You can search for blocks by name."
 msgstr ""
 
-#: js/musicutils.js:308
-#.TRANS: musical instrument
-msgid "bass"
+#: js/turtledefs.js:104
+#: js/utilitybox.js:130
+msgid "Enable scrolling"
 msgstr ""
 
-#: js/musicutils.js:310
-#.TRANS: polytone synthesizer
-msgid "poly"
+#: js/turtledefs.js:104
+msgid "You can scroll the blocks on the canvas."
 msgstr ""
 
-#: js/musicutils.js:312
-#: js/musicutils.js:391
-#: js/basicblocks.js:116
-#.TRANS: sine wave
-#.TRANS: sine wave
-#.TRANS: sine wave
-msgid "sine"
+#: js/turtledefs.js:105
+#: js/utilitybox.js:90
+msgid "Decrease block size"
+msgstr "ब्लॉकचे आकार कमी करा"
+
+#: js/turtledefs.js:105
+msgid "Decrease the size of the blocks."
+msgstr "ब्लॉकचा आकार घटवा"
+
+#: js/turtledefs.js:106
+#: js/utilitybox.js:100
+msgid "Increase block size"
+msgstr "ब्लॉकचा आकार वाढवा"
+
+#: js/turtledefs.js:106
+msgid "Increase the size of the blocks."
+msgstr "ब्लॉकचा आकार वाढवा"
+
+#: js/turtledefs.js:107
+#: js/utilitybox.js:110
+msgid "Display statistics"
+msgstr "आकडेवारी दाखवणे"
+
+#: js/turtledefs.js:107
+msgid "Display statistics about your Music project."
+msgstr "आकडेवारी दाखवणे आपल्या टर्टल प्रकल्पाचे"
+
+#: js/turtledefs.js:108
+#: js/utilitybox.js:120
+msgid "Load plugin from file"
+msgstr "फाइल मधुन प्लगइन लोड करा"
+
+#: js/turtledefs.js:108
+msgid "You can load new blocks from the file system."
+msgstr "आपण फाइल प्रणाली मधुन नवीन ब्लॉक लोड करू शकतो."
+
+#: js/turtledefs.js:109
+msgid "Remove all content on the canvas, including the blocks."
+msgstr "कॅनव्हास वरून ब्लॉक सोबत सर्व सामग्री काढा."
+
+#: js/turtledefs.js:110
+msgid "Restore blocks from the trash."
+msgstr "कचरा मधुन ब्लॉक पुनर्संचयित करा."
+
+#: js/turtledefs.js:111
+msgid "Keyboard shortcuts"
 msgstr ""
 
-#: js/musicutils.js:314
-#: js/musicutils.js:393
-#: js/basicblocks.js:94
+#: js/turtledefs.js:111
+msgid "You can type \"d\" to create a \"do\" block, \"r\" to create a \"re\" block, etc."
+msgstr ""
+
+#: js/turtledefs.js:112
+msgid "Congratulations."
+msgstr "अभिनंदन"
+
+#: js/turtledefs.js:112
+msgid "You have finished the tour. Please enjoy Music Blocks!"
+msgstr ""
+
+#: js/basicblocks.js:76
+#: js/synthutils.js:42
+#: js/musicutils.js:351
 #.TRANS: square wave
 #.TRANS: square wave
 #.TRANS: square wave
 msgid "square"
 msgstr ""
 
-#: js/musicutils.js:316
-#: js/musicutils.js:397
-#: js/basicblocks.js:127
-#.TRANS: sawtooth wave
-#.TRANS: sawtooth wave
-#.TRANS: sawtooth wave
-msgid "sawtooth"
-msgstr ""
-
-#: js/musicutils.js:318
-#: js/musicutils.js:395
-#: js/basicblocks.js:105
-#: js/basicblocks.js:379
+#: js/basicblocks.js:87
+#: js/basicblocks.js:443
+#: js/synthutils.js:46
+#: js/musicutils.js:353
 #.TRANS: triangle wave
 #.TRANS: triangle wave
 #.TRANS: triangle wave
@@ -1012,1188 +1166,1066 @@ msgstr ""
 msgid "triangle"
 msgstr ""
 
-#: js/musicutils.js:323
-#: js/basicblocks.js:1660
-#: js/macros.js:77
-#: js/macros.js:114
-#: js/macros.js:115
-#: js/macros.js:128
-#.TRANS: musical instrument
-msgid "snare drum"
-msgstr ""
-
-#: js/musicutils.js:325
-#: js/basicblocks.js:1653
-#: js/macros.js:71
-#: js/macros.js:114
-#: js/macros.js:115
-#.TRANS: musical instrument
-msgid "kick drum"
-msgstr ""
-
-#: js/musicutils.js:327
-#: js/basicblocks.js:1646
-#: js/macros.js:144
-#.TRANS: musical instrument
-msgid "tom tom"
-msgstr ""
-
-#: js/musicutils.js:329
-#: js/basicblocks.js:1639
-#: js/macros.js:65
-#.TRANS: musical instrument
-msgid "floor tom tom"
-msgstr ""
-
-#: js/musicutils.js:331
-#: js/basicblocks.js:1632
-#: js/macros.js:45
-#.TRANS: a drum made from an inverted cup
-msgid "cup drum"
-msgstr ""
-
-#: js/musicutils.js:333
-#: js/basicblocks.js:1625
-#: js/macros.js:46
-#.TRANS: musical instrument
-msgid "darbuka drum"
-msgstr ""
-
-#: js/musicutils.js:335
-#: js/basicblocks.js:1618
-#: js/macros.js:67
-#.TRANS: musical instrument
-msgid "hi hat"
-msgstr ""
-
-#: js/musicutils.js:337
-#: js/basicblocks.js:1597
-#: js/macros.js:116
-#.TRANS: a small metal bell
-msgid "ride bell"
-msgstr ""
-
-#: js/musicutils.js:339
-#: js/basicblocks.js:1590
-#: js/macros.js:41
-#.TRANS: musical instrument
-msgid "cow bell"
-msgstr ""
-
-#: js/musicutils.js:341
-#: js/basicblocks.js:1611
-#: js/macros.js:147
-#.TRANS: musical instrument
-msgid "triangle bell"
-msgstr ""
-
-#: js/musicutils.js:343
-#: js/basicblocks.js:1604
-#: js/macros.js:63
-#.TRANS: musical instrument
-msgid "finger cymbals"
-msgstr ""
-
-#: js/musicutils.js:345
-#: js/basicblocks.js:1548
-#: js/macros.js:38
-#.TRANS: a musically tuned set of bells
-msgid "chime"
-msgstr ""
-
-#: js/musicutils.js:347
-#: js/basicblocks.js:1555
-#: js/macros.js:39
-#.TRANS: sound effect
-msgid "clang"
-msgstr ""
-
+#: js/basicblocks.js:98
+#: js/synthutils.js:40
 #: js/musicutils.js:349
-#: js/basicblocks.js:1576
-#: js/macros.js:42
-#.TRANS: sound effect
-msgid "crash"
+#.TRANS: sine wave
+#.TRANS: sine wave
+#.TRANS: sine wave
+msgid "sine"
 msgstr ""
 
-#: js/musicutils.js:351
-#: js/basicblocks.js:1534
-#: js/macros.js:34
-#.TRANS: sound effect
-msgid "bottle"
-msgstr ""
-
-#: js/musicutils.js:353
-#: js/basicblocks.js:1562
-#: js/macros.js:40
-#.TRANS: sound effect
-msgid "clap"
-msgstr ""
-
+#: js/basicblocks.js:109
+#: js/synthutils.js:44
 #: js/musicutils.js:355
-#: js/basicblocks.js:1569
-#: js/macros.js:126
-#.TRANS: sound effect
-msgid "slap"
+#.TRANS: sawtooth wave
+#.TRANS: sawtooth wave
+#.TRANS: sawtooth wave
+msgid "sawtooth"
 msgstr ""
 
-#: js/musicutils.js:357
-#: js/basicblocks.js:1583
-#: js/macros.js:129
-#.TRANS: sound effect
-msgid "splash"
-msgstr ""
-
-#: js/musicutils.js:359
-#: js/basicblocks.js:1541
-#: js/macros.js:36
-#.TRANS: sound effect
-msgid "bubbles"
-msgstr ""
-
-#: js/musicutils.js:361
-#: js/basicblocks.js:1513
-#: js/macros.js:37
-#.TRANS: animal sound effect
-msgid "cat"
-msgstr ""
-
-#: js/musicutils.js:363
-#: js/basicblocks.js:1520
-#: js/macros.js:44
-#.TRANS: animal sound effect
-msgid "cricket"
-msgstr ""
-
-#: js/musicutils.js:365
-#: js/basicblocks.js:1527
-#: js/macros.js:55
-#.TRANS: animal sound effect
-msgid "dog"
-msgstr ""
-
-#: js/musicutils.js:367
-#: js/basicblocks.js:1506
-#: js/macros.js:58
-#.TRANS: animal sound effect
-msgid "duck"
-msgstr ""
-
-#: js/musicutils.js:372
-#: js/basicblocks.js:439
-#.TRANS: highpass filter
-#.TRANS: highpass filter
-msgid "highpass"
-msgstr ""
-
-#: js/musicutils.js:374
-#.TRANS: lowpass filter
-msgid "lowpass"
-msgstr ""
-
-#: js/musicutils.js:376
-#.TRANS: bandpass filter
-msgid "bandpass"
-msgstr ""
-
-#: js/musicutils.js:378
-#.TRANS: highshelf filter
-msgid "highshelf"
-msgstr ""
-
-#: js/musicutils.js:380
-#.TRANS: lowshelf filter
-msgid "lowshelf"
-msgstr ""
-
-#: js/musicutils.js:382
-#.TRANS: notch filter
-msgid "notch"
-msgstr ""
-
-#: js/musicutils.js:384
-#.TRANS: allpass filter
-msgid "allpass"
-msgstr ""
-
-#: js/musicutils.js:386
-#.TRANS: peaking filter
-msgid "peaking"
-msgstr ""
-
-#: js/musicutils.js:1279
-#: js/musicutils.js:1299
-msgid "next"
-msgstr ""
-
-#: js/musicutils.js:1282
-#: js/musicutils.js:1304
-msgid "previous"
-msgstr ""
-
-#: js/musicutils.js:1285
-#: js/musicutils.js:1308
-msgid "current"
-msgstr ""
-
-#: js/turtle.js:405
-#: js/turtle.js:560
-#: js/turtle.js:561
-#: js/basicblocks.js:2319
-#: js/lilypond.js:329
-#: js/lilypond.js:386
-#: js/lilypond.js:406
-msgid "start drum"
-msgstr ""
-
-#: js/pitchtimematrix.js:184
-msgid "export"
-msgstr ""
-
-#: js/pitchtimematrix.js:189
-msgid "sort"
-msgstr ""
-
-#: js/pitchtimematrix.js:401
-#: js/pitchtimematrix.js:632
-#: js/pitchtimematrix.js:675
-#: js/pitchtimematrix.js:773
-#: js/basicblocks.js:503
-#: js/basicblocks.js:515
-#: js/basicblocks.js:527
-#: js/basicblocks.js:561
-#: js/basicblocks.js:573
-#: js/basicblocks.js:588
-#: js/basicblocks.js:687
-#: js/basicblocks.js:758
-#: js/basicblocks.js:852
-#: js/basicblocks.js:859
-#: js/basicblocks.js:866
-#: js/basicblocks.js:873
-#: js/basicblocks.js:880
-#: js/basicblocks.js:896
-#: js/basicblocks.js:962
-#.TRANS: the value (e.g., 1/4 note) of the note being played.
-msgid "note value"
-msgstr ""
-
-#: js/pitchtimematrix.js:653
-#: js/pitchtimematrix.js:782
-msgid "tuplet value"
-msgstr ""
-
-#: js/turtledefs.js:21
-#: js/basicblocks.js:961
-#.TRANS: musical meter (time signature)
-msgid "meter"
-msgstr ""
-
-#: js/turtledefs.js:21
-msgid "intervals"
-msgstr ""
-
-#: js/turtledefs.js:21
-msgid "volume"
-msgstr ""
-
-#: js/turtledefs.js:21
-msgid "boxes"
-msgstr ""
-
-#: js/turtledefs.js:21
-msgid "widgets"
-msgstr ""
-
-#: js/turtledefs.js:21
-msgid "boolean"
-msgstr "बुलियन"
-
-#: js/turtledefs.js:21
-msgid "heap"
-msgstr ""
-
-#: js/turtledefs.js:21
-msgid "extras"
-msgstr "अतिरिक्त"
-
-#: js/turtledefs.js:73
-msgid "Welcome to Music Blocks"
-msgstr ""
-
-#: js/turtledefs.js:73
-msgid "Music Blocks is a collection of manipulative tools for exploring fundamental musical concepts in an integrative and fun way."
-msgstr ""
-
-#: js/turtledefs.js:74
-msgid "Meet Mr. Mouse!"
-msgstr ""
-
-#: js/turtledefs.js:74
-msgid "Mr Mouse is our Music Blocks conductor."
-msgstr ""
-
-#: js/turtledefs.js:74
-msgid "Mr Mouse encourages you to explore Music Blocks."
-msgstr ""
-
-#: js/turtledefs.js:74
-msgid "Let us start our tour!"
-msgstr ""
-
-#: js/turtledefs.js:77
-#.TRANS: Please add commas to list: Matrix, Notes, Tone, Turtle, and more.
-#.TRANS: the buttons used to open various palettes of blocks
-msgid "Palette buttons"
-msgstr "पैलेट बटण"
-
-#: js/turtledefs.js:77
-msgid "This toolbar contains the palette buttons Matrix Notes Tone Turtle and more."
-msgstr ""
-
-#: js/turtledefs.js:77
-msgid "Click to show the palettes of blocks and drag blocks from the palettes onto the canvas to use them."
-msgstr ""
-
-#: js/turtledefs.js:78
-msgid "Run fast"
-msgstr "वेगाने चालवा"
-
-#: js/turtledefs.js:78
-msgid "Click to run the project in fast mode."
-msgstr "प्रकल्प वागने चालण्या साठी इकडे दाबा"
-
-#: js/turtledefs.js:79
-msgid "Run slow"
-msgstr "मंद पाणे चालवा"
-
-#: js/turtledefs.js:79
-msgid "Click to run the project in slow mode."
-msgstr "प्रकल्प मंद पणे चालण्या साठी इकडे दाबा"
-
-#: js/turtledefs.js:80
-msgid "Run music slow"
-msgstr ""
-
-#: js/turtledefs.js:80
-msgid "Click to run just the music in slow mode."
-msgstr ""
-
-#: js/turtledefs.js:81
-msgid "Click to run the project step by step."
-msgstr ""
-
-#: js/turtledefs.js:82
-msgid "Click to run the music note by note."
-msgstr ""
-
-#: js/turtledefs.js:83
-msgid "Stop the music (and the turtles)."
-msgstr ""
-
-#: js/turtledefs.js:84
-msgid "Clear the screen and return the turtles to their initial positions."
-msgstr "स्क्रीन साफ करा आणि कासवाला त्याचा प्रारंभिक भूमिके वर आणा"
-
-#: js/turtledefs.js:85
-msgid "Hide or show the block palettes."
-msgstr "ब्लॉक आणि पॅलेट दाखवा/लपवा"
-
-#: js/turtledefs.js:86
-msgid "Hide or show the blocks and the palettes."
-msgstr "ब्लॉक आणि पॅलेट दाखवा/लपवा"
-
-#: js/turtledefs.js:87
-msgid "Expand or collapse start and action stacks."
-msgstr ""
-
-#: js/turtledefs.js:88
-msgid "Return all blocks to the center of the screen."
-msgstr ""
-
-#: js/turtledefs.js:89
-msgid "Show these messages."
-msgstr "हे संदेश दर्शवा."
-
-#: js/turtledefs.js:90
-msgid "Expand/collapse option toolbar"
-msgstr "साधनपट्टी दाखवायसाठी / लपवायसाठी पर्याय"
-
-#: js/turtledefs.js:90
-msgid "Click this button to expand or collapse the auxillary toolbar."
-msgstr ""
-
-#: js/turtledefs.js:91
-msgid "This button opens a viewer for loading example projects."
-msgstr "हे बटण उदाहरणार्थ प्रकल्प लोड करण्यासाठी एक दर्शक उघडते."
-
-#: js/turtledefs.js:92
-msgid "You can also load projects from the file system."
-msgstr "आपण फाइल प्रणाली मधुन पण प्रकल्प लोड करू शकतो."
-
-#: js/turtledefs.js:93
-msgid "Save your project to a file."
-msgstr ""
-
-#: js/turtledefs.js:94
-#: js/savebox.js:122
-msgid "Save sheet music"
-msgstr ""
-
-#: js/turtledefs.js:94
-msgid "Save your project to as a Lilypond file."
-msgstr ""
-
-#: js/turtledefs.js:95
-msgid "Copy"
-msgstr "कॉपी"
-
-#: js/turtledefs.js:95
-msgid "To copy a stack to the clipboard, do a long press on the stack."
-msgstr ""
-
-#: js/turtledefs.js:95
-msgid "The Paste Button will highlight."
-msgstr ""
-
-#: js/turtledefs.js:96
-msgid "The paste button is enabled when there are blocks copied onto the clipboard."
-msgstr ""
-
-#: js/turtledefs.js:97
-#: js/blocks.js:245
-msgid "Save stack"
-msgstr "स्टॅक जतन करा"
-
-#: js/turtledefs.js:97
-msgid "The save-stack button saves a stack onto a custom palette."
-msgstr ""
-
-#: js/turtledefs.js:97
-msgid "It appears after a long press on a stack."
-msgstr ""
-
-#: js/turtledefs.js:98
-msgid "Show or hide a coordinate grid."
-msgstr ""
-
-#: js/turtledefs.js:99
-msgid "Show or hide a polar-coordinate grid."
-msgstr "ध्रुवीय-समन्वय ग्रीड दाखवा/लपवा"
-
-#: js/turtledefs.js:100
-msgid "Open a panel for configuring Music Blocks."
-msgstr "एक फळी उघडा टर्टल चा संरांचना साठी "
-
-#: js/turtledefs.js:101
-#: js/utilitybox.js:68
-msgid "Decrease block size"
-msgstr "ब्लॉकचे आकार कमी करा"
-
-#: js/turtledefs.js:101
-msgid "Decrease the size of the blocks."
-msgstr "ब्लॉकचा आकार घटवा"
-
-#: js/turtledefs.js:102
-#: js/utilitybox.js:76
-msgid "Increase block size"
-msgstr "ब्लॉकचा आकार वाढवा"
-
-#: js/turtledefs.js:102
-msgid "Increase the size of the blocks."
-msgstr "ब्लॉकचा आकार वाढवा"
-
-#: js/turtledefs.js:103
-#: js/utilitybox.js:84
-msgid "Display statistics"
-msgstr "आकडेवारी दाखवणे"
-
-#: js/turtledefs.js:103
-msgid "Display statistics about your Music project."
-msgstr "आकडेवारी दाखवणे आपल्या टर्टल प्रकल्पाचे"
-
-#: js/turtledefs.js:104
-#: js/utilitybox.js:92
-msgid "Load plugin from file"
-msgstr "फाइल मधुन प्लगइन लोड करा"
-
-#: js/turtledefs.js:104
-msgid "You can load new blocks from the file system."
-msgstr "आपण फाइल प्रणाली मधुन नवीन ब्लॉक लोड करू शकतो."
-
-#: js/turtledefs.js:105
-#: js/utilitybox.js:100
-msgid "Enable scrolling"
-msgstr ""
-
-#: js/turtledefs.js:105
-msgid "You can scroll the blocks on the canvas."
-msgstr ""
-
-#: js/turtledefs.js:106
-msgid "Remove all content on the canvas, including the blocks."
-msgstr "कॅनव्हास वरून ब्लॉक सोबत सर्व सामग्री काढा."
-
-#: js/turtledefs.js:107
-msgid "Restore blocks from the trash."
-msgstr "कचरा मधुन ब्लॉक पुनर्संचयित करा."
-
-#: js/turtledefs.js:108
-msgid "Congratulations."
-msgstr "अभिनंदन"
-
-#: js/turtledefs.js:108
-msgid "You have finished the tour. Please enjoy Music Blocks!"
-msgstr ""
-
-#: js/basicblocks.js:137
+#: js/basicblocks.js:119
 #.TRANS: musical transposition (adjustment of pitch up or down)
 msgid "transposition"
 msgstr ""
 
-#: js/basicblocks.js:145
+#: js/basicblocks.js:127
 #.TRANS: step down one note in current mode
-msgid "consonant step down"
+msgid "scalar step down"
 msgstr ""
 
-#: js/basicblocks.js:153
+#: js/basicblocks.js:135
 #.TRANS: step up one note in current mode
-msgid "consonant step up"
+msgid "scalar step up"
 msgstr ""
 
-#: js/basicblocks.js:161
-#: js/basicblocks.js:324
+#: js/basicblocks.js:143
+#: js/basicblocks.js:388
 #.TRANS: convert current note to piano key (1-88)
 #.TRANS: a mapping of pitch to the 88 piano keys
 msgid "pitch number"
 msgstr ""
 
-#: js/basicblocks.js:177
+#: js/basicblocks.js:159
 #.TRANS: MIDI is a technical standard for electronic music
 #.TRANS: set an offset associated with the numeric piano keyboard mapping
 msgid "set pitch number offset"
 msgstr ""
 
-#: js/basicblocks.js:178
-#: js/basicblocks.js:235
-#: js/basicblocks.js:358
-#: js/basicblocks.js:2170
-#: js/basicblocks.js:2527
-#: js/blocks.js:2503
+#: js/basicblocks.js:160
+#: js/basicblocks.js:217
+#: js/basicblocks.js:422
+#: js/basicblocks.js:2372
+#: js/basicblocks.js:2774
+#: js/blocks.js:2586
 msgid "name"
 msgstr "नाव"
 
-#: js/basicblocks.js:178
+#: js/basicblocks.js:160
+#: js/basicblocks.js:217
 #: js/basicblocks.js:235
-#: js/basicblocks.js:253
-#: js/basicblocks.js:268
-#: js/basicblocks.js:291
-#: js/basicblocks.js:335
-#: js/basicblocks.js:358
-#: js/basicblocks.js:1230
-#: js/basicblocks.js:1295
-#: js/basicblocks.js:1345
-#: js/basicblocks.js:1395
-#: js/basicblocks.js:1445
-#: js/basicblocks.js:2527
-#.TRANS: adjusts the shift up or down by one octave (the number of half-steps in the interval between two notes, one having twice or half the frequency of the other.
+#: js/basicblocks.js:250
+#: js/basicblocks.js:273
+#: js/basicblocks.js:399
+#: js/basicblocks.js:422
+#: js/basicblocks.js:2774
+#.TRANS: adjusts the shift up or down by one octave (twelve half-steps in the interval between two notes, one having twice or half the frequency in Hz of the other.)
 msgid "octave"
 msgstr ""
 
-#: js/basicblocks.js:190
+#: js/basicblocks.js:172
 #.TRANS: convert piano key number (1-88) to pitch
 msgid "number to pitch"
 msgstr ""
 
-#: js/basicblocks.js:199
+#: js/basicblocks.js:181
 #.TRANS: convert piano key number (1-88) to octave
 msgid "number to octave"
 msgstr ""
 
-#: js/basicblocks.js:234
+#: js/basicblocks.js:216
 #: js/modewidget.js:90
 #.TRANS: pitch inversion rotates a pitch around another pitch
 msgid "invert"
 msgstr ""
 
-#: js/basicblocks.js:252
+#: js/basicblocks.js:234
 #.TRANS: pitch inversion rotates a pitch around another pitch (odd number)
 msgid "invert (odd)"
 msgstr ""
 
-#: js/basicblocks.js:267
+#: js/basicblocks.js:235
+#: js/basicblocks.js:250
+#: js/status.js:212
+#: plugins/rodi.rtp:196
+msgid "note"
+msgstr "नोंद"
+
+#: js/basicblocks.js:249
 #.TRANS: pitch inversion rotates a pitch around another pitch (even number)
 msgid "invert (even)"
 msgstr ""
 
-#: js/basicblocks.js:282
+#: js/basicblocks.js:264
 #.TRANS: adjust the amount of shift (up or down) of a pitch
-msgid "adjust transposition"
+msgid "semi-tone transpose"
 msgstr ""
 
-#: js/basicblocks.js:299
+#: js/basicblocks.js:281
+#: js/basicblocks.js:1563
+#.TRANS: down sixth means the note is five scale degrees below current note
+#.TRANS: down sixth means the note is five scale degrees below current note
+msgid "down sixth"
+msgstr ""
+
+#: js/basicblocks.js:289
+#: js/basicblocks.js:1571
+#.TRANS: down third means the note is two scale degrees below current note
+#.TRANS: down third means the note is two scale degrees below current note
+msgid "down third"
+msgstr ""
+
+#: js/basicblocks.js:297
+#: js/basicblocks.js:1579
+#.TRANS: seventh means the note is the six scale degrees above current note
+#.TRANS: seventh means the note is the six scale degrees above current note
+msgid "seventh"
+msgstr ""
+
+#: js/basicblocks.js:305
+#: js/basicblocks.js:1587
+#.TRANS: sixth means the note is the five scale degrees above current note
+#.TRANS: sixth means the note is the five scale degrees above current note
+msgid "sixth"
+msgstr ""
+
+#: js/basicblocks.js:313
+#: js/basicblocks.js:1595
+#.TRANS: fifth means the note is the four scale degrees above current note
+#.TRANS: fifth means the note is the four scale degrees above current note
+msgid "fifth"
+msgstr ""
+
+#: js/basicblocks.js:321
+#: js/basicblocks.js:1603
+#.TRANS: fourth means the note is three scale degrees above current note
+#.TRANS: fourth means the note is three scale degrees above current note
+msgid "fourth"
+msgstr ""
+
+#: js/basicblocks.js:329
+#: js/basicblocks.js:1611
+#.TRANS: third means the note is two scale degrees above current note
+#.TRANS: third means the note is two scale degrees above current note
+msgid "third"
+msgstr ""
+
+#: js/basicblocks.js:337
+#: js/basicblocks.js:1619
+#.TRANS: second means the note is one scale degree above current note
+#.TRANS: second means the note is one scale degree above current note
+msgid "second"
+msgstr ""
+
+#: js/basicblocks.js:345
+#: js/basicblocks.js:1627
+#: js/musicutils.js:124
+#.TRANS: unison means the note is the same as the current note
+#.TRANS: unison means the note is the same as the current note
+msgid "unison"
+msgstr ""
+
+#: js/basicblocks.js:353
+#.TRANS: adjust the amount of shift (up or down) of a pitch by scalar steps
+msgid "scalar transpose"
+msgstr ""
+
+#: js/basicblocks.js:363
 #.TRANS: flat is a half-step down in pitch
 msgid "flat"
 msgstr ""
 
-#: js/basicblocks.js:307
+#: js/basicblocks.js:371
 #.TRANS: sharp is a half-step up in pitch
 msgid "sharp"
 msgstr ""
 
-#: js/basicblocks.js:315
+#: js/basicblocks.js:379
+#: js/basicblocks.js:2763
 #.TRANS: a measure of frequency: one cycle per second
 msgid "hertz"
 msgstr ""
 
-#: js/basicblocks.js:334
+#: js/basicblocks.js:398
 #.TRANS: a numeric mapping of the notes in an octave based on the musical mode
 msgid "scale degree"
 msgstr ""
 
-#: js/basicblocks.js:347
+#: js/basicblocks.js:411
 #.TRANS: step some number of notes in current mode
-msgid "step pitch"
+msgid "scalar step"
 msgstr ""
 
-#: js/basicblocks.js:372
-#: js/timbre.js:528
+#: js/basicblocks.js:436
+#: js/timbre.js:551
 #.TRANS: there are different types (sine, triangle, square...) of oscillators.
 msgid "oscillator"
 msgstr ""
 
-#: js/basicblocks.js:373
-#: js/basicblocks.js:432
-#: js/timbre.js:1096
-#: js/timbre.js:1269
+#: js/basicblocks.js:437
+#: js/basicblocks.js:496
+#: js/timbre.js:1179
+#: js/timbre.js:1352
 #.TRANS: type of filter, e.g., lowpass, highpass, etc.
 msgid "type"
 msgstr ""
 
-#: js/basicblocks.js:375
-#: js/timbre.js:1097
+#: js/basicblocks.js:439
+#: js/timbre.js:1180
 #.TRANS: Partials refers to the number of sine waves combined into the sound.
 msgid "partials"
 msgstr ""
 
-#: js/basicblocks.js:404
-#: js/timbre.js:563
+#: js/basicblocks.js:468
+#: js/timbre.js:586
 #.TRANS: sound envelope (ADSR)
 msgid "envelope"
 msgstr ""
 
-#: js/basicblocks.js:406
+#: js/basicblocks.js:470
 #.TRANS: Attack time is the time taken for initial run-up of level from nil to peak, beginning when the key is first pressed.
 msgid "attack"
 msgstr ""
 
-#: js/basicblocks.js:408
+#: js/basicblocks.js:472
 #.TRANS: Decay time is the time taken for the subsequent run down from the attack level to the designated sustain level.
 msgid "decay"
 msgstr ""
 
-#: js/basicblocks.js:410
+#: js/basicblocks.js:474
 #.TRANS: Sustain level is the level during the main sequence of the sound's duration, until the key is released.
 msgid "sustain"
 msgstr ""
 
-#: js/basicblocks.js:412
+#: js/basicblocks.js:476
 #.TRANS: Release time is the time taken for the level to decay from the sustain level to zero after the key is released.
 msgid "release"
 msgstr ""
 
-#: js/basicblocks.js:430
-#: js/timbre.js:610
+#: js/basicblocks.js:494
+#: js/timbre.js:633
 #.TRANS: a filter removes some unwanted components from a signal
 msgid "filter"
 msgstr ""
 
-#: js/basicblocks.js:434
-#: js/timbre.js:1270
+#: js/basicblocks.js:498
+#: js/timbre.js:1353
 #.TRANS: rolloff is the steepness of a change in frequency.
 msgid "rolloff"
 msgstr ""
 
-#: js/basicblocks.js:435
-#: js/basicblocks.js:2516
-#: js/timbre.js:1271
+#: js/basicblocks.js:499
+#: js/basicblocks.js:2763
+#: js/timbre.js:1354
 msgid "frequency"
 msgstr ""
 
-#: js/basicblocks.js:451
+#: js/basicblocks.js:503
+#: js/musicutils.js:330
+#.TRANS: highpass filter
+#.TRANS: highpass filter
+msgid "highpass"
+msgstr ""
+
+#: js/basicblocks.js:515
 msgid "1/64 note"
 msgstr ""
 
-#: js/basicblocks.js:458
+#: js/basicblocks.js:522
 msgid "1/32 note"
 msgstr ""
 
-#: js/basicblocks.js:465
+#: js/basicblocks.js:529
 msgid "1/16 note"
 msgstr ""
 
-#: js/basicblocks.js:472
+#: js/basicblocks.js:536
 msgid "eighth note"
 msgstr ""
 
-#: js/basicblocks.js:479
+#: js/basicblocks.js:543
 msgid "quarter note"
 msgstr ""
 
-#: js/basicblocks.js:486
+#: js/basicblocks.js:550
 msgid "half note"
 msgstr ""
 
-#: js/basicblocks.js:493
+#: js/basicblocks.js:557
 msgid "whole note"
 msgstr ""
 
-#: js/basicblocks.js:501
-#: js/basicblocks.js:514
-#: js/basicblocks.js:526
+#: js/basicblocks.js:565
+#: js/basicblocks.js:578
+#: js/basicblocks.js:590
 #.TRANS: A tuplet is a note value divided into irregular time values.
 msgid "tuplet"
 msgstr ""
 
-#: js/basicblocks.js:502
-#: js/basicblocks.js:515
-#: js/basicblocks.js:561
-#: js/basicblocks.js:573
-#: js/basicblocks.js:588
+#: js/basicblocks.js:566
+#: js/basicblocks.js:579
+#: js/basicblocks.js:625
+#: js/basicblocks.js:637
+#: js/basicblocks.js:652
 msgid "number of notes"
 msgstr ""
 
-#: js/basicblocks.js:537
+#: js/basicblocks.js:567
+#: js/basicblocks.js:579
+#: js/basicblocks.js:591
+#: js/basicblocks.js:625
+#: js/basicblocks.js:637
+#: js/basicblocks.js:652
+#: js/basicblocks.js:758
+#: js/basicblocks.js:830
+#: js/basicblocks.js:941
+#: js/basicblocks.js:948
+#: js/basicblocks.js:955
+#: js/basicblocks.js:962
+#: js/basicblocks.js:969
+#: js/basicblocks.js:976
+#: js/basicblocks.js:983
+#: js/basicblocks.js:999
+#: js/basicblocks.js:1065
+#: js/pitchtimematrix.js:401
+#: js/pitchtimematrix.js:632
+#: js/pitchtimematrix.js:675
+#: js/pitchtimematrix.js:773
+#.TRANS: the value (e.g., 1/4 note) of the note being played.
+msgid "note value"
+msgstr ""
+
+#: js/basicblocks.js:601
 #.TRANS: A tuplet divided into 7 time values.
 msgid "septuplet"
 msgstr ""
 
-#: js/basicblocks.js:545
+#: js/basicblocks.js:609
 #.TRANS: A tuplet divided into 5 time values.
 msgid "quintuplet"
 msgstr ""
 
-#: js/basicblocks.js:553
+#: js/basicblocks.js:617
 #.TRANS: A tuplet divided into 3 time values.
 msgid "triplet"
 msgstr ""
 
-#: js/basicblocks.js:560
+#: js/basicblocks.js:624
 msgid "simple tuplet"
 msgstr ""
 
-#: js/basicblocks.js:611
+#: js/basicblocks.js:669
+#: js/basicblocks.js:1293
+#: js/macros.js:192
+#: js/modewidget.js:809
+#: js/synthutils.js:48
+#: js/musicutils.js:324
+#.TRANS: user-defined
+#.TRANS: customize voice
+msgid "custom"
+msgstr ""
+
+#: js/basicblocks.js:675
 #.TRANS: musical mode is the pattern of half-steps in an octave, e.g., Major or Minor modes
 msgid "custom mode"
 msgstr ""
 
-#: js/basicblocks.js:628
+#: js/basicblocks.js:692
 #.TRANS: makes a mapping between pitches and drum sounds
 msgid "pitch-drum mapper"
 msgstr ""
 
-#: js/basicblocks.js:636
+#: js/basicblocks.js:700
 #.TRANS: widget to generate pitches using a slider
 msgid "pitch slider"
 msgstr ""
 
-#: js/basicblocks.js:644
+#: js/basicblocks.js:708
 #.TRANS: generate a progressive sequence of pitches
 msgid "pitch staircase"
 msgstr ""
 
-#: js/basicblocks.js:652
-#: js/basicblocks.js:661
+#: js/basicblocks.js:716
+#: js/basicblocks.js:725
 #.TRANS: widget for subdividing a measure into distinct rhythmic elements
 msgid "rhythm ruler"
 msgstr ""
 
-#: js/basicblocks.js:669
+#: js/basicblocks.js:732
+msgid "G major scale"
+msgstr ""
+
+#: js/basicblocks.js:740
 #.TRANS: assigns pitch to a sequence of beats to generate a melody
 msgid "pitch-time matrix"
 msgstr ""
 
-#: js/basicblocks.js:711
+#: js/basicblocks.js:766
+#.TRANS: factor used in determining how many duplications to make
+msgid "duplicate factor"
+msgstr ""
+
+#: js/basicblocks.js:783
 #.TRANS: number of beats per minute
 msgid "beat factor"
 msgstr ""
 
-#: js/basicblocks.js:719
-#: js/basicblocks.js:777
+#: js/basicblocks.js:791
+#: js/basicblocks.js:863
+#: js/basicblocks.js:874
 #.TRANS: number of beats played per minute
 msgid "beats per minute"
 msgstr ""
 
-#: js/basicblocks.js:727
+#: js/basicblocks.js:799
 #.TRANS: oscillator time (in micro seconds)
 msgid "osctime"
 msgstr ""
 
-#: js/basicblocks.js:736
-#: js/basicblocks.js:746
-#: js/basicblocks.js:755
+#: js/basicblocks.js:808
+#: js/basicblocks.js:818
+#: js/basicblocks.js:827
 #.TRANS: swing is a rhythmic variation that emphasises the offbeat
 #.TRANS: swing is a rhythmic variation that emphasises the offbeat
 msgid "swing"
 msgstr ""
 
-#: js/basicblocks.js:757
+#: js/basicblocks.js:829
 #.TRANS: the amount to shift to the offbeat note
 msgid "swing value"
 msgstr ""
 
-#: js/basicblocks.js:769
-#.TRANS: master beats per minute controls BPM for all mice
+#: js/basicblocks.js:841
+#: js/basicblocks.js:853
+#.TRANS: sets tempo by defniing a beat and beats per minute
+#.TRANS: old block to set master tempo which doesn't set value of beat
 msgid "master beats per minute"
 msgstr ""
 
-#: js/basicblocks.js:786
+#: js/basicblocks.js:842
+#: js/basicblocks.js:864
+msgid "bpm"
+msgstr ""
+
+#: js/basicblocks.js:842
+#: js/basicblocks.js:864
+msgid "beat value"
+msgstr ""
+
+#: js/basicblocks.js:884
 #.TRANS: play music backward
 msgid "backward"
 msgstr ""
 
-#: js/basicblocks.js:794
+#: js/basicblocks.js:892
 #.TRANS: substitute rests on notes being skipped
 msgid "skip notes"
 msgstr ""
 
-#: js/basicblocks.js:803
+#: js/basicblocks.js:901
 #.TRANS: play each note more than once
 msgid "duplicate"
 msgstr ""
 
-#: js/basicblocks.js:812
+#: js/basicblocks.js:910
 #.TRANS: speed up note duration by some factor, e.g. convert 1/4 to 1/8 notes by using a factor of 2
 msgid "multiply note value"
 msgstr ""
 
-#: js/basicblocks.js:821
-#.TRANS: slow down note duration by some factor, e.g. convert 1/8 to 1/4 notes by using a factor of 2
-msgid "divide note value"
-msgstr ""
-
-#: js/basicblocks.js:830
+#: js/basicblocks.js:919
 #.TRANS: tie notes together into one longer note
 msgid "tie"
 msgstr ""
 
-#: js/basicblocks.js:838
+#: js/basicblocks.js:927
 #.TRANS: a dotted note is played for 1.5x its value, e.g., 1/8. --> 3/16
 msgid "dot"
 msgstr ""
 
-#: js/basicblocks.js:845
-#: js/rhythmruler.js:327
+#: js/basicblocks.js:934
+#: js/rhythmruler.js:303
+#: js/rhythmruler.js:416
 msgid "silence"
 msgstr ""
 
-#: js/basicblocks.js:866
+#: js/basicblocks.js:948
 msgid "392 hertz"
 msgstr ""
 
-#: js/basicblocks.js:907
+#: js/basicblocks.js:1010
 #.TRANS: don't lock notes to master clock
 msgid "no clock"
 msgstr ""
 
-#: js/basicblocks.js:915
+#: js/basicblocks.js:1018
 msgid "on offbeat do"
 msgstr ""
 
-#: js/basicblocks.js:925
+#: js/basicblocks.js:1028
 msgid "on beat"
 msgstr ""
 
-#: js/basicblocks.js:925
+#: js/basicblocks.js:1028
 msgid "beat"
 msgstr ""
 
-#: js/basicblocks.js:925
-#: js/basicblocks.js:2192
-#: js/basicblocks.js:2240
-#: js/basicblocks.js:2257
-#: js/basicblocks.js:2297
-#: js/basicblocks.js:2636
-#: js/basicblocks.js:2643
+#: js/basicblocks.js:1028
+#: js/basicblocks.js:2394
+#: js/basicblocks.js:2445
+#: js/basicblocks.js:2462
+#: js/basicblocks.js:2502
+#: js/basicblocks.js:2883
+#: js/basicblocks.js:2890
+#.TRANS: take (do) some action
 msgid "do"
 msgstr "करा"
 
-#: js/basicblocks.js:937
+#: js/basicblocks.js:1040
 #.TRANS: count of current measure in meter
 msgid "measure count"
 msgstr ""
 
-#: js/basicblocks.js:945
+#: js/basicblocks.js:1048
 #.TRANS: count of current beat in meter
 msgid "beat count"
 msgstr ""
 
-#: js/basicblocks.js:953
+#: js/basicblocks.js:1056
 #.TRANS: anacrusis
 msgid "pickup"
 msgstr ""
 
-#: js/basicblocks.js:962
+#: js/basicblocks.js:1065
 msgid "number of beats"
 msgstr ""
 
-#: js/basicblocks.js:973
+#: js/basicblocks.js:1076
 #.TRANS: count the number of notes
 msgid "note counter"
 msgstr ""
 
-#: js/basicblocks.js:981
+#: js/basicblocks.js:1084
 #.TRANS: number of whole notes that have been played
 msgid "whole notes played"
 msgstr ""
 
-#: js/basicblocks.js:989
+#: js/basicblocks.js:1092
 #.TRANS: number of notes that have been played
 msgid "notes played"
 msgstr ""
 
-#: js/basicblocks.js:1000
+#: js/basicblocks.js:1103
 #.TRANS: the duration of a note played as staccato
 msgid "staccato factor"
 msgstr ""
 
-#: js/basicblocks.js:1008
+#: js/basicblocks.js:1111
 #.TRANS: the degree of overlap of notes played as legato
 msgid "slur factor"
 msgstr ""
 
-#: js/basicblocks.js:1016
-#: js/timbre.js:880
+#: js/basicblocks.js:1119
+#: js/timbre.js:903
 #.TRANS: AM (amplitude modulation) synthesizer
 msgid "AM synth"
 msgstr ""
 
-#: js/basicblocks.js:1027
-#: js/timbre.js:880
+#: js/basicblocks.js:1130
+#: js/timbre.js:903
 #.TRANS: FM (frequency modulation) synthesizer
 msgid "FM synth"
 msgstr ""
 
-#: js/basicblocks.js:1039
-#: js/timbre.js:880
+#: js/basicblocks.js:1142
+#: js/timbre.js:903
 #.TRANS: a duo synthesizer combines a synth with a sequencer
 msgid "duo synth"
 msgstr ""
 
-#: js/basicblocks.js:1040
-#: js/timbre.js:1041
+#: js/basicblocks.js:1143
+#: js/timbre.js:1124
 msgid "vibrato rate"
 msgstr ""
 
-#: js/basicblocks.js:1040
+#: js/basicblocks.js:1143
 msgid "vibrato intensity"
 msgstr ""
 
-#: js/basicblocks.js:1059
+#: js/basicblocks.js:1156
+#: js/timbre.js:1518
 #.TRANS: distortion is an alteration in the sound
 msgid "distortion"
 msgstr ""
 
-#: js/basicblocks.js:1069
+#: js/basicblocks.js:1166
+#: js/timbre.js:1518
 #.TRANS: a wavering effect in a musical tone
 msgid "tremolo"
 msgstr ""
 
-#: js/basicblocks.js:1071
-#: js/basicblocks.js:1086
-#: js/basicblocks.js:1102
-#: js/basicblocks.js:1117
+#: js/basicblocks.js:1168
+#: js/basicblocks.js:1183
+#: js/basicblocks.js:1199
+#: js/basicblocks.js:1214
+#: js/timbre.js:1542
+#: js/timbre.js:1608
+#: js/timbre.js:1681
+#: js/timbre.js:1755
 #.TRANS: rate at which tremolo wavers
 msgid "rate"
 msgstr ""
 
-#: js/basicblocks.js:1073
-#: js/basicblocks.js:1102
+#: js/basicblocks.js:1170
+#: js/basicblocks.js:1199
+#: js/timbre.js:1545
+#: js/timbre.js:1687
 #.TRANS: amplitude of tremolo waver
 msgid "depth"
 msgstr ""
 
-#: js/basicblocks.js:1085
+#: js/basicblocks.js:1182
+#: js/timbre.js:1518
 #.TRANS: alter the phase of the sound
 msgid "phaser"
 msgstr ""
 
-#: js/basicblocks.js:1086
+#: js/basicblocks.js:1183
+#: js/timbre.js:1758
 msgid "octaves"
 msgstr ""
 
-#: js/basicblocks.js:1086
+#: js/basicblocks.js:1183
+#: js/timbre.js:1761
 msgid "base frequency"
 msgstr ""
 
-#: js/basicblocks.js:1101
+#: js/basicblocks.js:1198
+#: js/timbre.js:1518
 #.TRANS: musical effect to simulate a choral sound
 msgid "chorus"
 msgstr ""
 
-#: js/basicblocks.js:1102
+#: js/basicblocks.js:1199
 msgid "delay"
 msgstr ""
 
-#: js/basicblocks.js:1116
+#: js/basicblocks.js:1213
+#: js/timbre.js:1518
 #.TRANS: a rapid, slight variation in pitch
 msgid "vibrato"
 msgstr ""
 
-#: js/basicblocks.js:1117
+#: js/basicblocks.js:1214
+#: js/timbre.js:1607
 msgid "intensity"
 msgstr ""
 
-#: js/basicblocks.js:1128
+#: js/basicblocks.js:1225
 #.TRANS: select synthesizer
 msgid "set synth"
 msgstr ""
 
-#: js/basicblocks.js:1139
-#: js/basicblocks.js:1170
+#: js/basicblocks.js:1229
+#: js/macros.js:163
+#: js/synthutils.js:14
+#.TRANS: musical instrument
+msgid "violin"
+msgstr ""
+
+#: js/basicblocks.js:1236
+#: js/basicblocks.js:1256
 #.TRANS: legato: overlap successive notes
 #.TRANS: legato: overlap successive notes
 msgid "slur"
 msgstr ""
 
-#: js/basicblocks.js:1149
-#: js/basicblocks.js:1179
+#: js/basicblocks.js:1246
+#: js/basicblocks.js:1265
 #.TRANS: play each note sharply detached from the others
 #.TRANS: play each note sharply detached from the others
 msgid "staccato"
 msgstr ""
 
-#: js/basicblocks.js:1159
+#: js/basicblocks.js:1273
+msgid "synth name"
+msgstr ""
+
+#: js/basicblocks.js:1288
 #.TRANS: set the characteristics of a custom instrument
 msgid "set timbre"
 msgstr ""
 
-#: js/basicblocks.js:1229
-#: js/basicblocks.js:1295
-#: js/basicblocks.js:1345
-#: js/basicblocks.js:1395
-#: js/basicblocks.js:1445
-#.TRANS: the number of half-steps between notes
-msgid "interval"
+#: js/basicblocks.js:1301
+msgid "doubly"
 msgstr ""
 
-#: js/basicblocks.js:1241
-#: js/basicblocks.js:1248
-#: js/basicblocks.js:1255
-#: js/basicblocks.js:1262
-#: js/basicblocks.js:1269
-#: js/basicblocks.js:1276
-#: js/basicblocks.js:1284
-#: js/basicblocks.js:1294
-#.TRANS: the "augmented" interval in music
-#.TRANS: the "augmented" interval in music
+#: js/basicblocks.js:1318
+#.TRANS: measure the distance between two pitches in semi-tones
+msgid "semi-tone interval measure"
+msgstr ""
+
+#: js/basicblocks.js:1326
+#.TRANS: measure the distance between two pitches in scalar steps
+msgid "scalar interval measure"
+msgstr ""
+
+#: js/basicblocks.js:1333
+#: js/basicblocks.js:1340
+#: js/basicblocks.js:1347
+#: js/basicblocks.js:1354
+#: js/basicblocks.js:1361
+#: js/basicblocks.js:1368
+#: js/basicblocks.js:1375
+#: js/musicutils.js:126
+#: js/musicutils.js:130
+#: js/musicutils.js:134
+#: js/musicutils.js:137
+#: js/musicutils.js:140
+#: js/musicutils.js:144
+#: js/musicutils.js:148
+#: js/musicutils.js:262
+#.TRANS: modal scale for music
+msgid "diminished"
+msgstr ""
+
+#: js/basicblocks.js:1382
+#: js/basicblocks.js:1389
+#: js/basicblocks.js:1396
+#: js/basicblocks.js:1403
+#: js/basicblocks.js:1410
+#: js/basicblocks.js:1417
+#: js/basicblocks.js:1424
+#: js/basicblocks.js:1431
+#: js/musicutils.js:125
+#: js/musicutils.js:129
+#: js/musicutils.js:133
+#: js/musicutils.js:136
+#: js/musicutils.js:139
+#: js/musicutils.js:143
+#: js/musicutils.js:147
+#: js/musicutils.js:150
 msgid "augmented"
 msgstr ""
 
-#: js/basicblocks.js:1306
-#: js/basicblocks.js:1313
-#: js/basicblocks.js:1320
-#: js/basicblocks.js:1327
-#: js/basicblocks.js:1334
-#: js/basicblocks.js:1344
-#.TRANS: the "perfect" interval in music
+#: js/basicblocks.js:1438
+#: js/basicblocks.js:1445
+#: js/basicblocks.js:1452
+#: js/basicblocks.js:1459
+#: js/musicutils.js:135
+#: js/musicutils.js:138
+#: js/musicutils.js:149
+#: js/musicutils.js:358
 msgid "perfect"
 msgstr ""
 
-#: js/basicblocks.js:1356
-#: js/basicblocks.js:1363
-#: js/basicblocks.js:1370
-#: js/basicblocks.js:1377
-#: js/basicblocks.js:1384
-#: js/basicblocks.js:1394
-#.TRANS: the minor interval in music
+#: js/basicblocks.js:1468
+#: js/basicblocks.js:1475
+msgid "down minor"
+msgstr ""
+
+#: js/basicblocks.js:1482
+#: js/basicblocks.js:1489
+#: js/basicblocks.js:1496
+#: js/basicblocks.js:1503
+#: js/musicutils.js:127
+#: js/musicutils.js:131
+#: js/musicutils.js:141
+#: js/musicutils.js:145
 msgid "minor"
 msgstr ""
 
-#: js/basicblocks.js:1457
-#.TRANS: calculate a relative step between notes based on the current mode
-msgid "relative interval"
+#: js/basicblocks.js:1510
+#: js/basicblocks.js:1517
+msgid "down major"
 msgstr ""
 
-#: js/basicblocks.js:1466
-#: js/basicblocks.js:1488
+#: js/basicblocks.js:1553
+#.TRANS: calculate a relative step between notes based on semi-tones
+msgid "semi-tone interval"
+msgstr ""
+
+#: js/basicblocks.js:1635
+#.TRANS: calculate a relative step between notes based on the current mode
+msgid "scalar interval"
+msgstr ""
+
+#: js/basicblocks.js:1644
+msgid "movable"
+msgstr ""
+
+#: js/basicblocks.js:1652
+#.TRANS:  mode length is the number of notes in the mode, e.g., 7 for major and minor scales; 12 for chromatic scales
+msgid "mode length"
+msgstr ""
+
+#: js/basicblocks.js:1660
+#: js/basicblocks.js:1682
 #.TRANS: the key is a group of pitches with which a music composition is created
 #.TRANS: key, e.g., C in C Major
 msgid "key"
 msgstr ""
 
-#: js/basicblocks.js:1476
-#: js/basicblocks.js:1486
+#: js/basicblocks.js:1670
+#: js/basicblocks.js:1680
 #.TRANS: set the key and mode, e.g. C Major
 #.TRANS: set the key and mode, e.g. C Major
 msgid "set key"
 msgstr ""
 
-#: js/basicblocks.js:1668
+#: js/basicblocks.js:1700
+#: js/macros.js:89
+#: js/synthutils.js:97
+#.TRANS: animal sound effect
+msgid "duck"
+msgstr ""
+
+#: js/basicblocks.js:1707
+#: js/macros.js:61
+#: js/synthutils.js:91
+#.TRANS: animal sound effect
+msgid "cat"
+msgstr ""
+
+#: js/basicblocks.js:1714
+#: js/macros.js:68
+#: js/synthutils.js:93
+#.TRANS: animal sound effect
+msgid "cricket"
+msgstr ""
+
+#: js/basicblocks.js:1721
+#: js/macros.js:78
+#: js/synthutils.js:95
+#.TRANS: animal sound effect
+msgid "dog"
+msgstr ""
+
+#: js/basicblocks.js:1728
+#: js/macros.js:57
+#: js/synthutils.js:81
+#.TRANS: sound effect
+msgid "bottle"
+msgstr ""
+
+#: js/basicblocks.js:1735
+#: js/macros.js:60
+#: js/synthutils.js:89
+#.TRANS: sound effect
+msgid "bubbles"
+msgstr ""
+
+#: js/basicblocks.js:1742
+#: js/macros.js:62
+#: js/synthutils.js:75
+#.TRANS: a musically tuned set of bells
+msgid "chime"
+msgstr ""
+
+#: js/basicblocks.js:1749
+#: js/macros.js:63
+#: js/synthutils.js:77
+#.TRANS: sound effect
+msgid "clang"
+msgstr ""
+
+#: js/basicblocks.js:1756
+#: js/macros.js:64
+#: js/synthutils.js:83
+#.TRANS: sound effect
+msgid "clap"
+msgstr ""
+
+#: js/basicblocks.js:1763
+#: js/macros.js:173
+#: js/synthutils.js:85
+#.TRANS: sound effect
+msgid "slap"
+msgstr ""
+
+#: js/basicblocks.js:1770
+#: js/macros.js:66
+#: js/synthutils.js:79
+#.TRANS: sound effect
+msgid "crash"
+msgstr ""
+
+#: js/basicblocks.js:1777
+#: js/macros.js:176
+#: js/synthutils.js:87
+#.TRANS: sound effect
+msgid "splash"
+msgstr ""
+
+#: js/basicblocks.js:1784
+#: js/macros.js:65
+#: js/synthutils.js:69
+#.TRANS: musical instrument
+msgid "cow bell"
+msgstr ""
+
+#: js/basicblocks.js:1791
+#: js/macros.js:152
+#: js/synthutils.js:67
+#.TRANS: a small metal bell
+msgid "ride bell"
+msgstr ""
+
+#: js/basicblocks.js:1798
+#: js/macros.js:96
+#: js/synthutils.js:73
+#.TRANS: musical instrument
+msgid "finger cymbals"
+msgstr ""
+
+#: js/basicblocks.js:1805
+#: js/macros.js:195
+#: js/synthutils.js:71
+#.TRANS: musical instrument
+msgid "triangle bell"
+msgstr ""
+
+#: js/basicblocks.js:1812
+#: js/macros.js:102
+#: js/synthutils.js:65
+#.TRANS: musical instrument
+msgid "hi hat"
+msgstr ""
+
+#: js/basicblocks.js:1819
+#: js/macros.js:70
+#: js/synthutils.js:63
+#.TRANS: musical instrument
+msgid "darbuka drum"
+msgstr ""
+
+#: js/basicblocks.js:1826
+#: js/macros.js:69
+#: js/synthutils.js:61
+#.TRANS: a drum made from an inverted cup
+msgid "cup drum"
+msgstr ""
+
+#: js/basicblocks.js:1833
+#: js/macros.js:98
+#: js/synthutils.js:59
+#.TRANS: musical instrument
+msgid "floor tom tom"
+msgstr ""
+
+#: js/basicblocks.js:1840
+#: js/macros.js:193
+#: js/synthutils.js:57
+#.TRANS: musical instrument
+msgid "tom tom"
+msgstr ""
+
+#: js/basicblocks.js:1847
+#: js/macros.js:107
+#: js/macros.js:150
+#: js/macros.js:151
+#: js/synthutils.js:55
+#.TRANS: musical instrument
+msgid "kick drum"
+msgstr ""
+
+#: js/basicblocks.js:1854
+#: js/macros.js:112
+#: js/macros.js:150
+#: js/macros.js:151
+#: js/macros.js:175
+#: js/synthutils.js:53
+#.TRANS: musical instrument
+msgid "snare drum"
+msgstr ""
+
+#: js/basicblocks.js:1862
 #.TRANS: set the current drum sound for playback
 msgid "set drum"
 msgstr ""
 
-#: js/basicblocks.js:1687
+#: js/basicblocks.js:1881
 #.TRANS: orientation or compass direction
 msgid "heading"
 msgstr "शिर्षक"
 
-#: js/basicblocks.js:1695
-#: js/basicblocks.js:1720
-#: js/basicblocks.js:1733
-#: js/basicblocks.js:1746
-#: js/basicblocks.js:1780
+#: js/basicblocks.js:1889
+#: js/basicblocks.js:1914
+#: js/basicblocks.js:1927
+#: js/basicblocks.js:1940
+#: js/basicblocks.js:1974
 #.TRANS: y coordinate
 msgid "y"
 msgstr "y"
 
-#: js/basicblocks.js:1703
-#: js/basicblocks.js:1720
-#: js/basicblocks.js:1733
-#: js/basicblocks.js:1746
-#: js/basicblocks.js:1780
+#: js/basicblocks.js:1897
+#: js/basicblocks.js:1914
+#: js/basicblocks.js:1927
+#: js/basicblocks.js:1940
+#: js/basicblocks.js:1974
 #.TRANS: x coordinate
 msgid "x"
 msgstr "x"
 
-#: js/basicblocks.js:1719
+#: js/basicblocks.js:1905
+#: js/pitchdrummatrix.js:138
+#: js/pitchtimematrix.js:179
+#: js/rhythmruler.js:1173
+#: js/modewidget.js:72
+#.TRANS: erase the screen and return the mice to the center position
+#.TRANS: clear all subdivisions from the ruler.
+msgid "clear"
+msgstr "स्वच्छ"
+
+#: js/basicblocks.js:1913
 #.TRANS: control point in a bezier curve
 msgid "control point 2"
 msgstr ""
 
-#: js/basicblocks.js:1732
+#: js/basicblocks.js:1926
 #.TRANS: control point in a Bezier curve
 msgid "control point 1"
 msgstr ""
 
-#: js/basicblocks.js:1745
+#: js/basicblocks.js:1939
 #.TRANS: Bézier curves employ at least three points to define a curve
 msgid "bezier"
 msgstr ""
 
-#: js/basicblocks.js:1758
+#: js/basicblocks.js:1952
 #.TRANS: draws a part of the circumference of a circle
 msgid "arc"
 msgstr "कंस"
 
-#: js/basicblocks.js:1759
+#: js/basicblocks.js:1953
 msgid "angle"
 msgstr "कोन"
 
-#: js/basicblocks.js:1759
+#: js/basicblocks.js:1953
 msgid "radius"
 msgstr "त्रिज्या"
 
-#: js/basicblocks.js:1770
+#: js/basicblocks.js:1964
 #.TRANS: set compass heading
 msgid "set heading"
 msgstr "शीर्षक संच करा"
 
-#: js/basicblocks.js:1779
+#: js/basicblocks.js:1973
 #.TRANS: set xy position
 msgid "set xy"
 msgstr "संच xy"
 
-#: js/basicblocks.js:1791
+#: js/basicblocks.js:1985
+#: js/basicblocks.js:2675
 #: plugins/rodi.rtp:79
 #: plugins/rodi.rtp:344
 #: plugins/rodi.rtp:379
@@ -2201,7 +2233,8 @@ msgstr "संच xy"
 msgid "right"
 msgstr "उजव्या"
 
-#: js/basicblocks.js:1800
+#: js/basicblocks.js:1994
+#: js/basicblocks.js:2668
 #: plugins/rodi.rtp:81
 #: plugins/rodi.rtp:343
 #: plugins/rodi.rtp:366
@@ -2209,569 +2242,594 @@ msgstr "उजव्या"
 msgid "left"
 msgstr "डाव्या"
 
-#: js/basicblocks.js:1818
+#: js/basicblocks.js:2012
 #: plugins/rodi.rtp:73
 #: plugins/rodi.rtp:404
 #.TRANS: move forward (in the same direction of the current heading)
 msgid "forward"
 msgstr "पुढे"
 
-#: js/basicblocks.js:1830
-#: js/basicblocks.js:1874
+#: js/basicblocks.js:2024
+#: js/basicblocks.js:2068
 #.TRANS: set the background color
 msgid "background"
 msgstr "बैक्ग्राउन्ड / मागे / पार्श्वभूमी"
 
-#: js/basicblocks.js:1837
+#: js/basicblocks.js:2031
 msgid "grey"
 msgstr "राखाडी"
 
-#: js/basicblocks.js:1844
+#: js/basicblocks.js:2038
 msgid "shade"
 msgstr "सावली"
 
-#: js/basicblocks.js:1851
+#: js/basicblocks.js:2045
 msgid "color"
 msgstr "रंग"
 
-#: js/basicblocks.js:1858
+#: js/basicblocks.js:2052
 msgid "pen size"
 msgstr "पेन आकार"
 
-#: js/basicblocks.js:1865
+#: js/basicblocks.js:2059
 msgid "set font"
 msgstr ""
 
-#: js/basicblocks.js:1882
+#: js/basicblocks.js:2076
 #.TRANS: draw a line that has a hollow space down its center
 msgid "hollow line"
 msgstr ""
 
-#: js/basicblocks.js:1890
+#: js/basicblocks.js:2084
 #.TRANS: fill in as a solid color
 msgid "fill"
 msgstr ""
 
-#: js/basicblocks.js:1898
+#: js/basicblocks.js:2092
 #.TRANS: riase up the pen so that it does not draw when it is moved
 msgid "pen up"
 msgstr "लोखणी वर करा"
 
-#: js/basicblocks.js:1906
+#: js/basicblocks.js:2100
 #.TRANS: put down the pen so that it draws when it is moved
 msgid "pen down"
 msgstr "लोखणी खाली ठेवा"
 
-#: js/basicblocks.js:1914
+#: js/basicblocks.js:2108
 #.TRANS: set the width of the line drawn by the pen
 msgid "set pen size"
 msgstr "लोखणीचे आकार संच करा"
 
-#: js/basicblocks.js:1923
+#: js/basicblocks.js:2117
 #.TRANS: set degree of translucence of the pen color
 msgid "set translucency"
 msgstr ""
 
-#: js/basicblocks.js:1931
+#: js/basicblocks.js:2125
 msgid "set hue"
 msgstr ""
 
-#: js/basicblocks.js:1939
+#: js/basicblocks.js:2133
 msgid "set shade"
 msgstr "रंगाचा दर्जा निश्चीत करा"
 
-#: js/basicblocks.js:1948
+#: js/basicblocks.js:2142
 #.TRANS: set the level of vividness of the pen color
 msgid "set grey"
 msgstr "राखाडी संच करा"
 
-#: js/basicblocks.js:1956
+#: js/basicblocks.js:2150
 msgid "set color"
 msgstr "रंग संच करणे"
 
-#: js/basicblocks.js:1967
+#: js/basicblocks.js:2161
 #.TRANS: convert a real number to an integer
 msgid "int"
 msgstr ""
 
-#: js/basicblocks.js:2003
-msgid "and"
-msgstr "आणि"
-
-#: js/basicblocks.js:2010
-msgid "or"
-msgstr "किंवा"
-
-#: js/basicblocks.js:2017
+#: js/basicblocks.js:2170
 msgid "not"
 msgstr "नाही"
 
-#: js/basicblocks.js:2025
+#: js/basicblocks.js:2177
+msgid "and"
+msgstr "आणि"
+
+#: js/basicblocks.js:2184
+msgid "or"
+msgstr "किंवा"
+
+#: js/basicblocks.js:2224
 #.TRANS: evaluate some math functions, e.g., absolute value, sine, exponential, etc.
 msgid "eval"
 msgstr "मूल्यमापन"
 
-#: js/basicblocks.js:2037
+#: js/basicblocks.js:2237
 msgid "mod"
 msgstr ""
 
-#: js/basicblocks.js:2054
+#: js/basicblocks.js:2254
 msgid "sqrt"
 msgstr "वर्गमुळ"
 
-#: js/basicblocks.js:2063
+#: js/basicblocks.js:2263
 msgid "abs"
 msgstr ""
 
-#: js/basicblocks.js:2112
+#: js/basicblocks.js:2314
 msgid "one of"
 msgstr ""
 
-#: js/basicblocks.js:2112
+#: js/basicblocks.js:2314
 msgid "this"
 msgstr ""
 
-#: js/basicblocks.js:2112
+#: js/basicblocks.js:2314
 msgid "that"
 msgstr ""
 
-#: js/basicblocks.js:2123
+#: js/basicblocks.js:2325
 msgid "random"
 msgstr "कुटला पण"
 
-#: js/basicblocks.js:2123
+#: js/basicblocks.js:2325
 msgid "min"
 msgstr "किमान / कमीत कमी"
 
-#: js/basicblocks.js:2123
+#: js/basicblocks.js:2325
 msgid "max"
 msgstr "कमाल / जस्तिस जास्त"
 
-#: js/basicblocks.js:2138
+#: js/basicblocks.js:2340
 msgid "add 1 to"
 msgstr "१ जोड"
 
-#: js/basicblocks.js:2145
+#: js/basicblocks.js:2347
 msgid "add"
 msgstr "जोडा"
 
-#: js/basicblocks.js:2145
+#: js/basicblocks.js:2347
 #: plugins/finance.rtp:28
 msgid "to"
 msgstr "करण्यासाठी / च्यापर्यत"
 
-#: js/basicblocks.js:2145
-#: js/basicblocks.js:2170
-#: js/basicblocks.js:2435
-#: js/blocks.js:2503
+#: js/basicblocks.js:2347
+#: js/basicblocks.js:2372
+#: js/basicblocks.js:2640
+#: js/blocks.js:2586
 #: plugins/bitcoin.rtp:27
 msgid "value"
 msgstr "मूल्य"
 
-#: js/basicblocks.js:2202
+#: js/basicblocks.js:2405
+#.TRANS: return value from a function
 msgid "return"
 msgstr ""
 
-#: js/basicblocks.js:2212
+#: js/basicblocks.js:2416
+#.TRANS: return value from a function to a URL
 msgid "return to URL"
 msgstr ""
 
-#: js/basicblocks.js:2216
+#: js/basicblocks.js:2420
 msgid "100"
 msgstr ""
 
-#: js/basicblocks.js:2222
-#: js/basicblocks.js:2248
-#: js/basicblocks.js:2267
+#: js/basicblocks.js:2426
+#: js/basicblocks.js:2453
+#: js/basicblocks.js:2472
 msgid "calculate"
 msgstr ""
 
-#: js/basicblocks.js:2296
+#: js/basicblocks.js:2501
 #.TRANS: an event, such as user actions (mouse clicks, key presses)
 msgid "on"
 msgstr ""
 
-#: js/basicblocks.js:2297
-#: js/basicblocks.js:2301
-#: js/basicblocks.js:2313
+#: js/basicblocks.js:2502
+#: js/basicblocks.js:2506
+#: js/basicblocks.js:2518
 #.TRANS: a condition that is broadcast in order to trigger a listener to take an action
 msgid "event"
 msgstr ""
 
-#: js/basicblocks.js:2310
+#: js/basicblocks.js:2515
 #.TRANS: dispatch an event to trigger a listener
 msgid "broadcast"
 msgstr ""
 
-#: js/basicblocks.js:2355
+#: js/basicblocks.js:2560
 msgid "load heap from App"
 msgstr ""
 
-#: js/basicblocks.js:2366
+#: js/basicblocks.js:2571
 msgid "save heap to App"
 msgstr ""
 
-#: js/basicblocks.js:2377
+#: js/basicblocks.js:2582
 #: plugins/heap.rtp:126
 msgid "show heap"
 msgstr "ढीग दाखवा"
 
-#: js/basicblocks.js:2384
+#: js/basicblocks.js:2589
 msgid "heap length"
 msgstr ""
 
-#: js/basicblocks.js:2392
+#: js/basicblocks.js:2597
 #: plugins/heap.rtp:134
 msgid "heap empty?"
 msgstr ""
 
-#: js/basicblocks.js:2406
+#: js/basicblocks.js:2611
 #: plugins/heap.rtp:150
 msgid "save heap"
 msgstr "ढीग जतन करा"
 
-#: js/basicblocks.js:2415
+#: js/basicblocks.js:2620
 #: plugins/heap.rtp:160
 msgid "load heap"
 msgstr "लोड ढीग"
 
-#: js/basicblocks.js:2425
+#: js/basicblocks.js:2630
 #.TRANS: retrieve a value from the heap at index position in the heap
 msgid "index heap"
 msgstr ""
 
-#: js/basicblocks.js:2435
+#: js/basicblocks.js:2640
 #.TRANS: set a value in the heap
 msgid "set heap"
 msgstr ""
 
-#: js/basicblocks.js:2435
+#: js/basicblocks.js:2640
 msgid "index"
 msgstr ""
 
-#: js/basicblocks.js:2446
+#: js/basicblocks.js:2651
 #: plugins/heap.rtp:118
 msgid "pop"
 msgstr ""
 
-#: js/basicblocks.js:2453
+#: js/basicblocks.js:2658
 #: plugins/heap.rtp:109
 msgid "push"
 msgstr "ढकलणे"
 
-#: js/basicblocks.js:2464
+#: js/basicblocks.js:2682
+msgid "top"
+msgstr ""
+
+#: js/basicblocks.js:2689
+msgid "bottom"
+msgstr ""
+
+#: js/basicblocks.js:2696
+msgid "width"
+msgstr ""
+
+#: js/basicblocks.js:2703
+msgid "height"
+msgstr ""
+
+#: js/basicblocks.js:2711
 #.TRANS: stops playback of an audio recording
 msgid "stop play"
 msgstr "खेळणे / चालणे थांबवा"
 
-#: js/basicblocks.js:2473
+#: js/basicblocks.js:2720
 #.TRANS: play an audio recording
 msgid "play back"
 msgstr ""
 
-#: js/basicblocks.js:2481
+#: js/basicblocks.js:2728
 msgid "speak"
 msgstr "बोलणे"
 
-#: js/basicblocks.js:2509
+#: js/basicblocks.js:2756
 msgid "stop media"
 msgstr "मीडिया थांबवा"
 
-#: js/basicblocks.js:2516
+#: js/basicblocks.js:2763
 msgid "duration (ms)"
 msgstr ""
 
-#: js/basicblocks.js:2527
+#: js/basicblocks.js:2774
 #.TRANS: translate a note into hertz, e.g., A4 -> 440HZ
 msgid "note to frequency"
 msgstr ""
 
-#: js/basicblocks.js:2539
+#: js/basicblocks.js:2786
 #.TRANS: Shell is the shell of a turtle (used as a metaphor for changing the appearance of a sprite)
 msgid "shell"
 msgstr "शेल"
 
-#: js/basicblocks.js:2539
-#: js/basicblocks.js:2551
+#: js/basicblocks.js:2786
+#: js/basicblocks.js:2798
 msgid "size"
 msgstr "आकार"
 
-#: js/basicblocks.js:2539
+#: js/basicblocks.js:2786
 msgid "image"
 msgstr "प्रतिमा"
 
-#: js/basicblocks.js:2551
+#: js/basicblocks.js:2798
 msgid "obj"
 msgstr ""
 
-#: js/basicblocks.js:2591
-#.TRANS: the default case used in a switch statement in programming
-msgid "default"
-msgstr ""
-
-#: js/basicblocks.js:2599
+#: js/basicblocks.js:2846
 #.TRANS: the case statement used in a switch statement in programming
 msgid "case"
 msgstr ""
 
-#: js/basicblocks.js:2608
+#: js/basicblocks.js:2855
 #.TRANS: the switch statement used in programming
 msgid "switch"
 msgstr ""
 
-#: js/basicblocks.js:2622
+#: js/basicblocks.js:2869
 #: plugins/rodi.rtp:31
 #: plugins/rodi.rtp:75
 #: plugins/rodi.rtp:417
 msgid "stop"
 msgstr "थांबा"
 
-#: js/basicblocks.js:2629
+#: js/basicblocks.js:2876
 msgid "wait for"
 msgstr "प्रतीक्षा करा"
 
-#: js/basicblocks.js:2636
+#: js/basicblocks.js:2883
 msgid "until"
 msgstr "जोपर्यंत"
 
-#: js/basicblocks.js:2643
+#: js/basicblocks.js:2890
 msgid "while"
 msgstr "ज्यावेळी"
 
-#: js/basicblocks.js:2650
-#: js/basicblocks.js:2657
+#: js/basicblocks.js:2897
+#: js/basicblocks.js:2904
 msgid "if"
 msgstr "जर"
 
-#: js/basicblocks.js:2650
-#: js/basicblocks.js:2657
+#: js/basicblocks.js:2897
+#: js/basicblocks.js:2904
 msgid "then"
 msgstr "नंतर"
 
-#: js/basicblocks.js:2650
+#: js/basicblocks.js:2897
 msgid "else"
 msgstr "इतर"
 
-#: js/basicblocks.js:2664
+#: js/basicblocks.js:2911
 msgid "forever"
 msgstr "कायमचे"
 
-#: js/basicblocks.js:2671
+#: js/basicblocks.js:2918
 msgid "repeat"
 msgstr "पुन्हा"
 
-#: js/basicblocks.js:2683
-#: js/basicblocks.js:2694
-#: js/basicblocks.js:2703
-#: js/basicblocks.js:2713
-#: js/basicblocks.js:2721
-#: js/basicblocks.js:2730
-#: js/basicblocks.js:2740
+#: js/basicblocks.js:2930
+#: js/basicblocks.js:2941
+#: js/basicblocks.js:2950
+#: js/basicblocks.js:2960
+#: js/basicblocks.js:2968
+#: js/basicblocks.js:2977
+#: js/basicblocks.js:2987
 msgid "unknown"
 msgstr "अज्ञात"
 
-#: js/basicblocks.js:2750
+#: js/basicblocks.js:2997
 msgid "save as ABC"
 msgstr ""
 
-#: js/basicblocks.js:2753
-#: js/basicblocks.js:2762
-#: js/basicblocks.js:2771
+#: js/basicblocks.js:3000
+#: js/basicblocks.js:3009
+#: js/basicblocks.js:3018
 msgid "title"
 msgstr "शीर्षक"
 
-#: js/basicblocks.js:2759
+#: js/basicblocks.js:3006
 msgid "save as lilypond"
 msgstr ""
 
-#: js/basicblocks.js:2768
+#: js/basicblocks.js:3015
 msgid "save svg"
 msgstr "SVG जतन करा"
 
-#: js/basicblocks.js:2777
+#: js/basicblocks.js:3024
 msgid "no background"
 msgstr ""
 
-#: js/basicblocks.js:2784
+#: js/basicblocks.js:3031
 msgid "show blocks"
 msgstr "ब्लॉक्स दाखवा"
 
-#: js/basicblocks.js:2791
+#: js/basicblocks.js:3038
 msgid "hide blocks"
 msgstr "ब्लॉक्स लपवा"
 
-#: js/basicblocks.js:2798
+#: js/basicblocks.js:3045
 msgid "open project"
 msgstr ""
 
-#: js/basicblocks.js:2822
+#: js/basicblocks.js:3069
 msgid "wait"
 msgstr "थांबा"
 
-#: js/basicblocks.js:2830
+#: js/basicblocks.js:3077
 msgid "print"
 msgstr "छापणे"
 
-#: js/basicblocks.js:2834
+#: js/basicblocks.js:3081
 msgid "Music Blocks"
 msgstr ""
 
-#: js/basicblocks.js:2849
+#: js/basicblocks.js:3096
 msgid "loudness"
 msgstr "जॊरत"
 
-#: js/basicblocks.js:2857
+#: js/basicblocks.js:3104
 msgid "click"
 msgstr ""
 
-#: js/basicblocks.js:2865
+#: js/basicblocks.js:3112
 #: plugins/rodi.rtp:223
 msgid "blue"
 msgstr ""
 
-#: js/basicblocks.js:2872
+#: js/basicblocks.js:3119
 #: plugins/rodi.rtp:222
 msgid "green"
 msgstr ""
 
-#: js/basicblocks.js:2879
+#: js/basicblocks.js:3126
 #: plugins/rodi.rtp:221
 msgid "red"
 msgstr ""
 
-#: js/basicblocks.js:2886
+#: js/basicblocks.js:3133
 #: plugins/rodi.rtp:220
 msgid "pixel color"
 msgstr "पिक्सेल रंग"
 
-#: js/basicblocks.js:2893
+#: js/basicblocks.js:3140
 msgid "time"
 msgstr "वेळ"
 
-#: js/basicblocks.js:2900
+#: js/basicblocks.js:3147
 msgid "cursor y"
 msgstr ""
 
-#: js/basicblocks.js:2908
+#: js/basicblocks.js:3155
 msgid "cursor x"
 msgstr ""
 
-#: js/basicblocks.js:2916
+#: js/basicblocks.js:3163
 msgid "mouse button"
 msgstr "माऊस बटण"
 
-#: js/basicblocks.js:2923
+#: js/basicblocks.js:3170
 msgid "to ASCII"
 msgstr ""
 
-#: js/basicblocks.js:2930
+#: js/basicblocks.js:3177
 msgid "keyboard"
 msgstr "किबोर्ड"
 
-#: js/basicblocks.js:2939
+#: js/basicblocks.js:3186
 msgid "stop mouse"
 msgstr ""
 
-#: js/basicblocks.js:2943
-#: js/basicblocks.js:2952
-#: js/basicblocks.js:2962
-#: js/basicblocks.js:2972
-#: js/basicblocks.js:2982
-#: js/basicblocks.js:2992
-#: js/basicblocks.js:3002
-#: js/basicblocks.js:3012
-#: js/basicblocks.js:3022
-#: js/basicblocks.js:3031
-#: js/basicblocks.js:3040
-#: js/basicblocks.js:3061
-#: js/basicblocks.js:3071
+#: js/basicblocks.js:3190
+#: js/basicblocks.js:3199
+#: js/basicblocks.js:3209
+#: js/basicblocks.js:3219
+#: js/basicblocks.js:3229
+#: js/basicblocks.js:3239
+#: js/basicblocks.js:3249
+#: js/basicblocks.js:3259
+#: js/basicblocks.js:3269
+#: js/basicblocks.js:3278
+#: js/basicblocks.js:3287
+#: js/basicblocks.js:3308
+#: js/basicblocks.js:3318
 msgid "Mr. Mouse"
 msgstr ""
 
-#: js/basicblocks.js:2948
+#: js/basicblocks.js:3195
 msgid "start mouse"
 msgstr ""
 
-#: js/basicblocks.js:2958
+#: js/basicblocks.js:3205
 #.TRANS: pen color for this mouse
 msgid "mouse color"
 msgstr ""
 
-#: js/basicblocks.js:2968
+#: js/basicblocks.js:3215
 #.TRANS: heading (compass direction) for this mouse
 msgid "mouse heading"
 msgstr ""
 
-#: js/basicblocks.js:2978
+#: js/basicblocks.js:3225
 #.TRANS: y position for this mouse
 msgid "mouse y"
 msgstr "माऊस y"
 
-#: js/basicblocks.js:2988
+#: js/basicblocks.js:3235
 #.TRANS: x position for this mouse
 msgid "mouse x"
 msgstr "माऊस x"
 
-#: js/basicblocks.js:2998
+#: js/basicblocks.js:3245
 #.TRANS: notes played by this mouse
 msgid "mouse notes played"
 msgstr ""
 
-#: js/basicblocks.js:3008
+#: js/basicblocks.js:3255
 #.TRANS: convert current note for this turtle to piano key (1-88)
 msgid "mouse pitch number"
 msgstr ""
 
-#: js/basicblocks.js:3017
-#: js/basicblocks.js:3027
+#: js/basicblocks.js:3264
+#: js/basicblocks.js:3274
 msgid "mouse note value"
 msgstr ""
 
-#: js/basicblocks.js:3036
+#: js/basicblocks.js:3283
 msgid "mouse sync"
 msgstr ""
 
-#: js/basicblocks.js:3045
-#: js/basicblocks.js:3053
-#: js/basicblocks.js:3067
+#: js/basicblocks.js:3292
+#: js/basicblocks.js:3300
+#: js/basicblocks.js:3314
 msgid "mouse name"
 msgstr ""
 
-#: js/basicblocks.js:3054
+#: js/basicblocks.js:3301
 #: plugins/translate.rtp:95
 #: plugins/turtle.rtp:83
 msgid "source"
 msgstr "स्रोत"
 
-#: js/basicblocks.js:3055
+#: js/basicblocks.js:3302
 #: plugins/translate.rtp:95
 #: plugins/turtle.rtp:84
 msgid "target"
 msgstr "लक्ष्य"
 
-#: js/basicblocks.js:3078
+#: js/basicblocks.js:3325
 #.TRANS: the volume at which notes are played
-msgid "note volume"
+msgid "master volume"
 msgstr ""
 
-#: js/basicblocks.js:3142
-#: js/basicblocks.js:3151
+#: js/basicblocks.js:3389
+#: js/basicblocks.js:3401
+#.TRANS: a rapid, slight variation in pitch
 #.TRANS: set the loudness level
-#.TRANS: set the loudness level
-msgid "set volume"
+msgid "set synth volume"
 msgstr ""
 
-#: js/basicblocks.js:3161
+#: js/basicblocks.js:3389
+#: js/basicblocks.js:3401
+msgid "synth"
+msgstr ""
+
+#: js/basicblocks.js:3412
+#: js/basicblocks.js:3421
+#.TRANS: set the loudness level
+#.TRANS: set the loudness level
+msgid "set master volume"
+msgstr ""
+
+#: js/basicblocks.js:3431
 #.TRANS: set an articulation (change in volume)
 msgid "set relative volume"
 msgstr ""
 
-#: js/basicblocks.js:3170
+#: js/basicblocks.js:3440
 #.TRANS: a gradual increase in loudness
 msgid "crescendo"
 msgstr ""
 
-#: js/utilitybox.js:109
+#: js/utilitybox.js:142
 msgid "Disable scrolling"
 msgstr ""
 
@@ -2780,84 +2838,89 @@ msgstr ""
 #: js/tempo.js:212
 #: js/tempo.js:217
 #: js/tempo.js:217
-#: js/rhythmruler.js:801
-#: js/rhythmruler.js:801
-#: js/rhythmruler.js:1318
-#: js/rhythmruler.js:1318
+#: js/rhythmruler.js:826
+#: js/rhythmruler.js:826
+#: js/rhythmruler.js:1342
+#: js/rhythmruler.js:1342
 msgid "pause"
 msgstr ""
 
 #: js/playback.js:31
 #: js/playback.js:31
 #: js/playback.js:71
-#: js/rhythmruler.js:771
-#: js/rhythmruler.js:771
-#: js/rhythmruler.js:1091
+#: js/rhythmruler.js:796
+#: js/rhythmruler.js:796
+#: js/rhythmruler.js:1115
 #: js/modewidget.js:60
 msgid "play all"
 msgstr ""
 
-#: js/timbre.js:510
-msgid "synthesizer"
+#: js/playback.js:77
+#: js/status.js:58
+#: js/pitchdrummatrix.js:144
+#: js/pitchslider.js:213
+#: js/pitchtimematrix.js:194
+#: js/timbre.js:684
+#: js/tempo.js:234
+#: js/rhythmruler.js:1178
+#: js/modewidget.js:102
+#: js/pitchstaircase.js:460
+msgid "close"
 msgstr ""
 
-#: js/timbre.js:597
-msgid "effects"
+#: js/playback.js:87
+#: js/status.js:67
+#: js/pitchdrummatrix.js:153
+#: js/pitchslider.js:230
+#: js/pitchtimematrix.js:209
+#: js/timbre.js:692
+#: js/tempo.js:249
+#: js/rhythmruler.js:1216
+#: js/modewidget.js:111
+#: js/pitchstaircase.js:478
+msgid "drag"
 msgstr ""
 
-#: js/timbre.js:640
-msgid "add filter"
+#: js/playback.js:203
+#: js/pitchdrummatrix.js:125
+#: js/pitchtimematrix.js:168
+#: js/timbre.js:522
+#: js/tempo.js:221
+#: js/tempo.js:221
+#: js/rhythmruler.js:1313
+#: js/rhythmruler.js:1321
+#: js/rhythmruler.js:1321
+#: js/pitchstaircase.js:83
+#: plugins/rodi.rtp:195
+msgid "play"
 msgstr ""
 
-#: js/timbre.js:656
-#: js/rhythmruler.js:1137
-#: js/modewidget.js:96
-#: js/pitchstaircase.js:455
-msgid "undo"
-msgstr ""
-
-#: js/timbre.js:927
-msgid "harmonicity"
-msgstr ""
-
-#: js/timbre.js:984
-msgid "modulation index"
-msgstr ""
-
-#: js/timbre.js:1042
-msgid "vibrato amount"
-msgstr ""
-
-#: js/savebox.js:89
+#: js/savebox.js:104
 msgid "Save as .tb"
 msgstr ""
 
-#: js/savebox.js:97
+#: js/savebox.js:114
 msgid "Save as .svg"
 msgstr ""
 
-#: js/savebox.js:105
+#: js/savebox.js:124
 msgid "Save as .png"
 msgstr ""
 
-#: js/savebox.js:113
+#: js/savebox.js:134
+msgid "Save as .wav"
+msgstr ""
+
+#: js/savebox.js:144
 msgid "Upload to Planet"
 msgstr ""
 
-#: js/savebox.js:130
+#: js/savebox.js:163
 msgid "Share on Facebook"
 msgstr ""
 
-#: js/savebox.js:140
+#: js/savebox.js:175
 msgid "Save block artwork"
-msgstr ""
-
-#: js/tempo.js:324
-msgid "speed up"
-msgstr ""
-
-#: js/tempo.js:340
-msgid "slow down"
 msgstr ""
 
 #: js/lilypond.js:16
@@ -2952,46 +3015,132 @@ msgstr ""
 msgid "bt"
 msgstr ""
 
-#: js/rhythmruler.js:133
-#: js/rhythmruler.js:133
-#: js/rhythmruler.js:288
-#: js/rhythmruler.js:288
-#: js/rhythmruler.js:757
-#: js/rhythmruler.js:757
-#: js/rhythmruler.js:1143
-#.TRANS: user can tap out a rhythm by clicking on a ruler.
-msgid "tap a rhythm"
+#: js/blocks.js:308
+msgid "Save stack"
+msgstr "स्टॅक जतन करा"
+
+#: js/blocks.js:2837
+#: js/blocks.js:2863
+msgid "There is no block is selected."
 msgstr ""
 
-#: js/rhythmruler.js:1102
-msgid "save rhythms"
-msgstr ""
-
-#: js/rhythmruler.js:1107
-msgid "save drum machine"
-msgstr ""
-
-#: js/playbackbox.js:70
-#: js/playbackbox.js:78
+#: js/playbackbox.js:79
+#: js/playbackbox.js:87
 #.TRANS: playback in the case refers to playing back music that has been preprocessed.
 msgid "playback music"
 msgstr ""
 
-#: js/playbackbox.js:83
+#: js/playbackbox.js:92
 #.TRANS: playback in the case refers to playing back music that has been preprocessed.
 msgid "pause playback"
 msgstr ""
 
-#: js/playbackbox.js:92
-#: js/playbackbox.js:101
+#: js/playbackbox.js:103
+#: js/playbackbox.js:112
 #.TRANS: playback in the case refers to playing back music that has been preprocessed.
 #.TRANS: playback in the case refers to playing back music that has been preprocessed.
 msgid "restart playback"
 msgstr ""
 
-#: js/playbackbox.js:106
+#: js/playbackbox.js:119
 #.TRANS: playback in the case refers to playing back music that has been preprocessed.
 msgid "prepare music for playback"
+msgstr ""
+
+#: js/pitchdrummatrix.js:132
+#: js/pitchtimematrix.js:174
+#: js/timbre.js:528
+#: js/modewidget.js:66
+#: js/pitchstaircase.js:422
+msgid "save"
+msgstr ""
+
+#: js/pitchslider.js:387
+msgid "move up"
+msgstr ""
+
+#: js/pitchslider.js:401
+msgid "move down"
+msgstr ""
+
+#: js/pitchtimematrix.js:184
+msgid "export"
+msgstr ""
+
+#: js/pitchtimematrix.js:189
+msgid "sort"
+msgstr ""
+
+#: js/pitchtimematrix.js:653
+#: js/pitchtimematrix.js:782
+msgid "tuplet value"
+msgstr ""
+
+#: js/timbre.js:533
+msgid "synthesizer"
+msgstr ""
+
+#: js/timbre.js:620
+msgid "effects"
+msgstr ""
+
+#: js/timbre.js:663
+msgid "add filter"
+msgstr ""
+
+#: js/timbre.js:679
+#: js/rhythmruler.js:1161
+#: js/modewidget.js:96
+#: js/pitchstaircase.js:455
+msgid "undo"
+msgstr ""
+
+#: js/timbre.js:950
+msgid "harmonicity"
+msgstr ""
+
+#: js/timbre.js:1007
+#: js/timbre.js:1067
+msgid "modulation index"
+msgstr ""
+
+#: js/timbre.js:1125
+msgid "vibrato amount"
+msgstr ""
+
+#: js/timbre.js:1684
+msgid "delay (MS)"
+msgstr ""
+
+#: js/timbre.js:1828
+msgid "distortion amount"
+msgstr ""
+
+#: js/tempo.js:324
+msgid "speed up"
+msgstr ""
+
+#: js/tempo.js:340
+msgid "slow down"
+msgstr ""
+
+#: js/rhythmruler.js:131
+#: js/rhythmruler.js:131
+#: js/rhythmruler.js:286
+#: js/rhythmruler.js:286
+#: js/rhythmruler.js:782
+#: js/rhythmruler.js:782
+#: js/rhythmruler.js:1167
+#.TRANS: user can tap out a rhythm by clicking on a ruler.
+msgid "tap a rhythm"
+msgstr ""
+
+#: js/rhythmruler.js:1126
+msgid "save rhythms"
+msgstr ""
+
+#: js/rhythmruler.js:1131
+msgid "save drum machine"
 msgstr ""
 
 #: js/modewidget.js:78
@@ -3008,6 +3157,287 @@ msgstr ""
 
 #: js/pitchstaircase.js:401
 msgid "play scale"
+msgstr ""
+
+#: js/synthutils.js:16
+#.TRANS: musical instrument
+msgid "cello"
+msgstr ""
+
+#: js/synthutils.js:18
+#.TRANS: musical instrument
+msgid "bass"
+msgstr ""
+
+#: js/synthutils.js:20
+#.TRANS: musical instrument
+msgid "guitar"
+msgstr ""
+
+#: js/synthutils.js:22
+#.TRANS: musical instrument
+msgid "flute"
+msgstr ""
+
+#: js/synthutils.js:26
+#.TRANS: simple monotone synthesizer
+msgid "simple 1"
+msgstr ""
+
+#: js/synthutils.js:28
+#.TRANS: simple monotone synthesizer
+msgid "simple 2"
+msgstr ""
+
+#: js/synthutils.js:30
+#.TRANS: simple monotone synthesizer
+msgid "simple 3"
+msgstr ""
+
+#: js/synthutils.js:32
+#.TRANS: simple monotone synthesizer
+msgid "simple 4"
+msgstr ""
+
+#: js/synthutils.js:34
+#.TRANS: white noise synthesizer
+msgid "white noise"
+msgstr ""
+
+#: js/synthutils.js:36
+#.TRANS: brown noise synthesizer
+msgid "brown noise"
+msgstr ""
+
+#: js/synthutils.js:38
+#.TRANS: pink noise synthesizer
+msgid "pink noise"
+msgstr ""
+
+#: js/musicutils.js:259
+#.TRANS: twelve semi-tone scale for music
+msgid "chromatic"
+msgstr ""
+
+#: js/musicutils.js:260
+msgid "algerian"
+msgstr ""
+
+#: js/musicutils.js:263
+msgid "spanish"
+msgstr ""
+
+#: js/musicutils.js:265
+#.TRANS: modal scale for music
+msgid "octatonic"
+msgstr ""
+
+#: js/musicutils.js:269
+#.TRANS: harmonic major scale in music
+msgid "harmonic major"
+msgstr ""
+
+#: js/musicutils.js:271
+#.TRANS: natural minor scales in music
+msgid "natural minor"
+msgstr ""
+
+#: js/musicutils.js:273
+#.TRANS: harmonic minor scale in music
+msgid "harmonic minor"
+msgstr ""
+
+#: js/musicutils.js:275
+#.TRANS: melodic minor scale in music
+msgid "melodic minor"
+msgstr ""
+
+#: js/musicutils.js:277
+#.TRANS: modal scale for music
+msgid "ionian"
+msgstr ""
+
+#: js/musicutils.js:279
+#.TRANS: modal scale for music
+msgid "dorian"
+msgstr ""
+
+#: js/musicutils.js:281
+#.TRANS: modal scale for music
+msgid "phrygian"
+msgstr ""
+
+#: js/musicutils.js:283
+#.TRANS: modal scale for music
+msgid "lydian"
+msgstr ""
+
+#: js/musicutils.js:285
+#.TRANS: modal scale for music
+msgid "mixolydian"
+msgstr ""
+
+#: js/musicutils.js:287
+#.TRANS: modal scale for music
+msgid "aeolian"
+msgstr ""
+
+#: js/musicutils.js:289
+#.TRANS: modal scale for music
+msgid "locrian"
+msgstr ""
+
+#: js/musicutils.js:291
+#.TRANS: minor jazz scale for music
+msgid "jazz minor"
+msgstr ""
+
+#: js/musicutils.js:293
+#.TRANS: bebop scale for music
+msgid "bebop"
+msgstr ""
+
+#: js/musicutils.js:294
+msgid "arabic"
+msgstr ""
+
+#: js/musicutils.js:295
+msgid "byzantine"
+msgstr ""
+
+#: js/musicutils.js:297
+#.TRANS: musical scale for music by Verdi
+msgid "enigmatic"
+msgstr ""
+
+#: js/musicutils.js:298
+msgid "ethiopian"
+msgstr ""
+
+#: js/musicutils.js:300
+#.TRANS: Ethiopic scale for music
+msgid "geez"
+msgstr ""
+
+#: js/musicutils.js:301
+msgid "hindu"
+msgstr ""
+
+#: js/musicutils.js:302
+msgid "hungarian"
+msgstr ""
+
+#: js/musicutils.js:304
+#.TRANS: minor Romanian scale for music
+msgid "romanian minor"
+msgstr ""
+
+#: js/musicutils.js:305
+msgid "spanish gypsy"
+msgstr ""
+
+#: js/musicutils.js:307
+#.TRANS: musical scale for Mid-Eastern music
+msgid "maqam"
+msgstr ""
+
+#: js/musicutils.js:309
+#.TRANS: minor blues scale for music
+msgid "minor blues"
+msgstr ""
+
+#: js/musicutils.js:311
+#.TRANS: major blues scale for music
+msgid "major blues"
+msgstr ""
+
+#: js/musicutils.js:312
+msgid "whole tone"
+msgstr ""
+
+#: js/musicutils.js:314
+#.TRANS: pentatonic scale in music
+msgid "minor pentatonic"
+msgstr ""
+
+#: js/musicutils.js:315
+msgid "chinese"
+msgstr ""
+
+#: js/musicutils.js:316
+msgid "egyptian"
+msgstr ""
+
+#: js/musicutils.js:318
+#.TRANS: Japanese pentatonic scale for music
+msgid "hirajoshi (Japan)"
+msgstr ""
+
+#: js/musicutils.js:319
+msgid "in (Japan)"
+msgstr ""
+
+#: js/musicutils.js:320
+msgid "minyo (Japan)"
+msgstr ""
+
+#: js/musicutils.js:321
+msgid "japanese"
+msgstr ""
+
+#: js/musicutils.js:323
+#.TRANS: Italian mathematician
+msgid "fibonacci"
+msgstr ""
+
+#: js/musicutils.js:332
+#.TRANS: lowpass filter
+msgid "lowpass"
+msgstr ""
+
+#: js/musicutils.js:334
+#.TRANS: bandpass filter
+msgid "bandpass"
+msgstr ""
+
+#: js/musicutils.js:336
+#.TRANS: highshelf filter
+msgid "highshelf"
+msgstr ""
+
+#: js/musicutils.js:338
+#.TRANS: lowshelf filter
+msgid "lowshelf"
+msgstr ""
+
+#: js/musicutils.js:340
+#.TRANS: notch filter
+msgid "notch"
+msgstr ""
+
+#: js/musicutils.js:342
+#.TRANS: allpass filter
+msgid "allpass"
+msgstr ""
+
+#: js/musicutils.js:344
+#.TRANS: peaking filter
+msgid "peaking"
+msgstr ""
+
+#: js/musicutils.js:1441
+#: js/musicutils.js:1461
+msgid "next"
+msgstr ""
+
+#: js/musicutils.js:1444
+#: js/musicutils.js:1466
+msgid "previous"
+msgstr ""
+
+#: js/musicutils.js:1447
+#: js/musicutils.js:1470
+msgid "current"
 msgstr ""
 
 #: plugins/finance.rtp:28
@@ -3374,6 +3804,11 @@ msgstr ""
 #~msgid "Mixolydian"
 #~msgstr ""
 
+#: js/turtledefs.js:81
+
+#~msgid "Click to run the project in slow mode."
+#~msgstr "प्रकल्प मंद पणे चालण्या साठी इकडे दाबा"
+
 #: js/basicblocks.js:298
 
 #~msgid "turtle note"
@@ -3384,14 +3819,19 @@ msgstr ""
 #~msgid "Jazz Minor"
 #~msgstr ""
 
-#: js/basicblocks.js:612
+#: js/basicblocks.js:596
 
-#~msgid "fifths"
+#~msgid "fourths"
 #~msgstr ""
 
-#: js/basicblocks.js:901
+#: js/turtledefs.js:79
 
-#~msgid "divide beat value"
+#~msgid "This toolbar contains the palette buttons, including Rhythm Pitch Tone Turtle and more."
+#~msgstr ""
+
+#: js/basicblocks.js:893
+
+#~msgid "divide note value"
 #~msgstr ""
 
 #~msgid "mashape"
@@ -3404,21 +3844,22 @@ msgstr ""
 #~msgid "mi"
 #~msgstr ""
 
+#: js/turtledefs.js:87
+
+#~msgid "Hide or show the block palettes."
+#~msgstr "ब्लॉक आणि पॅलेट दाखवा/लपवा"
+
+#: js/activity.js:2712
+
+#~msgid "Run fast / long press to run slowly"
+#~msgstr ""
+
 #~msgid "vspace"
 #~msgstr ""
 
 #: js/musicutils.js:253
 
 #~msgid "Fibonacci"
-#~msgstr ""
-
-#: js/musicutils.js:345
-
-#: js/basicblocks.js:1635
-
-#: js/macros.js:38
-
-#~msgid "chine"
 #~msgstr ""
 
 #: plugins/rodi.rtp:169
@@ -3446,9 +3887,11 @@ msgstr ""
 #~msgid "denominator"
 #~msgstr ""
 
-#: js/basicblocks.js:615
+#: js/basicblocks.js:3142
 
-#~msgid "duplicate factor"
+#: js/basicblocks.js:3151
+
+#~msgid "set volume"
 #~msgstr ""
 
 #: plugins/rodi.rtp:91
@@ -3461,17 +3904,27 @@ msgstr ""
 #~msgid "Hindu"
 #~msgstr ""
 
-#: js/basicblocks.js:153
+#: js/musicutils.js:226
 
-#~msgid "turtle pitch number"
+#~msgid "Arabic"
+#~msgstr ""
+
+#: js/logo.js:2177
+
+#: js/logo.js:7716
+
+#: js/logo.js:7851
+
+#: js/logo.js:7911
+
+#: js/logo.js:8031
+
+#: js/logo.js:8059
+
+#~msgid "Could not find turtle"
 #~msgstr ""
 
 #~msgid "cloud"
-#~msgstr ""
-
-#: js/musicutils.js:243
-
-#~msgid "Major Blues"
 #~msgstr ""
 
 #: js/musicutils.js:234
@@ -3489,14 +3942,34 @@ msgstr ""
 #~msgid "Impact UID not found."
 #~msgstr ""
 
+#: js/logo.js:2688
+
+#~msgid "turtleHeaps does not contain a valid heap for"
+#~msgstr ""
+
+#: js/turtledefs.js:98
+
+#~msgid "You can also use Alt+C to copy a stack of blocks. "
+#~msgstr ""
+
 #: js/musicutils.js:229
 
 #~msgid "Enigmatic"
 #~msgstr ""
 
-#: js/basicblocks.js:596
+#: js/basicblocks.js:612
 
-#~msgid "fourths"
+#~msgid "fifths"
+#~msgstr ""
+
+#: js/activity.js:3066
+
+#~msgid "Home' + ' [HOME]"
+#~msgstr ""
+
+#: js/basicblocks.js:703
+
+#~msgid "set voice"
 #~msgstr ""
 
 #: plugins/impact.rtp:32
@@ -3515,6 +3988,16 @@ msgstr ""
 #~msgid "multiply beat value"
 #~msgstr ""
 
+#: js/turtledefs.js:99
+
+#~msgid "You can also use Alt+P to paste a stack of blocks. "
+#~msgstr ""
+
+#: js/musicutils.js:291
+
+#~msgid "pentatonic"
+#~msgstr ""
+
 #: js/musicutils.js:244
 
 #~msgid "Whole Tone"
@@ -3526,9 +4009,21 @@ msgstr ""
 #~msgid "eatme"
 #~msgstr "मला खावा"
 
+#: js/turtledefs.js:82
+
+#~msgid "Click to run just the music in slow mode."
+#~msgstr ""
+
 #: js/musicutils.js:251
 
 #~msgid "Japanese"
+#~msgstr ""
+
+#: js/logo.js:4945
+
+#: js/logo.js:4966
+
+#~msgid "Input to Augmented Block must be 1, 2, 3, 4, 5, 6, 7, or 8"
 #~msgstr ""
 
 #: js/logo.js:3626
@@ -3543,6 +4038,11 @@ msgstr ""
 #~msgid "Cannot parse Impact data."
 #~msgstr ""
 
+#: js/activity.js:2699
+
+#~msgid "Run fast / long press to run slowly / extra-long press to run music slowly"
+#~msgstr ""
+
 #: js/musicutils.js:246
 
 #~msgid "Pentatonic"
@@ -3551,6 +4051,13 @@ msgstr ""
 #: js/musicutils.js:236
 
 #~msgid "Romanian Minor"
+#~msgstr ""
+
+#: js/logo.js:4992
+
+#: js/logo.js:5014
+
+#~msgid "Input to Major Block must be 2, 3, 6, or 7"
 #~msgstr ""
 
 #: js/basicblocks.js:712
@@ -3576,6 +4083,11 @@ msgstr ""
 #~msgid "turtle note value"
 #~msgstr ""
 
+#: js/musicutils.js:286
+
+#~msgid "blues"
+#~msgstr ""
+
 #: js/turtledefs.js:76
 
 #~msgid "Mr. Mouse is our Music Blocks conductor. Mr. Mouse encourages you to explore Music Blocks. Let us start our tour!"
@@ -3586,6 +4098,11 @@ msgstr ""
 #: js/palette.js:1796
 
 #~msgid "re"
+#~msgstr ""
+
+#: js/basicblocks.js:901
+
+#~msgid "divide beat value"
 #~msgstr ""
 
 #: js/basicblocks.js:605
@@ -3601,6 +4118,11 @@ msgstr ""
 #~msgid "maths"
 #~msgstr "गणित"
 
+#: js/turtledefs.js:80
+
+#~msgid "Click to run the project in fast mode."
+#~msgstr "प्रकल्प वागने चालण्या साठी इकडे दाबा"
+
 #: js/musicutils.js:308
 
 #~msgid "basse"
@@ -3611,14 +4133,24 @@ msgstr ""
 #~msgid "Dorian"
 #~msgstr ""
 
+#: js/turtledefs.js:79
+
+#~msgid "This toolbar contains the palette buttons Matrix Notes Tone Turtle and more."
+#~msgstr ""
+
 #: js/basicblocks.js:579
 
 #~msgid "440 hertz"
 #~msgstr ""
 
-#: js/musicutils.js:211
+#: js/basicblocks.js:282
 
-#~msgid "Phrygian"
+#~msgid "adjust transposition"
+#~msgstr ""
+
+#: js/basicblocks.js:145
+
+#~msgid "consonant step down"
 #~msgstr ""
 
 #: js/musicutils.js:254
@@ -3652,9 +4184,22 @@ msgstr ""
 #~msgid "Lydian"
 #~msgstr ""
 
+#: js/basicblocks.js:831
+
+#~msgid "numerator"
+#~msgstr ""
+
 #: js/musicutils.js:198
 
 #~msgid "Algerian"
+#~msgstr ""
+
+#~msgid "set beats per minute"
+#~msgstr ""
+
+#: js/musicutils.js:295
+
+#~msgid "hirajoshi"
 #~msgstr ""
 
 #: plugins/impact.rtp:63
@@ -3663,11 +4208,6 @@ msgstr ""
 
 #~msgid "Impact data not available."
 #~msgstr ""
-
-#: js/turtledefs.js:134
-
-#~msgid "Show or hide a Cartesian-coordinate grid."
-#~msgstr "कार्टेशियन-समन्वय ग्रीड दाखवा/लपवा"
 
 #: js/basicblocks.js:589
 
@@ -3692,14 +4232,18 @@ msgstr ""
 #~msgid "Note value must be greater than 0"
 #~msgstr ""
 
-#: js/basicblocks.js:1370
+#: js/basicblocks.js:505
 
-#~msgid "pluck"
+#~msgid "pitchslider"
 #~msgstr ""
 
-#: plugins/impact.rtp:32
+#: js/musicutils.js:345
 
-#~msgid "UID"
+#: js/basicblocks.js:1635
+
+#: js/macros.js:38
+
+#~msgid "chine"
 #~msgstr ""
 
 #: js/musicutils.js:230
@@ -3715,12 +4259,22 @@ msgstr ""
 #~msgid "see distance"
 #~msgstr ""
 
+#: js/turtledefs.js:99
+
+#~msgid "It appears after a long press on a stack."
+#~msgstr ""
+
 #: js/turtledefs.js:97
 
 #~msgid "The save-stack button saves a stack onto a custom palette. It appears after a \"long press\" on a stack."
 #~msgstr ""
 
 #~msgid "end hollow line"
+#~msgstr ""
+
+#: plugins/impact.rtp:32
+
+#~msgid "UID"
 #~msgstr ""
 
 #: plugins/rodi.rtp:30
@@ -3749,14 +4303,19 @@ msgstr ""
 #~msgid "sense right"
 #~msgstr ""
 
-#: js/basicblocks.js:505
+#: js/musicutils.js:211
 
-#~msgid "pitchslider"
+#~msgid "Phrygian"
 #~msgstr ""
 
-#: js/basicblocks.js:703
+#: js/basicblocks.js:153
 
-#~msgid "set voice"
+#~msgid "consonant step up"
+#~msgstr ""
+
+#: js/basicblocks.js:1370
+
+#~msgid "pluck"
 #~msgstr ""
 
 #: js/logo.js:1982
@@ -3766,6 +4325,11 @@ msgstr ""
 
 #~msgid "end fill"
 #~msgstr "भरायची अंत"
+
+#: js/turtledefs.js:99
+
+#~msgid "The save-stack button saves a stack onto a custom palette."
+#~msgstr ""
 
 #: js/musicutils.js:237
 
@@ -3785,12 +4349,26 @@ msgstr ""
 #~msgid "pitch-drum matrix"
 #~msgstr ""
 
+#: js/logo.js:4898
+
+#: js/logo.js:4919
+
+#~msgid "Input to Diminished Block must be 1, 2, 3, 4, 5, 6, 7, or 8"
+#~msgstr ""
+
 #: js/musicutils.js:207
 
 #~msgid "Ionian"
 #~msgstr ""
 
-#~msgid "set beats per minute"
+#: js/basicblocks.js:347
+
+#~msgid "step pitch"
+#~msgstr ""
+
+#: js/activity.js:2789
+
+#~msgid "Long press on block(s) to copy. Click here to paste."
 #~msgstr ""
 
 #: js/musicutils.js:197
@@ -3798,9 +4376,28 @@ msgstr ""
 #~msgid "Chromatic"
 #~msgstr ""
 
-#: js/musicutils.js:226
+#: js/logo.js:4851
 
-#~msgid "Arabic"
+#: js/logo.js:4872
+
+#~msgid "Input to Perfect Block must be 1, 4, 5, or 8"
+#~msgstr ""
+
+#: js/logo.js:5040
+
+#: js/logo.js:5061
+
+#~msgid "Input to Minor Block must be 2, 3, 6, or 7"
+#~msgstr ""
+
+#: js/basicblocks.js:3078
+
+#~msgid "note volume"
+#~msgstr ""
+
+#: js/basicblocks.js:153
+
+#~msgid "turtle pitch number"
 #~msgstr ""
 
 #: js/basicblocks.js:83
@@ -3813,6 +4410,11 @@ msgstr ""
 #~msgid "hours ago"
 #~msgstr ""
 
+#: js/basicblocks.js:1457
+
+#~msgid "relative interval"
+#~msgstr ""
+
 #: js/musicutils.js:239
 
 #~msgid "Maqam"
@@ -3823,14 +4425,29 @@ msgstr ""
 #~msgid "Aeolian"
 #~msgstr ""
 
+#: js/musicutils.js:243
+
+#~msgid "Major Blues"
+#~msgstr ""
+
+#: js/logo.js:2175
+
+#: js/logo.js:7714
+
+#: js/logo.js:7849
+
+#: js/logo.js:7909
+
+#: js/logo.js:8029
+
+#: js/logo.js:8057
+
+#~msgid "Could not find mouse"
+#~msgstr ""
+
 #: js/pitchdrummatrix.js:141
 
 #~msgid "Solfa"
-#~msgstr ""
-
-#: js/basicblocks.js:831
-
-#~msgid "numerator"
 #~msgstr ""
 
 #: js/turtledefs.js:21
@@ -3849,6 +4466,11 @@ msgstr ""
 #: js/palette.js:1796
 
 #~msgid "sol"
+#~msgstr ""
+
+#: js/musicutils.js:310
+
+#~msgid "poly"
 #~msgstr ""
 
 #~msgid "This toolbar contains the palette buttons Matrix, Note, Tone, Turtle, and more. Click to show the palettes of blocks and drag blocks from the palettes onto the canvas to use them."
@@ -3903,6 +4525,24 @@ msgstr ""
 
 #~msgid "Blues"
 #~msgstr ""
+
+#: js/basicblocks.js:1397
+
+#: js/basicblocks.js:1480
+
+#: js/basicblocks.js:1534
+
+#: js/basicblocks.js:1601
+
+#: js/basicblocks.js:1668
+
+#~msgid "interval"
+#~msgstr ""
+
+#: js/turtledefs.js:134
+
+#~msgid "Show or hide a Cartesian-coordinate grid."
+#~msgstr "कार्टेशियन-समन्वय ग्रीड दाखवा/लपवा"
 
 #: plugins/impact.rtp:32
 

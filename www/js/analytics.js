@@ -23,7 +23,6 @@ const TACAT = {
     'rhythmicdot': 'rhythm',
     'tie': 'rhythm',
     'multiplybeatfactor': 'rhythm',
-    'dividebeatfactor': 'rhythm',
     'skipnotes': 'rhythm',
     'duplicatenotes': 'rhythm',
     'backward': 'rhythm',
@@ -255,6 +254,12 @@ const TACAT = {
     'speak': 'media',
     'sinewave': 'media',
     'description': 'media',
+    'leftpos': 'media',
+    'rightpos': 'media',
+    'toppos': 'media',
+    'bottompos': 'media',
+    'width': 'media',
+    'height': 'media',
 
     'savepix': 'ignore',
     'savesvg': 'ignore',
@@ -405,7 +410,6 @@ function analyzeProject(blocks) {
 	    }
             break;
         case 'note':
-        case 'dividebeatfactor':
         case 'multiplybeatfactor':
         case 'duplicatenotes':
         case 'skipnotes':

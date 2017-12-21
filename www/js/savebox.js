@@ -10,16 +10,30 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, 51 Franklin Street, Suite 500 Boston, MA 02110-1335 USA
 
-
-const SAVEBOXSVG = '<svg xmlns="http://www.w3.org/2000/svg" height="133" width="420" version="1.1"> <rect style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none" y="0" x="0" height="133" width="420" /> <g style="fill:#000000;display:block" transform="translate(365,0)"> <path style="fill:#000000;display:inline" d="m 27.557,5.053 c -12.43,0 -22.5,10.076 -22.5,22.497 0,12.432 10.07,22.503 22.5,22.503 12.431,0 22.5,-10.071 22.5,-22.503 0,-12.421 -10.07,-22.497 -22.5,-22.497 z m 10.199,28.159 c 1.254,1.256 1.257,3.291 0,4.545 -0.628,0.629 -1.451,0.943 -2.274,0.943 -0.822,0 -1.644,-0.314 -2.27,-0.94 l -5.76,-5.761 -5.76,5.761 c -0.627,0.626 -1.449,0.94 -2.271,0.94 -0.823,0 -1.647,-0.314 -2.275,-0.943 -1.254,-1.254 -1.254,-3.289 0.004,-4.545 l 5.758,-5.758 -5.758,-5.758 c -1.258,-1.254 -1.258,-3.292 -0.004,-4.546 1.255,-1.254 3.292,-1.259 4.546,0 l 5.76,5.759 5.76,-5.759 c 1.252,-1.259 3.288,-1.254 4.544,0 1.257,1.254 1.254,3.292 0,4.546 l -5.758,5.758 5.758,5.758 z" /> </g> <rect style="fill:#92b5c8;fill-opacity:1;stroke:none" y="51" x="0" height="82" width="420" /> <rect y="0.75" x="0.75" height="131.5" width="418.5" style="display:inline;visibility:visible;opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;" /></svg>';
-
 function SaveBox () {
+    const BOXBUTTONOFFSET = 40;
+    const BOXBUTTONSPACING = 65;
+
+    if (_THIS_IS_MUSIC_BLOCKS_) {
+        // 7 buttons, 6 intrabuttons spaces, 2 extrabutton spaces
+        var boxwidth = 7 * 55 + 6 * 10 + 2 * 20;
+    } else {
+        // 6 buttons, 5 intrabuttons spaces, 2 extrabutton spaces
+        var boxwidth = 6 * 55 + 5 * 10 + 2 * 20;
+    }
+
+    var boxwidth2 = boxwidth - 1.5;
+    var boxclose = boxwidth - 55;
+
+    const SAVEBOXSVG = '<svg xmlns="http://www.w3.org/2000/svg" height="133" width="' + boxwidth + '" version="1.1"> <rect style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none" y="0" x="0" height="133" width="' + boxwidth + '" /> <g style="fill:#000000;display:block" transform="translate(' + boxclose + ',-1)"> <path style="fill:#000000;display:inline" d="m 27.5,5.0 c -12.43,0 -22.5,10.0 -22.5,22.5 0,12.5 10.0,22.5 22.5,22.5 12.5,0 22.5,-10.0 22.5,-22.5 0,-12.5 -10.0,-22.5 -22.5,-22.5 z m 10.0,28.0 c 1.25,1.25 1.25,3.25 0,4.5 -0.5,0.5 -1.5,1.0 -2.25,1.0 -1.0,0 -1.5,-0.25 -2.25,-1.0 l -5.75,-5.75 -5.75,5.75 c -0.5,0.5 -1.5,1.0 -2.25,1.0 -1.0,0 -1.5,-0.25 -2.25,-1.0 -1.25,-1.25 -1.25,-3.25 0.0,-4.5 l 5.75,-5.75 -5.75,-5.75 c -1.25,-1.25 -1.25,-3.25 -0.0,-4.5 1.25,-1.25 3.25,-1.25 4.5,0 l 5.75,5.75 5.75,-5.75 c 1.25,-1.25 3.25,-1.25 4.5,0 1.25,1.25 1.25,3.25 0,4.5 l -5.75,5.75 5.75,5.75 z" /> </g> <rect style="fill:#92b5c8;fill-opacity:1;stroke:none" y="51" x="0" height="82" width="' + boxwidth + '" /> <rect y="0.75" x="0.75" height="131.5" width="' + boxwidth2 + '" style="display:inline;visibility:visible;opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;" /></svg>';
+
     this._canvas = null;
     this._stage = null;
     this._refreshCanvas = null;
     this._doSaveTB = null;
     this._doSaveSVG = null;
     this._doSavePNG = null;
+    this._doSaveWAV = null;
     this._doUploadToPlanet = null;
     this._doShareOnFacebook = null;
     this._doSaveBlockArtwork = null;
@@ -56,6 +70,11 @@ function SaveBox () {
         return this;
     };
 
+    this.setSaveWAV = function (doSaveWAV) {
+        this._doSaveWAV = doSaveWAV;
+        return this;
+    };
+
     this.setSaveFB = function (doSaveFB) {
         this._doShareOnFacebook = doSaveFB;
         return this;
@@ -86,7 +105,9 @@ function SaveBox () {
             this.createBox(scale, x, y);
             var that = this;
 
-            this.saveTB = makeButton('save-tb', _('Save as .tb'), this._container.x + 50, this._container.y + 85, 55, 0, this._stage);
+            var dx = BOXBUTTONOFFSET;
+
+            this.saveTB = makeButton('save-tb', _('Save as .tb'), this._container.x + dx, this._container.y + 85, 55, 0, this._stage);
             this.saveTB.visible = true;
             this.positionHoverText(this.saveTB);
             this.saveTB.on('click', function(event) {
@@ -94,7 +115,9 @@ function SaveBox () {
                 that._doSaveTB();
             });
 
-            this.saveSVG = makeButton('save-svg', _('Save as .svg'), this._container.x + 115, this._container.y + 85, 55, 0, this._stage);
+            dx += BOXBUTTONSPACING;
+
+            this.saveSVG = makeButton('save-svg', _('Save as .svg'), this._container.x + dx, this._container.y + 85, 55, 0, this._stage);
             this.saveSVG.visible = true;
             this.positionHoverText(this.saveSVG);
             this.saveSVG.on('click', function(event) {
@@ -102,7 +125,9 @@ function SaveBox () {
                 that._doSaveSVG();
             });
 
-            this.savePNG = makeButton('save-png-inactive', _('Save as .png'), this._container.x + 180, this._container.y + 85, 55, 0, this._stage);
+            dx += BOXBUTTONSPACING;
+
+            this.savePNG = makeButton('save-png', _('Save as .png'), this._container.x + dx, this._container.y + 85, 55, 0, this._stage);
             this.savePNG.visible = true;
             this.positionHoverText(this.savePNG);
             this.savePNG.on('click', function(event) {
@@ -110,7 +135,22 @@ function SaveBox () {
                 that._doSavePNG();
             });
 
-            this.uploadToPlanet = makeButton('upload-planet', _('Upload to Planet'), this._container.x + 245, this._container.y + 85, 55, 0, this._stage);
+            dx += BOXBUTTONSPACING;
+
+            if (_THIS_IS_MUSIC_BLOCKS_) {
+                this.saveWAV = makeButton('save-wav', _('Save as .wav'), this._container.x + dx, this._container.y + 85, 55, 0, this._stage);
+                this.saveWAV.visible = true;
+                this.positionHoverText(this.saveWAV);
+                this.saveWAV.on('click', function(event) {
+                    that.hide();
+                    that._doSaveWAV();
+                });
+
+                dx += BOXBUTTONSPACING;
+            }
+
+
+            this.uploadToPlanet = makeButton('upload-planet', _('Upload to Planet'), this._container.x + dx, this._container.y + 85, 55, 0, this._stage);
             this.uploadToPlanet.visible = true;
             this.positionHoverText(this.uploadToPlanet);
             this.uploadToPlanet.on('click', function(event) {
@@ -118,8 +158,10 @@ function SaveBox () {
                 that._doUploadToPlanet();
             });
 
+            dx += BOXBUTTONSPACING;
+
             if (_THIS_IS_MUSIC_BLOCKS_) {
-                this.saveLilypond = makeButton('save-lilypond', _('Save sheet music'), this._container.x + 310, this._container.y + 85, 55, 0, this._stage);
+                this.saveLilypond = makeButton('save-lilypond', _('Save sheet music'), this._container.x + dx, this._container.y + 85, 55, 0, this._stage);
                 this.saveLilypond.visible = true;
                 this.positionHoverText(this.saveLilypond);
                 this.saveLilypond.on('click', function(event) {
@@ -127,7 +169,7 @@ function SaveBox () {
                     that._doSaveLilypond();
                 });
             } else {
-                this.shareOnFb = makeButton('fb-inactive', _('Share on Facebook'), this._container.x + 310, this._container.y + 85, 55, 0, this._stage);
+                this.shareOnFb = makeButton('fb-inactive', _('Share on Facebook'), this._container.x + dx, this._container.y + 85, 55, 0, this._stage);
                 this.shareOnFb.visible = true;
                 this.positionHoverText(this.shareOnFb);
                 this.shareOnFb.on('click', function(event) {
@@ -137,7 +179,9 @@ function SaveBox () {
                 });
             }
 
-            this.saveBlockArtwork = makeButton('save-block-artwork', _('Save block artwork'), this._container.x + 375, this._container.y + 85, 55, 0, this._stage);
+            dx += BOXBUTTONSPACING;
+
+            this.saveBlockArtwork = makeButton('save-block-artwork', _('Save block artwork'), this._container.x + dx, this._container.y + 85, 55, 0, this._stage);
             this.saveBlockArtwork.visible = true;
             this.positionHoverText(this.saveBlockArtwork, true);
             this.saveBlockArtwork.on('click', function(event) {
@@ -171,10 +215,15 @@ function SaveBox () {
             this.saveSVG.visible = false;
             this.savePNG.visible = false;
             this.uploadToPlanet.visible = false;
-            // this.shareOnFb.visible = false;
             this.saveBlockArtwork.visible = false;
-            this.saveLilypond.visible = false;
-            this._container.visible = false;
+            if (_THIS_IS_MUSIC_BLOCKS_) {
+                this.saveWAV.visible = false;
+                this.saveLilypond.visible = false;
+            } else {
+		this.shareOnFb.visible = false;
+            }
+
+	    this._container.visible = false;
             this._refreshCanvas();
         }
     };
@@ -185,9 +234,13 @@ function SaveBox () {
             this.saveSVG.visible = true;
             this.savePNG.visible = true;
             this.uploadToPlanet.visible = true;
-            // this.shareOnFb.visible = true;
             this.saveBlockArtwork.visible = true;
-            this.saveLilypond.visible = true;
+            if (_THIS_IS_MUSIC_BLOCKS_) {
+                this.saveWAV.visible = true;
+                this.saveLilypond.visible = true;
+            } else {
+                this.shareOnFb.visible = true;
+            }
             this._container.visible = true;
             this._refreshCanvas();
         }
@@ -212,8 +265,8 @@ function SaveBox () {
         if (this._container == null) {
             this._container = new createjs.Container();
             this._stage.addChild(this._container);
-            this._container.x = Math.floor(((this._canvas.width / scale) - 180) / 2);
-            this._container.y = 55;
+            this._container.x = x - boxwidth;
+            this._container.y = y;
             this._makeBoxBitmap(SAVEBOXSVG, 'box', __processBackground, null);
         }
     };
@@ -246,7 +299,7 @@ function SaveBox () {
             setTimeout(function() {
                 locked = false;
             }, 500);
-            
+
             var x = (event.stageX / that._scale) - that._container.x;
             var y = (event.stageY / that._scale) - that._container.y;
             if (y < 55) {

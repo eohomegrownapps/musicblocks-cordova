@@ -1,3 +1,31 @@
+#search[type=text] {
+    width: 400px;
+    box-sizing: border-box;
+    position: absolute;
+    background-color: white;
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+#search:focus {
+    border: 2px solid #87CEFA;
+}
+
+.ui-menu {
+  position: relative;
+  background-color: rgba(255,255,255,0.5);
+  max-width: 200px;
+}
+
+.scrollSearch {
+    max-height: 150px;
+    margin-bottom: 10px;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
 #popdown-palette {
     display: none;
     position: absolute;
@@ -90,7 +118,7 @@ div.back:active {
 }
 
 .canvasHolder.hide {
-    transform: scale(0.24);
+    transform: scale(0.2375);
     top: 117px;
     left: 1%;
     width: 100vw;
@@ -169,12 +197,14 @@ nav ul li {
 .content {
     padding: 0px;
     margin: 0px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .content li {
     display: block;
     list-style: none;
-    width: 24%;
+    width: 23.75%;
     float: left;
     padding-left: 1%;
 }
@@ -185,14 +215,14 @@ nav ul li {
 
 @media (max-width: 500px) {
     .content li {
-    width: 49%;
+    width: 48.5%;
     padding-left: 1%;
     }
-    
+
     .canvasHolder.hide {
-    transform: scale(0.49);
+    transform: scale(0.485);
     }
-    
+
     nav h1 {
     display: none;
     }
@@ -203,7 +233,7 @@ nav ul li {
     width: 32%;
     padding-left: 1%;
     }
-    
+
     .canvasHolder.hide {
     transform: scale(0.32);
     }
@@ -226,6 +256,10 @@ nav ul li {
 .planet-content h2 {
     color: #212121;
     clear: both;
+}
+
+.projectname {
+    word-wrap: break-word;
 }
 
 img.icon {
@@ -276,6 +310,16 @@ input.text {
 
 input.drum {
     background-color: #00a09a !important; /* */
+    text-align: center;
+    font-weight: bold !important;
+    resize: none !important;
+    padding: 0 !important;
+    border: 0 !important;
+    width: 100px;
+}
+
+input.boolean {
+    background-color: #f2ec4d !important; /* */
     text-align: center;
     font-weight: bold !important;
     resize: none !important;
@@ -936,7 +980,7 @@ table {
   text-align: center;
   margin-left: 60px;
   margin-top: 20px;
-  
+
 }
 
 #sS0, #sS1{

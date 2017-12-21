@@ -14,6 +14,8 @@ const NUMBERBLOCKDEFAULT = 4;
 
 const DEFAULTPALETTE = 'rhythm';
 
+const TITLESTRING = _('Music Blocks is a collection of tools for exploring musical concepts.');
+
 // We don't include 'extras' since we want to be able to delete
 // plugins from the extras palette.
 BUILTINPALETTES = ['rhythm', 'pitch', 'meter', 'tone', 'intervals', 'volume', 'drum', 'flow', 'action', 'boxes', 'widgets', 'mouse', 'pen', 'number', 'boolean', 'media', 'sensors', 'heap', 'mice', 'extras'];
@@ -22,7 +24,7 @@ const BUILTINPALETTESFORL23N = [_('rhythm'), _('pitch'), _('meter'), _('tone'), 
 
 
 function getMainToolbarButtonNames(name) {
-    return (['popdown-palette', 'run', 'step', 'step-music', 'stop-turtle', 'clear', 'palette', 'hide-blocks', 'collapse-blocks', 'go-home', 'help'].indexOf(name) > -1);
+    return (['popdown-palette', 'run', 'step', 'step-music', 'stop-turtle', 'hard-stop-turtle', 'clear', 'palette', 'hide-blocks', 'collapse-blocks', 'go-home', 'help', 'sugarizer-stop'].indexOf(name) > -1);
 };
 
 
@@ -72,17 +74,18 @@ function createHelpContent() {
     HELPCONTENT = [
         [_('Welcome to Music Blocks'), _('Music Blocks is a collection of manipulative tools for exploring fundamental musical concepts in an integrative and fun way.'), 'activity/activity-icon-mouse-color.svg'],
         [_('Meet Mr. Mouse!'), _('Mr Mouse is our Music Blocks conductor.') + ' ' + _('Mr Mouse encourages you to explore Music Blocks.') + ' ' + _('Let us start our tour!'), 'activity/activity-icon-mouse-color.svg'],
-        //.TRANS: Please add commas to list: Matrix, Notes, Tone, Turtle, and more.
 	//.TRANS: the buttons used to open various palettes of blocks
-        [_('Palette buttons'), _('This toolbar contains the palette buttons Matrix Notes Tone Turtle and more.') + ' ' + _('Click to show the palettes of blocks and drag blocks from the palettes onto the canvas to use them.'), 'images/icons.svg'],
-        [_('Run fast'), _('Click to run the project in fast mode.'), 'header-icons/fast-button.svg'],
-        [_('Run slow'), _('Click to run the project in slow mode.'), 'header-icons/slow-button.svg'],
-        [_('Run music slow'), _('Click to run just the music in slow mode.'), 'header-icons/slow-music-button.svg'],
+        [_('Palette buttons'),
+        //.TRANS: Please add commas to list: Rhythm, Pitch, Tone, Action, and more.
+	 _('This toolbar contains the palette buttons, including Rhythm Pitch Tone Action and more.') + ' ' + _('Click to show the palettes of blocks and drag blocks from the palettes onto the canvas to use them.'), 'images/icons.svg'],
+        [_('Play music'), _('Click to run the music note by note.') + ' ' + _('Alternatively, you can hit the ENTER or RETURN key.'), 'header-icons/play-button.svg'],
+        [_('Run fast'), _('Click the run button to run the project in fast mode.'), 'header-icons/run-button.svg'],
+        [_('Run slow'), _('Long press the run button to run the project in slow mode.'), 'header-icons/slow-button.svg'],
+        [_('Run music slow'), _('Extra-long press the run button to run the music in slow mode.'), 'header-icons/slow-music-button.svg'],
         [_('Run step by step'), _('Click to run the project step by step.'), 'header-icons/step-button.svg'],
         [_('Run note by note'), _('Click to run the music note by note.'), 'header-icons/step-music-button.svg'],
-        [_('Stop'), _('Stop the music (and the turtles).'), 'header-icons/stop-turtle-button.svg'],
+        [_('Stop'), _('Stop the music (and the turtles).') + ' ' + _('You can also type Alt-S to stop.'), 'header-icons/stop-turtle-button.svg'],
         [_('Clean'), _('Clear the screen and return the turtles to their initial positions.'), 'header-icons/clear-button.svg'],
-        [_('Show/hide palettes'), _('Hide or show the block palettes.'), 'header-icons/palette-button.svg'],
         [_('Show/hide blocks'), _('Hide or show the blocks and the palettes.'), 'header-icons/hide-blocks-button.svg'],
         [_('Expand/collapse collapsable blocks'), _('Expand or collapse start and action stacks.'), 'header-icons/collapse-blocks-button.svg'],
         [_('Home'), _('Return all blocks to the center of the screen.'), 'header-icons/go-home-button.svg'],
@@ -92,19 +95,20 @@ function createHelpContent() {
         [_('Load project from files'), _('You can also load projects from the file system.'), 'header-icons/open-button.svg'],
         [_('Save project'), _('Save your project to a file.'), 'header-icons/save-button.svg'],
         [_('Save sheet music'), _('Save your project to as a Lilypond file.'), 'header-icons/lilypond-button.svg'],
-        [_('Copy'), _('To copy a stack to the clipboard, do a long press on the stack.') + ' ' + _('The Paste Button will highlight.'), 'header-icons/paste-button.svg'],
-        [_('Paste'), _('The paste button is enabled when there are blocks copied onto the clipboard.'), 'header-icons/paste-disabled-button.svg'],
-        [_('Save stack'), _('The save-stack button saves a stack onto a custom palette.') + ' ' + _('It appears after a long press on a stack.'), 'header-icons/save-blocks-button.svg'],
+        [_('Copy'), _('To copy a stack to the clipboard, do a long press on the stack.') + ' ' + _('You can also use Alt+C to copy a stack of blocks.') + ' ' + _('The Paste Button will highlight.'), 'header-icons/paste-button.svg'],
+        [_('Paste'), _('The paste button is enabled when there are blocks copied onto the clipboard.') + ' ' + _('You can also use Alt+V to paste a stack of blocks. '), 'header-icons/paste-disabled-button.svg'],
         [_('Cartesian') + '/' + _('Polar'), _('Show or hide a coordinate grid.'), 'header-icons/Cartesian-polar-button.svg'],
         // [_('Polar'), _('Show or hide a polar-coordinate grid.'), 'header-icons/polar-button.svg'],
         [_('Settings'), _('Open a panel for configuring Music Blocks.'), 'header-icons/utility-button.svg'],
+        [_('Search'), _('You can search for blocks by name.'), 'header-icons/search-button.svg'],
+        [_('Enable scrolling'), _('You can scroll the blocks on the canvas.'), 'header-icons/scroll-unlock-button.svg'],
         [_('Decrease block size'), _('Decrease the size of the blocks.'), 'header-icons/smaller-button.svg'],
         [_('Increase block size'), _('Increase the size of the blocks.'), 'header-icons/bigger-button.svg'],
         [_('Display statistics'), _('Display statistics about your Music project.'), 'header-icons/stats-button.svg'],
         [_('Load plugin from file'), _('You can load new blocks from the file system.'), 'header-icons/plugins-button.svg'],
-        [_('Enable scrolling'), _('You can scroll the blocks on the canvas.'), 'header-icons/scroll-unlock-button.svg'],
         [_('Delete all'), _('Remove all content on the canvas, including the blocks.'), 'header-icons/empty-trash-button.svg'],
         [_('Undo'), _('Restore blocks from the trash.'), 'header-icons/restore-trash-button.svg'],
+        [_('Keyboard shortcuts'), _('You can type "d" to create a "do" block, "r" to create a "re" block, etc.'), 'header-icons/type-icon.svg'],
         [_('Congratulations.'), _('You have finished the tour. Please enjoy Music Blocks!'), 'activity/activity-icon-mouse-color.svg']
     ];
 };
