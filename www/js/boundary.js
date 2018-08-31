@@ -1,4 +1,4 @@
-// Copyright (c) 2016,17 Walter Bender
+// Copyright (c) 2016-2018 Walter Bender
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the The GNU Affero General Public
@@ -13,10 +13,6 @@
 // blocks can be dragged. Once in the trash area, they are marked as
 // trash and hidden. There is a menu button that can be used to
 // restore trash.
-require(['activity/utils']);
-
-var BOUNDARYWIDTH = 1200;
-var BOUNDARYHEIGHT = 900;
 
 function Boundary () {
     this._stage = null;

@@ -1,4 +1,4 @@
-// Copyright (c) 2015,16 Walter Bender
+// Copyright (c) 2015-18 Walter Bender
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the The GNU Affero General Public
@@ -314,7 +314,7 @@ function SVG() {
         var tspans = string.split('\n');
         var text = '<text style="font-size:' + fontSize + 'px;fill:#000000;font-family:sans-serif;text-anchor:' + align + '">';
         for (var i = 0; i < tspans.length; i++) {
-            text += '<tspan x="' + x + '" y="' + yy + '">' + tspans[i] + '</tspan>';
+            text += '<tspan x="' + Math.floor(x + 0.5) + '" y="' + Math.floor(yy +0.5) + '">' + tspans[i] + '</tspan>';
             yy += fontSize;
         }
         text += '</text>';
@@ -862,7 +862,7 @@ function SVG() {
     };
 
     this.basicClamp = function () {
-        // Special block for collapsible stacks; includes an 'arm'
+        // Special block for clamps around stacks; includes an 'arm'
         // that extends down the left side of a stack and a bottom jaw
         // to clamp the blocks. (Used for start, action, repeat, etc.)
         var save_cap = this._cap;
@@ -924,6 +924,7 @@ function SVG() {
 
         for (var clamp = 0; clamp < this._clampCount; clamp++) {
             if (clamp > 0) {
+                svg += this._rLineTo(this._expandX, 0);
                 svg += this._rLineTo(0, 3 * this._padding);
             }
             svg += this._corner(-1, 1, 90, 0, 1, true, true, false);
@@ -947,10 +948,12 @@ function SVG() {
             this.docks.pop();  // We don't need this dock.
             svg += this._rLineTo(this._radius, 0);
         }
-        svg += this._rLineTo(0, this._innieY1 * 2);
 
-        // Add a bit of padding to make multiple of standard block height.
-        svg += this._rLineTo(0, this._innieY1 + 3 * this._strokeWidth);
+        if (this._clampCount > 0) {
+            svg += this._rLineTo(0, this._innieY1 * 2);
+            // Add a bit of padding to make multiple of standard block height.
+            svg += this._rLineTo(0, this._innieY1 + 3 * this._strokeWidth);
+        }
 
         svg += this._corner(-1, 1, 90, 0, 1, true, true, false);
 

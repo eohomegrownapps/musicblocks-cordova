@@ -1,4 +1,4 @@
-// Copyright (c) 2017 Walter Bender
+// Copyright (c) 2017,18 Walter Bender
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the The GNU Affero General Public
@@ -20,8 +20,8 @@ getABCHeader = function () {
 
 processAbcNotes = function (logo, turtle) {
     // obj = [instructions] or
-    // obj = [note, duration, dotCount, tupletValue, roundDown, insideChord, staccato]
-    
+    // obj = [[notes], duration, dotCount, tupletValue, roundDown, insideChord, staccato]
+
     logo.notationNotes[turtle] = '';
 
     function __convertDuration (duration) {
@@ -65,13 +65,13 @@ processAbcNotes = function (logo, turtle) {
         // , and ' for shifts in octave.
         // Also, notes must be lowercase.
         // And the octave bounday is at C, not A.
-        
+
         // Convert frequencies here.
         if (typeof(note) === 'number') {
             var pitchObj = frequencyToPitch(note);
             note = pitchObj[0] + pitchObj[1];
         }
-        
+
         if (note.indexOf('♯') > -1) {
             note = '^' + note.replace('♯', '')
         }
@@ -95,7 +95,7 @@ processAbcNotes = function (logo, turtle) {
         if (note.indexOf('9') > -1) {
             return note.replace('9', "''''").toLowerCase();
         }
-        
+
         if (note.indexOf('8') > -1) {
             return note.replace('8', "'''").toLowerCase();
         }
@@ -123,14 +123,14 @@ processAbcNotes = function (logo, turtle) {
         if (note.indexOf('2') > -1) {
             return note.replace('2', ",,").toUpperCase();
         }
-        
+
         if (note.indexOf('1') > -1) {
             return note.replace('1', ",,,").toUpperCase();
         }
 
         return note.toUpperCase();
     };
-    
+
     var counter = 0;
     var queueSlur = false;
     var articulation = false;
@@ -197,10 +197,16 @@ processAbcNotes = function (logo, turtle) {
                 logo.notationNotes[turtle] += '\n';
             }
             counter += 1;
-            
-            var note = __toABCnote(obj[NOTATIONNOTE]);
+
+            if (typeof(obj[NOTATIONNOTE]) === 'string') {
+                var note = __toABCnote(obj[NOTATIONNOTE]);
+            } else {
+                var notes = obj[NOTATIONNOTE];
+                var note = __toABCnote(notes[0]);
+            }
+
             var incompleteTuplet = 0;  // An incomplete tuplet
-            
+
             // If it is a tuplet, look ahead to see if it is complete.
             // While you are at it, add up the durations.
             if (obj[NOTATIONTUPLETVALUE] != null) {
@@ -213,7 +219,7 @@ processAbcNotes = function (logo, turtle) {
                         incompleteTuplet = j;
                         break;
                     }
-                    
+
                     if (logo.notationStaging[turtle][i + j][NOTATIONINSIDECHORD] > 0 && logo.notationStaging[turtle][i + j][NOTATIONINSIDECHORD] === logo.notationStaging[turtle][i + j - 1][NOTATIONINSIDECHORD]) {
                         // In a chord, so jump to next note.
                         j++;
@@ -228,49 +234,43 @@ processAbcNotes = function (logo, turtle) {
                     }
                 }
             }
-            
+
             function __processTuplet(logo, turtle, i, count) {
                 var j = 0;
                 var k = 0;
-                
+
                 while (k < count) {
                     var tupletDuration = 2 * logo.notationStaging[turtle][i + j][NOTATIONDURATION];
-                    // Are we in a chord?
-                    if (logo.notationStaging[turtle][i + j][NOTATIONINSIDECHORD] > 0) {
-                        // Is logo the first note in the chord?
-                        if ((i === 0 && j === 0) || logo.notationStaging[turtle][i + j - 1][NOTATIONINSIDECHORD] !== logo.notationStaging[turtle][i + j][NOTATIONINSIDECHORD]) {
+
+                    if (typeof(notes) === 'object') {
+                        if (notes.length > 1) {
                             logo.notationNotes[turtle] += '[';
                         }
-                        
-                        logo.notationNotes[turtle] += __toABCnote(logo.notationStaging[turtle][i + j][NOTATIONNOTE]);
+
+                        for (ii = 0; ii < notes.length; ii++) {
+                            logo.notationNotes[turtle] += __toABCnote(notes[ii]);
+                            logo.notationNotes[turtle] += ' ';
+                        }
+
                         if (obj[NOTATIONSTACCATO]) {
                             logo.notationNotes[turtle] += '.';
                         }
-                        
-                        // logo.notationNotes[turtle] += '';
-                        
-                        // Is logo the last note in the chord?
-                        if (i + j === logo.notationStaging[turtle].length - 1 || logo.notationStaging[turtle][i + j + 1][NOTATIONINSIDECHORD] !== logo.notationStaging[turtle][i + j][NOTATIONINSIDECHORD]) {
-                            logo.notationNotes[turtle] += ']' + __convertDuration(logo.notationStaging[turtle][i + j + 1][NOTATIONROUNDDOWN]);
-                            k++;  // Increment notes in tuplet.
+
+                        if (notes.length > 1) {
+                            logo.notationNotes[turtle] += ']';
                         }
-                        j++;
+
+                        logo.notationNotes[turtle] += logo.notationStaging[turtle][i + j][NOTATIONROUNDDOWN];
+                        j++;  // Jump to next note.
+                        k++;  // Increment notes in tuplet.
                     } else {
-                        logo.notationNotes[turtle] += __toABCnote(logo.notationStaging[turtle][i + j][NOTATIONNOTE]) + __convertDuration(logo.notationStaging[turtle][i + j][NOTATIONROUNDDOWN]);
-                        if (obj[NOTATIONSTACCATO]) {
-                            logo.notationNotes[turtle] += '.';
-                        }
-                        
-                        // logo.notationNotes[turtle] += '';
+                        console.log('ignoring ' + notes);
                         j++;  // Jump to next note.
                         k++;  // Increment notes in tuplet.
                     }
                 }
-                
+
                 // FIXME: Debug for ABC
-                // Workaround to a Lilypond "feature": if a slur
-                // ends on a tuplet, the closing ) must be inside
-                // the closing } of the tuplet.
                 if (i + j - 1 < logo.notationStaging[turtle].length - 1) {
                     var nextObj = logo.notationStaging[turtle][i + j];
                     if (typeof(nextObj) === 'string' && nextObj === ')') {
@@ -282,10 +282,10 @@ processAbcNotes = function (logo, turtle) {
                 } else {
                     logo.notationNotes[turtle] += ' ';
                 }
-                
+
                 return j;
             };
-            
+
             if (obj[NOTATIONTUPLETVALUE] > 0) {
                 if (incompleteTuplet === 0) {
                     var tupletFraction = toFraction(tupletDuration / targetDuration);
@@ -298,19 +298,45 @@ processAbcNotes = function (logo, turtle) {
 
                     i += __processTuplet(logo, turtle, i, incompleteTuplet) - 1;
                 }
-                
+
                 targetDuration = 0;
                 tupletDuration = 0;
             } else {
+                if (typeof(notes) === 'object') {
+                    if (notes.length > 1) {
+                        logo.notationNotes[turtle] += '[';
+                    }
+
+                    for (ii = 0; ii < notes.length; ii++) {
+                        logo.notationNotes[turtle] += __toABCnote(notes[ii]);
+                        logo.notationNotes[turtle] += ' ';
+                    }
+
+                    if (notes.length > 1) {
+                        logo.notationNotes[turtle] += ']';
+                    }
+
+                    logo.notationNotes[turtle] += obj[NOTATIONDURATION];
+                    for (var d = 0; d < obj[NOTATIONDOTCOUNT]; d++) {
+                        logo.notationNotes[turtle] += '.';
+                    }
+
+                    logo.notationNotes[turtle] += ' ';
+                }
+
+                if (obj[NOTATIONSTACCATO]) {
+                    logo.notationNotes[turtle] += '.';
+                }
+
                 if (obj[NOTATIONINSIDECHORD] > 0) {
                     // Is logo the first note in the chord?
                     if (i === 0 || logo.notationStaging[turtle][i - 1][NOTATIONINSIDECHORD] !== obj[NOTATIONINSIDECHORD]) {
                         // Open the chord.
                         logo.notationNotes[turtle] += '[';
                     }
-                    
+
                     logo.notationNotes[turtle] += (note);
-                    
+
                     // Is logo the last note in the chord?
                     if (i === logo.notationStaging[turtle].length - 1 || logo.notationStaging[turtle][i + 1][NOTATIONINSIDECHORD] !== obj[NOTATIONINSIDECHORD]) {
                         // Close the chord and add note duration.
@@ -319,11 +345,11 @@ processAbcNotes = function (logo, turtle) {
                         for (var d = 0; d < obj[NOTATIONDOTCOUNT]; d++) {
                             logo.notationNotes[turtle] += ' ';
                         }
-                        
+
                         if (articulation) {
                             logo.notationNotes[turtle] += ' ';
                         }
-                        
+
                         logo.notationNotes[turtle] += ' ';
                     }
                 } else {
@@ -332,22 +358,22 @@ processAbcNotes = function (logo, turtle) {
                     for (var d = 0; d < obj[NOTATIONDOTCOUNT]; d++) {
                         logo.notationNotes[turtle] += '.';
                     }
-                    
+
                     if (articulation) {
                         logo.notationNotes[turtle] += '';
                     }
                 }
-                
+
                 if (obj[NOTATIONSTACCATO]) {
                     logo.notationNotes[turtle] += '.';
                 }
-                
+
                 targetDuration = 0;
                 tupletDuration = 0;
             }
-            
+
             logo.notationNotes[turtle] += ' ';
-            
+
             if (queueSlur) {
                 queueSlur = false;
                 logo.notationNotes[turtle] += '';
@@ -357,7 +383,7 @@ processAbcNotes = function (logo, turtle) {
 };
 
 
-saveAbcOutput = function(logo, saveName) {
+saveAbcOutput = function(logo) {
     var turtleCount = 0;
     var clef = [];
 
@@ -367,7 +393,7 @@ saveAbcOutput = function(logo, saveName) {
         turtleCount += 1;
     }
     console.log('saving as abc: ' + turtleCount);
-    
+
     var c = 0;
     for (var t in logo.notationStaging) {
         logo.notationOutput += 'K:' + logo.keySignature[t].toUpperCase().replace(' ', '').replace('♭', 'b').replace('♯', '#') + '\n';
@@ -375,8 +401,7 @@ saveAbcOutput = function(logo, saveName) {
         logo.notationOutput += logo.notationNotes[t];
         c += 1;
     }
-    
+
     logo.notationOutput += '\n';
-    console.log(logo.notationOutput);
-    doSaveAbc(logo, saveName);
+    return logo.notationOutput;
 };

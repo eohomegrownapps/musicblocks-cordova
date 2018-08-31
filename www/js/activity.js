@@ -1,4 +1,4 @@
-// Copyright (c) 2014-17 Walter Bender
+// Copyright (c) 2014-18 Walter Bender
 // Copyright (c) Yash Khandelwal, GSoC'15
 // Copyright (c) 2016 Tymon Radzik
 //
@@ -19,7 +19,6 @@ const _THIS_IS_MUSIC_BLOCKS_ = true;
 const _THIS_IS_TURTLE_BLOCKS_ = !_THIS_IS_MUSIC_BLOCKS_;
 
 const _ERRORMSGTIMEOUT_ = 15000;
-
 
 if (_THIS_IS_TURTLE_BLOCKS_) {
     function facebookInit() {
@@ -44,23 +43,105 @@ if (_THIS_IS_TURTLE_BLOCKS_) {
 
             js = d.createElement(s);
             js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            js.src = 'https://connect.facebook.net/en_US/sdk.js';
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
     } catch (e) {
     };
 }
 
-var lang = document.webL10n.getLanguage();
-if (lang.indexOf('-') !== -1) {
-    lang = lang.slice(0, lang.indexOf("-"));
-    document.webL10n.setLanguage(lang);
+try {
+    console.log(localStorage.beginnerMode);
+
+    if (localStorage.beginnerMode !== null) {
+        console.log('setting mode from local storage');
+        beginnerMode = (localStorage.beginnerMode == 'true');
+    } else {
+        beginnerMode = true;
+    }
+} catch (e) {
+    console.log(e);
+    beginnerMode = true;
 }
 
+try {
+    console.log(localStorage.languagePreference);
+
+    if (localStorage.languagePreference) {
+        console.log('setting language from local storage');
+        try {
+            lang = localStorage.languagePreference;
+            document.webL10n.setLanguage(lang);
+        } catch (e) {
+            console.log(e);
+        }
+    } else {
+        var lang = document.webL10n.getLanguage();
+        if (lang.indexOf('-') !== -1) {
+            lang = lang.slice(0, lang.indexOf('-'));
+            document.webL10n.setLanguage(lang);
+        }
+    }
+} catch (e) {
+    console.log(e);
+}
+
+var MYDEFINES = [
+    'activity/sugarizer-compatibility',
+    'utils/platformstyle',
+    'easeljs.min',
+    'tweenjs.min',
+    'preloadjs.min',
+    'howler',
+    'p5.min',
+    'p5.sound.min',
+    'p5.dom.min',
+    'mespeak',
+    'Chart',
+    'utils/utils',
+    'activity/artwork',
+    'widgets/status',
+    'utils/munsell',
+    'activity/trash',
+    'activity/boundary',
+    'activity/turtle',
+    'activity/palette',
+    'activity/protoblocks',
+    'activity/blocks',
+    'activity/block',
+    'activity/turtledefs',
+    'activity/logo',
+    'activity/clearbox',
+    'activity/savebox',
+    'activity/languagebox',
+    'activity/utilitybox',
+    'activity/basicblocks',
+    'activity/blockfactory',
+    'activity/analytics',
+    'activity/macros',
+    'activity/SaveInterface',
+    'utils/musicutils',
+    'utils/synthutils',
+    'activity/playbackbox',
+    'activity/pastebox',
+    'prefixfree.min'
+];
+
 if (_THIS_IS_MUSIC_BLOCKS_) {
-    var MYDEFINES = ["activity/sugarizer-compatibility", 'activity/platformstyle', 'easeljs-0.8.2.min', 'tweenjs-0.6.2.min', 'preloadjs-0.6.2.min', 'Tone.min', 'howler', 'p5.min', 'p5.sound.min', 'p5.dom.min', 'mespeak', 'Chart', 'dsp', 'activity/utils', 'activity/artwork', 'activity/status', 'activity/munsell', 'activity/trash', 'activity/boundary', 'activity/turtle', 'activity/palette', 'activity/protoblocks', 'activity/blocks', 'activity/block', 'activity/turtledefs', 'activity/logo', 'activity/clearbox', 'activity/savebox', 'activity/utilitybox', 'activity/samplesviewer', 'activity/basicblocks', 'activity/blockfactory', 'activity/analytics', 'activity/modewidget', 'activity/soundsamples', 'activity/pitchtimematrix', 'activity/pitchdrummatrix', 'activity/rhythmruler', 'activity/pitchstaircase', 'activity/tempo', 'activity/pitchslider', 'activity/timbre', 'activity/macros', 'activity/musicutils', 'activity/lilypond', 'activity/abc', 'activity/playbackbox', 'prefixfree.min'];
-} else {
-    var MYDEFINES = ["activity/sugarizer-compatibility", 'activity/platformstyle', 'easeljs-0.8.2.min', 'tweenjs-0.6.2.min', 'preloadjs-0.6.2.min', 'howler', 'p5.min', 'p5.sound.min', 'p5.dom.min', 'mespeak', 'Chart', 'activity/utils', 'activity/artwork', 'activity/status', 'activity/munsell', 'activity/trash', 'activity/boundary', 'activity/turtle', 'activity/palette', 'activity/protoblocks', 'activity/blocks', 'activity/block', 'activity/turtledefs', 'activity/logo', 'activity/clearbox', 'activity/savebox', 'activity/utilitybox', 'activity/samplesviewer', 'activity/basicblocks', 'activity/blockfactory', 'activity/analytics', 'activity/macros', 'activity/musicutils', 'activity/lilypond', 'activity/playbackbox', 'prefixfree.min'];
+    var MUSICBLOCKS_EXTRAS = [
+        'Tone.min',
+        'widgets/modewidget',
+        'widgets/pitchtimematrix',
+        'widgets/pitchdrummatrix',
+        'widgets/rhythmruler',
+        'widgets/pitchstaircase',
+        'widgets/tempo',
+        'widgets/pitchslider',
+        'widgets/timbre',
+        'activity/lilypond',
+        'activity/abc'
+    ];
+    MYDEFINES = MYDEFINES.concat(MUSICBLOCKS_EXTRAS);
 }
 
 define(MYDEFINES, function (compatibility) {
@@ -68,10 +149,19 @@ define(MYDEFINES, function (compatibility) {
     // Manipulate the DOM only when it is ready.
     require(['domReady!','activity/sugarizer-compatibility'], function (doc) {
         if (sugarizerCompatibility.isInsideSugarizer()) {
-            sugarizerCompatibility.loadData(function () {
-                domReady(doc);
+            window.addEventListener('localized', function () {
+                sugarizerCompatibility.loadData(function () {
+                    var planet=document.getElementById('planet-iframe');
+                    planet.onload = function() {
+                        console.log('load');
+                        domReady(doc);
+                    };
+                });
             });
+
+            document.webL10n.setLanguage(sugarizerCompatibility.getLanguage());
         } else {
+            console.log('loaded');
             domReady(doc);
         }
     });
@@ -85,6 +175,10 @@ define(MYDEFINES, function (compatibility) {
         try {
             meSpeak.loadConfig('lib/mespeak_config.json');
             var lang = document.webL10n.getLanguage();
+            if (sugarizerCompatibility.isInsideSugarizer()) {
+                lang = sugarizerCompatibility.getLanguage();
+            }
+
             if (['es', 'ca', 'de', 'el', 'eo', 'fi', 'fr', 'hu', 'it', 'kn', 'la', 'lv', 'nl', 'pl', 'pt', 'ro', 'sk', 'sv', 'tr', 'zh'].indexOf(lang) !== -1) {
                 meSpeak.loadVoice('lib/voices/' + lang + '.json');
             } else {
@@ -93,6 +187,8 @@ define(MYDEFINES, function (compatibility) {
         } catch (e) {
             console.log(e);
         }
+
+        document.title = TITLESTRING;
 
         var canvas = docById('myCanvas');
 
@@ -112,9 +208,13 @@ define(MYDEFINES, function (compatibility) {
         var blocks;
         var logo;
         var clearBox;
+        var pasteBox;
         var utilityBox;
+        var languageBox = null;
         var playbackBox = null;
-        var thumbnails;
+        var planet;
+        window.converter;
+        var storage;
         var buttonsVisible = true;
         var headerContainer = null;
         var menuButtonsVisible = true;
@@ -123,11 +223,127 @@ define(MYDEFINES, function (compatibility) {
         var currentKeyCode = 0;
         var pasteContainer = null;
         var pasteImage = null;
+        // For updatePasteButton function
+        var bitmapActivePaste, bitmapDisablePaste;
         var gridContainer = null;
         var gridButtonLabel = null;
         var gridImages = [];
         var chartBitmap = null;
         var saveBox;
+        var merging = false;
+        var loading = false;
+
+        var searchWidget = docById('search');
+        searchWidget.style.visibility = 'hidden';
+
+        var progressBar = docById('myProgress');
+        progressBar.style.visibility = 'hidden';
+
+        new createjs.DOMElement(docById('paste'));
+        var paste = docById('paste');
+        paste.style.visibility = 'hidden';
+
+        closeContextWheel = function () {
+            // docById('contextWheelDiv').style.display = 'none';
+        };
+
+        piemenuContext = function (activeBlock) {
+            if (activeBlock === null) {
+                return;
+            }
+
+            // piemenu version of ruler
+            docById('contextWheelDiv').style.display = '';
+            docById('contextWheelDiv').style.position = 'absolute';
+            docById('contextWheelDiv').style.left = ((blocks.getStageScale() * blocks.blockList[activeBlock].container.x) - 150) + 'px';
+            docById('contextWheelDiv').style.top = ((blocks.getStageScale() * blocks.blockList[activeBlock].container.y) - 150) + 'px';
+            labels = ['imgsrc:header-icons/copy-button.svg',
+                      'imgsrc:header-icons/paste-disabled-button.svg',
+                      'imgsrc:header-icons/extract-button.svg',
+                      'imgsrc:header-icons/empty-trash-button.svg',
+                      'imgsrc:header-icons/cancel-button.svg'];
+
+            var topBlock = blocks.findTopBlock(activeBlock);
+            if (blocks.blockList[topBlock].name === 'action') {
+                labels.push('imgsrc:header-icons/save-blocks-button.svg');
+            }
+
+            var wheel = new wheelnav('contextWheelDiv', null, 150, 150);
+            wheel.colors = ['#808080', '#909090', '#808080', '#909090', '#707070'];
+            wheel.slicePathFunction = slicePath().DonutSlice;
+            wheel.slicePathCustom = slicePath().DonutSliceCustomization();
+            wheel.slicePathCustom.minRadiusPercent = 0.4;
+            wheel.slicePathCustom.maxRadiusPercent = 1.0;
+            wheel.sliceSelectedPathCustom = wheel.slicePathCustom;
+            wheel.sliceInitPathCustom = wheel.slicePathCustom;
+            wheel.clickModeRotate = false;
+            wheel.initWheel(labels);
+            wheel.createWheel();
+
+            wheel.navItems[0].setTooltip(_('Copy'));
+            wheel.navItems[1].setTooltip(_('Paste'));
+            wheel.navItems[2].setTooltip(_('Extract'));
+            wheel.navItems[3].setTooltip(_('Move to trash'));
+            wheel.navItems[4].setTooltip(_('Close'));
+            if (blocks.blockList[topBlock].name === 'action') {
+                wheel.navItems[5].setTooltip(_('Save stack'));
+            }
+
+            wheel.navItems[0].selected = false;
+
+            wheel.navItems[0].navigateFunction = function () {
+                blocks.activeBlock = activeBlock;
+                blocks.prepareStackForCopy();
+                wheel.navItems[1].setTitle('imgsrc:header-icons/paste-button.svg');
+                wheel.navItems[1].refreshNavItem(true);
+                wheel.refreshWheel();
+            };
+
+            wheel.navItems[1].navigateFunction = function () {
+                blocks.pasteStack();
+            };
+
+            wheel.navItems[2].navigateFunction = function () {
+                blocks.activeBlock = activeBlock;
+		blocks.extract();
+	    };
+
+            wheel.navItems[3].navigateFunction = function () {
+                blocks.sendStackToTrash(blocks.blockList[activeBlock]);
+                docById('contextWheelDiv').style.display = 'none';
+            };
+
+            wheel.navItems[4].navigateFunction = function () {
+                docById('contextWheelDiv').style.display = 'none';
+            };
+
+            if (blocks.blockList[activeBlock].name === 'action') {
+                wheel.navItems[5].navigateFunction = function () {
+                    blocks.activeBlock = activeBlock;
+                    blocks.saveStack();
+                };
+            }
+
+            setTimeout(function () {
+                blocks.rightClick = false;
+            }, 500);
+        };
+
+        // Do something on right click
+        document.addEventListener("contextmenu", function(e) {
+            if (blocks.activeBlocks === null) {
+                blocks.rightClick = false;
+                return;
+            }
+
+            blocks.rightClick = true;
+            var activeBlock = blocks.activeBlock;
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            piemenuContext(activeBlock);
+        }, false);
 
         // Calculate the palette colors.
         for (var p in PALETTECOLORS) {
@@ -145,6 +361,7 @@ define(MYDEFINES, function (compatibility) {
             'FLOWPLUGINS': {},
             'ARGPLUGINS': {},
             'BLOCKPLUGINS': {},
+            'MACROPLUGINS': {},
             'ONLOAD': {},
             'ONSTART': {},
             'ONSTOP': {}
@@ -154,6 +371,7 @@ define(MYDEFINES, function (compatibility) {
         var macroDict = {};
 
         var stopTurtleContainer = null;
+        var hardStopTurtleContainer = null;
         var homeButtonContainers = [];
 
         var cameraID = null;
@@ -185,6 +403,7 @@ define(MYDEFINES, function (compatibility) {
         var utilityButton = null;
         var playbackButton = null;
         var saveButton = null;
+        var deleteAllButton = null;
 
         var helpContainer = null;
         var helpIdx = 0;
@@ -192,25 +411,12 @@ define(MYDEFINES, function (compatibility) {
 
         pluginsImages = {};
 
-        if (_THIS_IS_MUSIC_BLOCKS_) {
-            // Sometimes (race condition?) Firefox does not properly
-            // initialize strings in musicutils. These methods ensure that
-            // the names are never null.
-            console.log('initing i18n for music terms');
-            initDrumI18N();
-            initModeI18N();
-            initVoiceI18N();
-            initFilterI18N();
-            initOscI18N();
-        }
-
         window.onblur = function () {
-            if (!logo.runningLilypond) {
-                logo.doStopTurtle();
-            }
+            doHardStopButton(true);
         };
 
         function _findBlocks() {
+            hideDOMLabel();
             logo.showBlocks();
             blocksContainer.x = 0;
             blocksContainer.y = 0;
@@ -218,7 +424,8 @@ define(MYDEFINES, function (compatibility) {
             palettes.initial_y = 55;
             palettes.updatePalettes();
             var x = 100 * turtleBlocksScale;
-            var y = 100 * turtleBlocksScale;
+            var y = 50 * turtleBlocksScale;
+            var even = true;
 
             // First start blocks
             for (var blk in blocks.blockList) {
@@ -241,10 +448,16 @@ define(MYDEFINES, function (compatibility) {
                                 }
                             }
                         }
-                        x += 200 * turtleBlocksScale;
-                        if (x > (canvas.width - 100) / (turtleBlocksScale)) {
-                            x = 100 * turtleBlocksScale;
-                            y += 100 * turtleBlocksScale;
+                        x += 150 * turtleBlocksScale;
+                        if (x > (canvas.width - 200) / (turtleBlocksScale)) {
+                            even = !even;
+                            if (even) {
+                                x = 100 * turtleBlocksScale;
+                            } else {
+                                x = 150 * turtleBlocksScale;
+                            }
+
+                            y += 50 * turtleBlocksScale;
                         }
                     }
                 }
@@ -271,10 +484,16 @@ define(MYDEFINES, function (compatibility) {
                                 }
                             }
                         }
-                        x += 200 * turtleBlocksScale;
-                        if (x > (canvas.width - 100) / (turtleBlocksScale)) {
-                            x = 100 * turtleBlocksScale;
-                            y += 100 * turtleBlocksScale;
+                        x += 150 * turtleBlocksScale;
+                        if (x > (canvas.width - 200) / (turtleBlocksScale)) {
+                            even = !even;
+                            if (even) {
+                                x = 100 * turtleBlocksScale;
+                            } else {
+                                x = 150 * turtleBlocksScale;
+                            }
+
+                            y += 50 * turtleBlocksScale;
                         }
                     }
                 }
@@ -287,7 +506,9 @@ define(MYDEFINES, function (compatibility) {
         };
 
         function _printBlockSVG() {
-            var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + logo.canvas.width + '" height="' + logo.canvas.height + '">';
+            var svg = '';
+            var xMax = 0;
+            var yMax = 0;
             for (var i = 0; i < blocks.blockList.length; i++) {
                 if (blocks.blockList[i].name === 'hidden') {
                     continue;
@@ -301,18 +522,17 @@ define(MYDEFINES, function (compatibility) {
                     continue;
                 }
 
+                if (blocks.blockList[i].container.x + blocks.blockList[i].width > xMax) {
+                    xMax = blocks.blockList[i].container.x + blocks.blockList[i].width;
+                }
+
+                if (blocks.blockList[i].container.y + blocks.blockList[i].height > yMax) {
+                    yMax = blocks.blockList[i].container.y + blocks.blockList[i].height;
+                }
+
                 var parts = blocks.blockArt[i].split('><');
                 svg += '<g transform="translate(' + blocks.blockList[i].container.x + ', ' + blocks.blockList[i].container.y + ')">';
-                switch(blocks.blockList[i].name) {
-                case 'text':
-                case 'solfege':
-                case 'eastindiansolfege':
-                case 'notename':
-                case 'rest':
-                case 'number':
-                case 'modename':
-                case 'voicename':
-                case 'drumname':
+                if (SPECIALINPUTS.indexOf(blocks.blockList[i].name) !== -1) { 
                     for (var p = 1; p < parts.length; p++) {
                         // FIXME: This is fragile.
                         if (p === 1) {
@@ -332,8 +552,7 @@ define(MYDEFINES, function (compatibility) {
                             svg += parts[p] + '><';
                         }
                     }
-                    break;
-                default:
+                } else {
                     for (var p = 1; p < parts.length; p++) {
                         // FIXME: This is fragile.
                         if (p === 1) {
@@ -350,16 +569,18 @@ define(MYDEFINES, function (compatibility) {
                             svg += parts[p] + '><';
                         }
                     }
-                    break;
                 }
                 svg += '</g>';
             }
-            svg += '</svg>';
-            download('blockArtwork.svg', 'data:image/svg+xml;utf8,' + svg, 'blockArtwork.svg', '"width=' + logo.canvas.width + ', height=' + logo.canvas.height + '"');
 
-        }
+            svg += '</svg>';
+
+            save.download('svg', 'data:image/svg+xml;utf8,' + '<svg xmlns="http://www.w3.org/2000/svg" width="' + xMax + '" height="' + yMax + '">' + encodeURIComponent(svg), 'blockArtwork.svg', '"width=' + logo.canvas.width + ', height=' + logo.canvas.height + '"', 'blockArtwork.svg');
+        };
 
         function _allClear() {
+            hideDOMLabel();
+
             if (chartBitmap != null) {
                 stage.removeChild(chartBitmap);
                 chartBitmap = null;
@@ -369,10 +590,11 @@ define(MYDEFINES, function (compatibility) {
             logo.time = 0;
             hideMsgs();
             logo.setBackgroundColor(-1);
-            logo.notationOutput = LILYPONDHEADER;
+            logo.notationOutput = '';
             for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
                 logo.turtleHeaps[turtle] = [];
                 logo.notationStaging[turtle] = [];
+                logo.notationDrumStaging[turtle] = [];
                 turtles.turtleList[turtle].doClear(true, true, true);
             }
 
@@ -392,23 +614,26 @@ define(MYDEFINES, function (compatibility) {
                 }
             };
 
-            var table = document.getElementById("myTable");
+            var table = docById('myTable');
             if(table != null) {
                 table.remove();
             }
-
-            /*
-            var canvas = document.getElementById("music");
-            var context = canvas.getContext("2d");
-            context.clearRect(0, 0, canvas.width, canvas.height);
-            */
         };
 
         function _doFastButton(env) {
+            hideDOMLabel();
+
+            stage.on('stagemousemove', function (event) {
+                stageX = event.stageX;
+                stageY = event.stageY;
+            });
+
             var currentDelay = logo.turtleDelay;
             var playingWidget = false;
             logo.setTurtleDelay(0);
             if (_THIS_IS_MUSIC_BLOCKS_) {
+                logo.synth.resume();
+
                 if (docById('ptmDiv').style.visibility === 'visible') {
                     playingWidget = true;
                     logo.pitchTimeMatrix.playAll();
@@ -416,21 +641,22 @@ define(MYDEFINES, function (compatibility) {
 
                 if (docById('pscDiv').style.visibility === 'visible') {
                     playingWidget = true;
-                    pitchstaircase.playUpAndDown();
+                    logo.pitchStaircase.playUpAndDown();
                 }
 
                 if (docById('rulerDiv').style.visibility === 'visible') {
                     // If the tempo widget is open, sync it up with the
                     // rhythm ruler.
                     if (docById('tempoDiv').style.visibility === 'visible') {
-                        if (tempo.isMoving) {
-                            tempo.pause();
+                        if (logo.tempo.isMoving) {
+                            logo.tempo.pause();
                         }
-                        tempo.resume();
+
+                        logo.tempo.resume();
                     }
 
                     playingWidget = true;
-                    rhythmruler.playAll();
+                    logo.rhythmRuler.playAll();
                 }
 
                 // We were using the run button to play a widget, not
@@ -441,16 +667,17 @@ define(MYDEFINES, function (compatibility) {
 
                 // Restart tempo widget and run blocks.
                 if (docById('tempoDiv').style.visibility === 'visible') {
-                    if (tempo.isMoving) {
-                        tempo.pause();
+                    if (logo.tempo.isMoving) {
+                        logo.tempo.pause();
                     }
 
-                    tempo.resume();
+                    logo.tempo.resume();
                 }
             }
 
             if (!turtles.running()) {
                 console.log('running');
+                logo.hideBlocks(true);
                 logo.runLogoCommands(null, env);
             } else {
                 if (currentDelay !== 0) {
@@ -471,7 +698,18 @@ define(MYDEFINES, function (compatibility) {
         };
 
         function _doSlowButton() {
+            hideDOMLabel();
+
+            stage.on('stagemousemove', function (event) {
+                stageX = event.stageX;
+                stageY = event.stageY;
+            });
+
             logo.setTurtleDelay(DEFAULTDELAY);
+            if (_THIS_IS_MUSIC_BLOCKS_) {
+                logo.synth.resume();
+            }
+
             if (_THIS_IS_MUSIC_BLOCKS_ && docById('ptmDiv').style.visibility === 'visible') {
                 logo.pitchTimeMatrix.playAll();
             } else if (!turtles.running()) {
@@ -482,7 +720,17 @@ define(MYDEFINES, function (compatibility) {
         };
 
         function _doStepButton() {
+            hideDOMLabel();
+
+            stage.on('stagemousemove', function (event) {
+                stageX = event.stageX;
+                stageY = event.stageY;
+            });
+
             var turtleCount = Object.keys(logo.stepQueue).length;
+            if (_THIS_IS_MUSIC_BLOCKS_) {
+                logo.synth.resume();
+            }
 
             if (turtleCount === 0 || logo.turtleDelay !== TURTLESTEP) {
                 // Either we haven't set up a queue or we are
@@ -500,7 +748,17 @@ define(MYDEFINES, function (compatibility) {
         };
 
         function _doSlowMusicButton() {
+            hideDOMLabel();
+
+            stage.on('stagemousemove', function (event) {
+                stageX = event.stageX;
+                stageY = event.stageY;
+            });
+
             logo.setNoteDelay(DEFAULTDELAY);
+            if (_THIS_IS_MUSIC_BLOCKS_) {
+                logo.synth.resume();
+            }
 
             if (docById('ptmDiv').style.visibility === 'visible') {
                 logo.pitchTimeMatrix.playAll();
@@ -512,7 +770,17 @@ define(MYDEFINES, function (compatibility) {
         };
 
         function _doStepMusicButton() {
+            hideDOMLabel();
+
+            stage.on('stagemousemove', function (event) {
+                stageX = event.stageX;
+                stageY = event.stageY;
+            });
+
             var turtleCount = Object.keys(logo.stepQueue).length;
+            if (_THIS_IS_MUSIC_BLOCKS_) {
+                logo.synth.resume();
+            }
 
             if (turtleCount === 0 || logo.TurtleDelay !== TURTLESTEP) {
                 // Either we haven't set up a queue or we are
@@ -529,9 +797,55 @@ define(MYDEFINES, function (compatibility) {
             }
         };
 
+        function doHardStopButton(onblur) {
+            hideDOMLabel();
+
+            if (onblur == undefined) {
+                onblur = false;
+            }
+
+            if (onblur && _THIS_IS_MUSIC_BLOCKS_ && logo.recordingStatus()) {
+                console.log('ignoring hard stop due to blur');
+                return;
+            }
+
+            logo.doStopTurtle();
+            logo._setMasterVolume(0);
+
+            if (docById('tempoDiv') != null && docById('tempoDiv').style.visibility === 'visible') {
+                if (logo.tempo.isMoving) {
+                    logo.tempo.pause();
+                }
+            }
+        };
+
+        function _doSwitchMode() {
+            if (beginnerMode) {
+                textMsg(_('Refresh your browser to change to advanced mode.'));
+                localStorage.setItem('beginnerMode', false);
+            } else {
+                textMsg(_('Refresh your browser to change to beginner mode.'));
+                localStorage.setItem('beginnerMode', true);
+            }
+        };
 
         function doStopButton() {
             logo.doStopTurtle();
+        };
+
+        function doMuteButton() {
+            logo._setMasterVolume(0);
+        };
+
+        function _hideBoxes() {
+            hideDOMLabel();
+
+            pasteBox.hide();
+            clearBox.hide();
+            saveBox.hide();
+            languageBox.hide();
+            utilityBox.hide();
+            playbackBox.hide();
         };
 
         function _doCartesianPolar() {
@@ -601,6 +915,7 @@ define(MYDEFINES, function (compatibility) {
              }
 
             var ctx = myChart.getContext('2d');
+            loading = true;
             document.body.style.cursor = 'wait';
             var myRadarChart = null;
             var scores = analyzeProject(blocks);
@@ -621,6 +936,7 @@ define(MYDEFINES, function (compatibility) {
                     logo.hideBlocks();
                     update = true;
                     document.body.style.cursor = 'default';
+                    loading = false;
                     Analytics.close(chartBitmap, ctx);
                 };
                 img.src = imageData;
@@ -631,24 +947,53 @@ define(MYDEFINES, function (compatibility) {
             myRadarChart = new Chart(ctx).Radar(data, options);
         };
 
+        function doOptimize (state) {
+            console.log('Setting optimize to ' + state);
+            logo.setOptimize(state);
+        };
+
         function doBiggerFont() {
+            hideDOMLabel();
+
             if (blockscale < BLOCKSCALES.length - 1) {
                 blockscale += 1;
                 blocks.setBlockScale(BLOCKSCALES[blockscale]);
             }
+
+            if (BLOCKSCALES[blockscale] > 1) {
+                utilityBox._decreaseStatus = true;
+            }
+
+            if (BLOCKSCALES[blockscale] == 4) {
+                utilityBox._increaseStatus = false;
+            }
         };
 
         function doSmallerFont() {
+            hideDOMLabel();
+
             if (blockscale > 0) {
                 blockscale -= 1;
                 blocks.setBlockScale(BLOCKSCALES[blockscale]);
             }
+
+            if (BLOCKSCALES[blockscale] == 1) {
+                utilityBox._decreaseStatus = false;
+            }
+
+            if (BLOCKSCALES[blockscale] < 4) {
+                utilityBox._increaseStatus = true;
+            } 
+        };
+
+        function deletePlugin() {
+            palettes.paletteObject._promptPaletteDelete();
         };
 
         function getPlaybackQueueStatus () {
             return Object.keys(logo.playbackQueue).length > 0;
         };
-        
+
         function setPlaybackStatus () {
             if (playbackBox != null) {
                 playbackBox.setPlaybackStatus();
@@ -656,12 +1001,16 @@ define(MYDEFINES, function (compatibility) {
         };
 
         function doPausePlayback () {
+            logo.restartPlayback = false;
             logo.playback(-1);
             playbackBox.playButton.visible = true;
             playbackBox.pauseButton.visible = false;
         };
 
         function doPlayback() {
+            progressBar.style.visibility = 'visible';
+            progressBar.style.left = (playbackBox.getPos()[0] + 10) * turtleBlocksScale + 'px';
+            progressBar.style.top = (playbackBox.getPos()[1] + 10) * turtleBlocksScale + 'px';
             logo.playback(-1);
             playbackBox.playButton.visible = false;
             playbackBox.pauseButton.visible = true;
@@ -671,7 +1020,8 @@ define(MYDEFINES, function (compatibility) {
 
         function doRestartPlayback() {
             logo.doStopTurtle();
-
+            logo.restartPlayback = true;
+            
             setTimeout(function () {
                 // logo.playback(-1);
                 playbackBox.playButton.visible = true;
@@ -682,17 +1032,20 @@ define(MYDEFINES, function (compatibility) {
         };
 
         function doCompile() {
-            // Show busy cursor.
+            logo.restartPlayback = true;
             document.body.style.cursor = 'wait';
-
             console.log('Compiling music for playback');
+
             // Suppress music and turtle output when generating
             // compiled output.
+            logo.setTurtleDelay(0);  // Compile at full speed.
             logo.playbackQueue = {};
+            logo.playbackTime = 0;
             logo.compiling = true;
             logo.runLogoCommands();
         };
 
+        var saveLocally;
 
         // Do we need to update the stage?
         var update = true;
@@ -717,14 +1070,21 @@ define(MYDEFINES, function (compatibility) {
         init();
 
         function init() {
+            if (sugarizerCompatibility.isInsideSugarizer()) {
+                //sugarizerCompatibility.data.blocks = prepareExport();
+                storage = sugarizerCompatibility.data;
+            } else {
+                storage = localStorage;
+            }
+
             docById('loader').className = 'loader';
 
             stage = new createjs.Stage(canvas);
             createjs.Touch.enable(stage);
 
             createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED;
-            createjs.Ticker.setFPS(30);
-            createjs.Ticker.addEventListener('tick', stage);
+            createjs.Ticker.framerate = 30;
+            // createjs.Ticker.addEventListener('tick', stage);
             createjs.Ticker.addEventListener('tick', __tick);
 
             _createMsgContainer('#ffffff', '#7a7a7a', function (text) {
@@ -784,7 +1144,8 @@ define(MYDEFINES, function (compatibility) {
                 .setGetStageScale(getStageScale)
                 .setTurtles(turtles)
                 .setSetPlaybackStatus(setPlaybackStatus)
-                .setErrorMsg(errorMsg);
+                .setErrorMsg(errorMsg)
+                .setContextMenu(piemenuContext);
             blocks.makeCopyPasteButtons(_makeButton, updatePasteButton);
 
             turtles.setBlocks(blocks);
@@ -819,47 +1180,41 @@ define(MYDEFINES, function (compatibility) {
                 .setGetCurrentKeyCode(getCurrentKeyCode)
                 .setClearCurrentKeyCode(clearCurrentKeyCode)
                 .setMeSpeak(meSpeak)
-                .setSetPlaybackStatus(setPlaybackStatus)
-                .setSaveLocally(saveLocally);
+                .setSetPlaybackStatus(setPlaybackStatus);
 
             blocks.setLogo(logo);
 
             // Set the default background color...
             logo.setBackgroundColor(-1);
 
-            clearBox = new ClearBox();
-            clearBox
+            pasteBox = new PasteBox();
+            pasteBox
                 .setCanvas(canvas)
                 .setStage(stage)
                 .setRefreshCanvas(refreshCanvas)
-                .setClear(sendAllToTrash);
+                .setPaste(paste);
 
-            saveBox = new SaveBox();
-            saveBox
+            languageBox = new LanguageBox();
+            languageBox
                 .setCanvas(canvas)
                 .setStage(stage)
-                .setRefreshCanvas(refreshCanvas)
-                .setSaveTB(doSaveTB)
-                .setSaveSVG(doSaveSVG)
-                .setSavePNG(doSavePNG)
-                .setSavePlanet(doUploadToPlanet)
-                .setSaveBlockArtwork(doSaveBlockArtwork);
-
-            if (_THIS_IS_MUSIC_BLOCKS_) {
-                saveBox.setSaveLilypond(doSaveLilypond);
-            } else {
-                saveBox.setSaveFB(doShareOnFacebook);
-            }
+                .setMessage(errorMsg)
+                .setRefreshCanvas(refreshCanvas);
 
             utilityBox = new UtilityBox();
+            console.log(utilityBox);
             utilityBox
                 .setStage(stage)
                 .setRefreshCanvas(refreshCanvas)
                 .setBigger(doBiggerFont)
                 .setSmaller(doSmallerFont)
                 .setPlugins(doOpenPlugin)
+                .deletePlugins(deletePlugin)
                 .setStats(doAnalytics)
-                .setScroller(toggleScroller);
+                .setSearch(showSearchWidget, hideSearchWidget)
+                .setScroller(toggleScroller)
+                .setLanguage(doLanguageBox, languageBox)
+                .setOptimize(doOptimize);
 
             playbackBox = new PlaybackBox();
             playbackBox
@@ -871,16 +1226,441 @@ define(MYDEFINES, function (compatibility) {
                 .setPause(doPausePlayback)
                 .setRewind(doRestartPlayback);
 
-            thumbnails = new SamplesViewer();
-            thumbnails
+            playbackOnLoad = function() {
+                if (_THIS_IS_TURTLE_BLOCKS_) {
+                    // Play playback queue if there is one.
+                    for (turtle in logo.playbackQueue) {
+                        if (logo.playbackQueue[turtle].length > 0) {
+                            setTimeout(function () {
+                                logo.playback(-1);
+                            }, 3000);
+                            break;
+                        }
+                    }
+                }
+            };
+
+            function PlanetInterface(storage) {
+                this.planet = null;
+                this.iframe = null;
+                this.mainCanvas = null;
+
+                this.hideMusicBlocks = function() {
+                    hideSearchWidget();
+                    if (_THIS_IS_MUSIC_BLOCKS_) {
+                        storage.setItem('isMatrixHidden', docById('ptmDiv').style.visibility);
+                        storage.setItem('isStaircaseHidden', docById('pscDiv').style.visibility);
+                        storage.setItem('isTimbreHidden', docById('timbreDiv').style.visibility);
+                        storage.setItem('isPitchDrumMatrixHidden', docById('pdmDiv').style.visibility);
+                        storage.setItem('isRhythmRulerHidden', docById('rulerDiv').style.visibility);
+                        storage.setItem('isModeWidgetHidden', docById('modeDiv').style.visibility);
+                        storage.setItem('isSliderHidden', docById('sliderDiv').style.visibility);
+                        storage.setItem('isTempoHidden', docById('tempoDiv').style.visibility);
+
+                        if (docById('ptmDiv').style.visibility !== 'hidden') {
+                            docById('ptmDiv').style.visibility = 'hidden';
+                            docById('ptmTableDiv').style.visibility = 'hidden';
+                            docById('ptmButtonsDiv').style.visibility = 'hidden';
+                        }
+
+                        if (docById('pdmDiv').style.visibility !== 'hidden') {
+                            docById('pdmDiv').style.visibility = 'hidden';
+                            docById('pdmButtonsDiv').style.visibility = 'hidden';
+                            docById('pdmTableDiv').style.visibility = 'hidden';
+                        }
+
+                        if (docById('rulerDiv').style.visibility !== 'hidden') {
+                            docById('rulerDiv').style.visibility = 'hidden';
+                            docById('rulerTableDiv').style.visibility = 'hidden';
+                            docById('rulerButtonsDiv').style.visibility = 'hidden';
+                        }
+
+                        if (docById('pscDiv').style.visibility !== 'hidden') {
+                            docById('pscDiv').style.visibility = 'hidden';
+                            docById('pscTableDiv').style.visibility = 'hidden';
+                            docById('pscButtonsDiv').style.visibility = 'hidden';
+                        }
+
+                        if (docById('timbreDiv').style.visibility !== 'hidden') {
+                            docById('timbreDiv').style.visibility = 'hidden';
+                            docById('timbreTableDiv').style.visibility = 'hidden';
+                            docById('timbreButtonsDiv').style.visibility = 'hidden';
+                        }
+
+                        if (docById('statusDiv').style.visibility !== 'hidden') {
+                            docById('statusDiv').style.visibility = 'hidden';
+                            docById('statusButtonsDiv').style.visibility = 'hidden';
+                            docById('statusTableDiv').style.visibility = 'hidden';
+                        }
+
+                        if (docById('sliderDiv').style.visibility !== 'hidden') {
+                            docById('sliderDiv').style.visibility = 'hidden';
+                            docById('sliderButtonsDiv').style.visibility = 'hidden';
+                            docById('sliderTableDiv').style.visibility = 'hidden';
+                        }
+
+                        if (docById('modeDiv').style.visibility !== 'hidden') {
+                            docById('modeDiv').style.visibility = 'hidden';
+                            docById('modeButtonsDiv').style.visibility = 'hidden';
+                            docById('modeTableDiv').style.visibility = 'hidden';
+                        }
+
+                        if (docById('tempoDiv').style.visibility !== 'hidden') {
+                            if (logo.tempo != null) {
+                                logo.tempo.hide();
+                            }
+                        }
+                    }
+
+                    storage.setItem('isStatusHidden', docById('statusDiv').style.visibility);
+                    logo.doStopTurtle();
+                    helpContainer.visible = false;
+                    docById('helpElem').style.visibility = 'hidden';
+                    document.querySelector('.canvasHolder').classList.add('hide');
+                    document.querySelector('#canvas').style.display = 'none';
+                    document.querySelector('#theme-color').content = '#8bc34a';
+                    setTimeout(function () {
+                        // Time to release the mouse
+                        stage.enableDOMEvents(false);
+                    }, 250);
+                    window.scroll(0, 0);
+                }
+
+                this.showMusicBlocks = function () {
+                    docById('statusDiv').style.visibility = storage.getItem('isStatusHidden');
+                    docById('statusButtonsDiv').style.visibility = storage.getItem('isStatusHidden');
+                    docById('statusTableDiv').style.visibility = storage.getItem('isStatusHidden');
+
+                    if (_THIS_IS_MUSIC_BLOCKS_) {
+                        docById('ptmDiv').style.visibility = storage.getItem('isMatrixHidden');
+                        docById('ptmButtonsDiv').style.visibility = storage.getItem('isMatrixHidden');
+                        docById('ptmTableDiv').style.visibility = storage.getItem('isMatrixHidden');
+                        docById('pscDiv').style.visibility = storage.getItem('isStaircaseHidden');
+                        docById('pscButtonsDiv').style.visibility = storage.getItem('isStaircaseHidden');
+                        docById('pscTableDiv').style.visibility = storage.getItem('isStaircaseHidden');
+                        docById('timbreDiv').style.visibility = storage.getItem('isTimbreHidden');
+                        docById('timbreButtonsDiv').style.visibility = storage.getItem('isTimbreHidden');
+                        docById('timbreTableDiv').style.visibility = storage.getItem('isTimbreHidden');
+                        docById('sliderDiv').style.visibility = storage.getItem('isSliderHidden');
+                        docById('sliderButtonsDiv').style.visibility = storage.getItem('isSliderHidden');
+                        docById('sliderTableDiv').style.visibility = storage.getItem('isSliderHidden');
+                        docById('pdmDiv').style.visibility = storage.getItem('isPitchDrumMatrixHidden');
+                        docById('pdmButtonsDiv').style.visibility = storage.getItem('isPitchDrumMatrixHidden');
+                        docById('pdmTableDiv').style.visibility = storage.getItem('isPitchDrumMatrixHidden');
+                        docById('rulerDiv').style.visibility = storage.getItem('isRhythmRulerHidden');
+                        docById('rulerButtonsDiv').style.visibility = storage.getItem('isRhythmRulerHidden');
+                        docById('rulerTableDiv').style.visibility = storage.getItem('isRhythmRulerHidden');
+                        docById('modeDiv').style.visibility = storage.getItem('isModeWidgetHidden');
+                        docById('modeButtonsDiv').style.visibility = storage.getItem('isModeWidgetHidden');
+                        docById('modeTableDiv').style.visibility = storage.getItem('isModeWidgetHidden');
+                        // Don't reopen the tempo widget since we didn't just hide it, but also closed it.
+                        // docById('tempoDiv').style.visibility = localStorage.getItem('isTempoHidden');
+                        // docById('tempoButtonsDiv').style.visibility = localStorage.getItem('isTempoHidden');
+                    }
+                    document.querySelector('.canvasHolder').classList.remove('hide');
+                    document.querySelector('#canvas').style.display = '';
+                    document.querySelector('#theme-color').content = platformColor.header;
+                    stage.enableDOMEvents(true);
+                    window.scroll(0, 0);
+                };
+
+                this.showPlanet = function() {
+                    this.planet.open(this.mainCanvas.toDataURL('image/png'));
+                    this.iframe.style.display = 'block';
+                    try {
+                        this.iframe.contentWindow.document.getElementById('local-tab').click();
+                    } catch (e) {
+                        console.log(e);
+                    }
+                };
+
+                this.hidePlanet = function() {
+                    this.iframe.style.display = 'none';
+                };
+
+                this.openPlanet = function() {
+                    console.log('save locally');
+                    this.saveLocally();
+                    this.hideMusicBlocks();
+                    this.showPlanet();
+                };
+
+                this.closePlanet = function() {
+                    this.hidePlanet();
+                    this.showMusicBlocks();
+                };
+
+                this.loadProjectFromData = function(data, merge) {
+                    if (merge===undefined) {
+                        merge=false;
+                    }
+
+                    this.closePlanet();
+                    if (!merge) {
+                        sendAllToTrash(false, true);
+                    }
+
+                    if (data == undefined) {
+                        console.log('loadRawProject: data is undefined... punting');
+                        errorMsg('loadRawProject: project undefined');
+                        return;
+                    }
+
+                    console.log('loadRawProject ' + data);
+                    loading = true;
+                    document.body.style.cursor = 'wait';
+                    _allClear();
+
+                    // First, hide the palettes as they will need updating.
+                    for (var name in blocks.palettes.dict) {
+                        blocks.palettes.dict[name].hideMenu(true);
+                    }
+
+                    var __afterLoad = function () {
+                        playbackOnLoad();
+                        document.removeEventListener('finishedLoading', __afterLoad);
+                    };
+
+                    if (document.addEventListener) {
+                        document.addEventListener('finishedLoading', __afterLoad);
+                    } else {
+                        document.attachEvent('finishedLoading', __afterLoad);
+                    }
+
+                    try {
+                        var obj = JSON.parse(data);
+                        logo.playbackQueue = {};
+                        blocks.loadNewBlocks(obj);
+                        setPlaybackStatus();
+
+
+                    } catch (e) {
+                        console.log('loadRawProject: could not parse project data');
+                        errorMsg(e);
+                    }
+
+                    loading = false;
+                    document.body.style.cursor = 'default';
+                };
+
+                this.loadProjectFromFile = function() {
+                    console.log('OPEN');
+                    document.querySelector('#myOpenFile').focus();
+                    document.querySelector('#myOpenFile').click();
+                    window.scroll(0, 0);
+                };
+
+                this.newProject = function() {
+                    this.closePlanet();
+                    this.initialiseNewProject();
+                };
+
+                this.initialiseNewProject = function(name) {
+                    this.planet.ProjectStorage.initialiseNewProject(name);
+                    blocks.trashStacks = [];
+                    this.saveLocally();
+                };
+
+                this.saveLocally = function() {
+                    console.log('overwriting session data');
+                    var data = prepareExport();
+                    var svgData = doSVG(canvas, logo, turtles, 320, 240, 320 / canvas.width);
+                    if (svgData === null || svgData === '') {
+                        this.planet.ProjectStorage.saveLocally(data, null);
+                    } else {
+                        var img = new Image();
+                        var t = this;
+                        img.onload = function () {
+                            var bitmap = new createjs.Bitmap(img);
+                            var bounds = bitmap.getBounds();
+                            bitmap.cache(bounds.x, bounds.y, bounds.width, bounds.height);
+                            try {
+                                t.planet.ProjectStorage.saveLocally(data, bitmap.bitmapCache.getCacheDataURL());
+                            } catch (e) {
+                                console.log(e);
+                            }
+                        };
+                        img.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svgData)));
+                    }
+                    //if (sugarizerCompatibility.isInsideSugarizer()) {
+                    //    sugarizerCompatibility.saveLocally();
+                    //}
+                };
+
+                this.openCurrentProject = function() {
+                    return this.planet.ProjectStorage.getCurrentProjectData();
+                };
+
+                this.openProjectFromPlanet = function(id,error) {
+                    this.planet.openProjectFromPlanet(id,error);
+                };
+
+                this.onConverterLoad = function() {
+                    window.Converter = this.planet.Converter;
+                };
+
+                this.getCurrentProjectName = function() {
+                    return this.planet.ProjectStorage.getCurrentProjectName();
+                };
+
+                this.getCurrentProjectDescription = function() {
+                    return this.planet.ProjectStorage.getCurrentProjectDescription();
+                };
+
+                this.getCurrentProjectImage = function() {
+                    return this.planet.ProjectStorage.getCurrentProjectImage();
+                };
+
+                this.getTimeLastSaved = function() {
+                    return this.planet.ProjectStorage.TimeLastSaved;
+                };
+
+                this.init = function() {
+                    this.iframe = document.getElementById('planet-iframe');
+                    try {
+                        this.iframe.contentWindow.makePlanet(_THIS_IS_MUSIC_BLOCKS_, storage);
+                        this.planet = this.iframe.contentWindow.p;
+                        this.planet.setLoadProjectFromData(this.loadProjectFromData.bind(this));
+                        this.planet.setPlanetClose(this.closePlanet.bind(this));
+                        this.planet.setLoadNewProject(this.newProject.bind(this));
+                        this.planet.setLoadProjectFromFile(this.loadProjectFromFile.bind(this));
+                        this.planet.setOnConverterLoad(this.onConverterLoad.bind(this));
+                    } catch (e) {
+                        console.log('Planet not available');
+                        this.planet = null;
+                    }
+
+                    window.Converter = this.planet.Converter;
+                    this.mainCanvas = canvas;
+                };
+            };
+
+            try {
+                planet = new PlanetInterface(storage);
+                planet.init();
+            } catch (e) {
+                planet = undefined;
+            }
+
+            save = new SaveInterface(planet);
+            save.setVariables([
+                ['logo', logo],
+                ['turtles', turtles],
+                ['storage', storage],
+                ['printBlockSVG', _printBlockSVG]
+            ]);
+            save.init();
+
+            if (planet != undefined) {
+                saveLocally = planet.saveLocally.bind(planet);
+            } else {
+
+                __saveLocally = function() {
+                    console.log('overwriting session data (local)');
+                    var data = prepareExport();
+                    var svgData = doSVG(canvas, logo, turtles, 320, 240, 320 / canvas.width);
+
+                    if (sugarizerCompatibility.isInsideSugarizer()) {
+                        //sugarizerCompatibility.data.blocks = prepareExport();
+                        storage = sugarizerCompatibility.data;
+                    } else {
+                        storage = localStorage;
+                    }
+
+                    if (storage.currentProject === undefined) {
+                        try {
+                            storage.currentProject = 'My Project';
+                            storage.allProjects = JSON.stringify(['My Project'])
+                        } catch (e) {
+                            // Edge case, eg. Firefox localSorage DB corrupted
+                            console.log(e);
+                        }
+                    }
+
+                    try {
+                        var p = storage.currentProject;
+                        storage['SESSION' + p] = prepareExport();
+                    } catch (e) {
+                        console.log(e);
+                    }
+
+                    var img = new Image();
+                    var svgData = doSVG(canvas, logo, turtles, 320, 240, 320 / canvas.width);
+
+                    img.onload = function () {
+                        var bitmap = new createjs.Bitmap(img);
+                        var bounds = bitmap.getBounds();
+                        bitmap.cache(bounds.x, bounds.y, bounds.width, bounds.height);
+                        try {
+                            storage['SESSIONIMAGE' + p] = bitmap.bitmapCache.getCacheDataURL();
+                        } catch (e) {
+                            console.log(e);
+                        }
+                    };
+
+                    img.src = 'data:image/svg+xml;base64,' +
+                        window.btoa(unescape(encodeURIComponent(svgData)));
+                    if (sugarizerCompatibility.isInsideSugarizer()) {
+                        sugarizerCompatibility.saveLocally();
+                    }
+                }
+
+                saveLocally = __saveLocally;
+            }
+
+            window.saveLocally = saveLocally;
+            logo.setSaveLocally(saveLocally);
+
+            saveBox = new SaveBox();
+            if (planet) {
+                var planetItem = ['_doSavePlanet', doUploadToPlanet];
+            } else {
+                var planetItem = ['_doSavePlanet', null];
+            }
+
+            saveBox.setVariables([
+                ['_canvas', canvas],
+                ['_stage', stage],
+                ['_refreshCanvas', refreshCanvas],
+                ['_doSaveHTML', save.saveHTML.bind(save)],
+                ['_doSaveSVG', save.saveSVG.bind(save)],
+                ['_doSavePNG', save.savePNG.bind(save)],
+                ['_doSavePlanet', doUploadToPlanet],
+                ['_doSaveBlockArtwork', save.saveBlockArtwork.bind(save)]
+            ]);
+
+            if (_THIS_IS_MUSIC_BLOCKS_) {
+                saveBox.setVariables([
+                    ['_doSaveWAV', save.saveWAV.bind(save)],
+                    ['_doSaveAbc', save.saveAbc.bind(save)],
+                    ['_doSaveLilypond', save.saveLilypond.bind(save)]
+                ]);
+            } else {
+                saveBox.setVariables([
+                    ['_doShareOnFacebook', doShareOnFacebook]
+                ]);
+            }
+
+            var __clearFunction = function () {
+                sendAllToTrash(true, false);
+                if (planet !== undefined) {
+                    planet.initialiseNewProject.bind(planet);
+                }
+            };
+
+            clearBox = new ClearBox();
+            clearBox
+                .setCanvas(canvas)
                 .setStage(stage)
                 .setRefreshCanvas(refreshCanvas)
-                .setClear(sendAllToTrash)
-                .setLoad(loadProject)
-                .setLoadRaw(loadRawProject)
-                .init();
+                .setClear(__clearFunction);
 
-            initBasicProtoBlocks(palettes, blocks);
+            // FIXME: Third arg indicates beginner mode
+            if (_THIS_IS_MUSIC_BLOCKS_) {
+                initBasicProtoBlocks(palettes, blocks, beginnerMode);
+            } else {
+                initBasicProtoBlocks(palettes, blocks);
+            }
 
             // Load any macros saved in local storage.
             macroData = storage.macros;
@@ -895,7 +1675,7 @@ define(MYDEFINES, function (compatibility) {
             // Load any plugins saved in local storage.
             pluginData = storage.plugins;
             if (pluginData != null) {
-                var obj = processPluginData(pluginData, palettes, blocks, logo.evalFlowDict, logo.evalArgDict, logo.evalParameterDict, logo.evalSetterDict, logo.evalOnStartList, logo.evalOnStopList);
+                var obj = processPluginData(pluginData, palettes, blocks, logo.evalFlowDict, logo.evalArgDict, logo.evalParameterDict, logo.evalSetterDict, logo.evalOnStartList, logo.evalOnStopList, palettes.pluginMacros);
                 updatePluginObj(obj);
             }
 
@@ -915,42 +1695,67 @@ define(MYDEFINES, function (compatibility) {
                 var reader = new FileReader();
 
                 reader.onload = (function (theFile) {
-                    // Show busy cursor.
+                    loading = true;
                     document.body.style.cursor = 'wait';
 
                     setTimeout(function () {
                         var rawData = reader.result;
                         if (rawData == null || rawData === '') {
+                            console.log('rawData is ' + rawData);
                             errorMsg(_('Cannot load project from the file. Please check the file type.'));
                         } else {
                             var cleanData = rawData.replace('\n', ' ');
 
                             try {
-                                var obj = JSON.parse(cleanData);
+                                if (cleanData.includes('html')) {
+                                    var obj = JSON.parse(cleanData.match('<div class="code">(.+?)<\/div>')[1]);
+                                } else {
+                                    var obj = JSON.parse(cleanData);
+                                }
                                 // First, hide the palettes as they will need updating.
                                 for (var name in blocks.palettes.dict) {
                                     blocks.palettes.dict[name].hideMenu(true);
                                 }
 
-                                sendAllToTrash(false, false);
-                                refreshCanvas();
+                                stage.removeAllEventListeners('trashsignal');
 
-                                logo.playbackQueue = {};
-                                blocks.loadNewBlocks(obj);
-                                setPlaybackStatus();
+                                if (!merging) {
+                                    // Wait for the old blocks to be removed.
+                                    var __listener = function (event) {
+                                        logo.playbackQueue = {};
+                                        blocks.loadNewBlocks(obj);
+                                        setPlaybackStatus();
+                                        stage.removeAllEventListeners('trashsignal');
+                                    };
+
+                                    stage.addEventListener('trashsignal', __listener, false);
+                                    sendAllToTrash(false, false);
+                                    if (planet) {
+                                        planet.initialiseNewProject(fileChooser.files[0].name.substr(0, fileChooser.files[0].name.lastIndexOf('.')));
+                                    }
+                                } else {
+                                    merging = false;
+                                    logo.playbackQueue = {};
+                                    blocks.loadNewBlocks(obj);
+                                    setPlaybackStatus();
+                                }
+
+                                loading = false;
+                                refreshCanvas();
                             } catch (e) {
                                 errorMsg(_('Cannot load project from the file. Please check the file type.'));
+                                console.log(e);
+                                document.body.style.cursor = 'default';
+                                loading = false;
                             }
                         }
-
-                        document.body.style.cursor = 'default';
                     }, 200);
                 });
 
                 reader.readAsText(fileChooser.files[0]);
             }, false);
-        
-            function handleFileSelect (event) {
+
+            var __handleFileSelect = function (event) {
                 event.stopPropagation();
                 event.preventDefault();
 
@@ -958,6 +1763,7 @@ define(MYDEFINES, function (compatibility) {
                 var reader = new FileReader();
 
                 reader.onload = (function (theFile) {
+                    loading = true;
                     document.body.style.cursor = 'wait';
 
                     setTimeout(function () {
@@ -968,24 +1774,52 @@ define(MYDEFINES, function (compatibility) {
                             var cleanData = rawData.replace('\n', ' ');
 
                             try {
-                                var obj = JSON.parse(cleanData);
+                                if (cleanData.includes('html')) {
+                                    dat = cleanData.match('<div class="code">(.+?)<\/div>');
+                                    var obj = JSON.parse(dat[1]);
+                                } else {
+                                    var obj = JSON.parse(cleanData);
+                                }
                                 for (var name in blocks.palettes.dict) {
                                     blocks.palettes.dict[name].hideMenu(true);
                                 }
-   
+
+                                stage.removeAllEventListeners('trashsignal');
+
+                                var __afterLoad = function () {
+                                    playbackOnLoad();
+                                    document.removeEventListener('finishedLoading', __afterLoad);
+                                };
+
+                                // Wait for the old blocks to be removed.
+                                var __listener = function (event) {
+                                    logo.playbackQueue = {};
+                                    blocks.loadNewBlocks(obj);
+                                    setPlaybackStatus();
+                                    stage.removeAllEventListeners('trashsignal');
+
+                                    if (document.addEventListener) {
+                                        document.addEventListener('finishedLoading', __afterLoad);
+                                    } else {
+                                        document.attachEvent('finishedLoading', __afterLoad);
+                                    }
+                                };
+
+                                stage.addEventListener('trashsignal', __listener, false);
                                 sendAllToTrash(false, false);
+                                if (planet !== undefined) {
+                                    planet.initialiseNewProject(files[0].name.substr(0, files[0].name.lastIndexOf('.')));
+                                }
+
+                                loading = false;
                                 refreshCanvas();
-    
-                                logo.playbackQueue = {};
-                                blocks.loadNewBlocks(obj);
-                                setPlaybackStatus();
                             } catch (e) {
+                                console.log(e);
                                 errorMsg(_('Cannot load project from the file. Please check the file type.'));
+                                document.body.style.cursor = 'default';
+                                loading = false;
                             }
-                     
                         }
-                        
-                        document.body.style.cursor = 'default';
                     }, 200);
                 });
 
@@ -997,15 +1831,15 @@ define(MYDEFINES, function (compatibility) {
                 }
             };
 
-            function handleDragOver (event) {
+            var __handleDragOver = function (event) {
                 event.stopPropagation();
                 event.preventDefault();
                 event.dataTransfer.dropEffect = 'copy';
             };
 
-            var dropZone = document.getElementById('canvasHolder');
-            dropZone.addEventListener('dragover', handleDragOver, false);
-            dropZone.addEventListener('drop', handleFileSelect, false);
+            var dropZone = docById('canvasHolder');
+            dropZone.addEventListener('dragover', __handleDragOver, false);
+            dropZone.addEventListener('drop', __handleFileSelect, false);
 
             allFilesChooser.addEventListener('click', function (event) {
                 this.value = null;
@@ -1023,14 +1857,15 @@ define(MYDEFINES, function (compatibility) {
                 var reader = new FileReader();
 
                 reader.onload = (function (theFile) {
-                    // Show busy cursor.
+                    loading = true;
                     document.body.style.cursor = 'wait';
+
                     setTimeout(function () {
-                        obj = processRawPluginData(reader.result, palettes, blocks, errorMsg, logo.evalFlowDict, logo.evalArgDict, logo.evalParameterDict, logo.evalSetterDict, logo.evalOnStartList, logo.evalOnStopList);
+                        obj = processRawPluginData(reader.result, palettes, blocks, errorMsg, logo.evalFlowDict, logo.evalArgDict, logo.evalParameterDict, logo.evalSetterDict, logo.evalOnStartList, logo.evalOnStopList, palettes.pluginMacros);
                         // Save plugins to local storage.
                         if (obj != null) {
                             var pluginObj = preparePluginExports(obj);
-                            console.log(pluginObj);
+                            // console.log(pluginObj);
                             storage.plugins = pluginObj; // preparePluginExports(obj));
                         }
 
@@ -1043,8 +1878,8 @@ define(MYDEFINES, function (compatibility) {
                             palettes.bringToTop();
                         }, 1000);
 
-                        // Restore default cursor.
                         document.body.style.cursor = 'default';
+                        loading = false;
                     }, 200);
                 });
 
@@ -1055,23 +1890,20 @@ define(MYDEFINES, function (compatibility) {
             // createjs.LoadQueue(true, null, true);
 
             // Enable touch interactions if supported on the current device.
-            // FIXME: voodoo
-            // createjs.Touch.enable(stage, false, true);
+            createjs.Touch.enable(stage, false, true);
+
             // Keep tracking the mouse even when it leaves the canvas.
             stage.mouseMoveOutside = true;
+
             // Enabled mouse over and mouse out events.
             stage.enableMouseOver(10); // default is 20
 
             cartesianBitmap = _createGrid('images/Cartesian.svg');
-
             polarBitmap = _createGrid('images/polar.svg');
 
             var URL = window.location.href;
-            var projectName = null;
-            var runProjectOnLoad = false;
-
-            // This happens in the resize code.
-            // _setupAndroidToolbar();
+            var projectID = null;
+            var flags = {run: false, show: false, collapse: false};
 
             // Scale the canvas relative to the screen size.
             _onResize();
@@ -1088,11 +1920,21 @@ define(MYDEFINES, function (compatibility) {
                             var args = newUrlParts[i].split('=');
                             switch (args[0].toLowerCase()) {
                             case 'file':
-                                projectName = args[1];
+                                console.log('Warning: old Music Blocks URLs will no longer work.');
                                 break;
+                            case 'id':
+                                projectID = args[1];
                             case 'run':
                                 if (args[1].toLowerCase() === 'true')
-                                    runProjectOnLoad = true;
+                                    flags.run = true;
+                                break;
+                            case 'show':
+                                if (args[1].toLowerCase() === 'true')
+                                    flags.show = true;
+                                break;
+                            case 'collapse':
+                                if (args[1].toLowerCase() === 'true')
+                                    flags.collapse = true;
                                 break;
                             case 'inurl':
                                 var url = args[1];
@@ -1112,39 +1954,43 @@ define(MYDEFINES, function (compatibility) {
                                         xhr.send();
                                     });
                                 };
+
                                 getJSON(url).then(function (data) {
-                                    console.log('Your Json result is:  ' + data.arg); //you can comment this, i used it to debug
+                                    // console.log('Your JSON result is:  ' + data.arg);
                                     n = data.arg;
                                     env.push(parseInt(n));
-                                }, function (status) { //error detection....
-                                    alert('Something went wrong.');
+                                }, function (status) {
+                                    alert('Something went wrong reading JSON-encoded project data.');
                                 });
                                 break;
                             case 'outurl':
                                 var url = args[1];
                                 break;
                             default:
-                                errorMsg("Invalid parameters");
+                                errorMsg('Invalid parameters');
                             }
                         }
                     }
                 } else {
-                    if (urlParts[1].indexOf('=') > 0)
+                    if (urlParts[1].indexOf('=') > 0) {
                         var args = urlParts[1].split('=');
-                    //File is the only arg that can stand alone
-                    if (args[0].toLowerCase() === 'file') {
-                        projectName = args[1];
+                    }
+
+                    //ID is the only arg that can stand alone
+                    if (args[0].toLowerCase() === 'id') {
+                        projectID = args[1];
                     }
                 }
             }
 
-            if (projectName != null) {
+            if (projectID != null) {
                 setTimeout(function () {
-                    console.log('loading ' + projectName);
-                    loadStartWrapper(loadProject, projectName, runProjectOnLoad, env);
+                    console.log('loading ' + projectID);
+                    loadStartWrapper(loadProject, projectID, flags, env);
                 }, 2000);
             } else {
                 setTimeout(function () {
+                    console.log('load new Start block');
                     loadStartWrapper(_loadStart);
                 }, 2000);
             }
@@ -1159,19 +2005,50 @@ define(MYDEFINES, function (compatibility) {
         function _setupBlocksContainerEvents() {
             var moving = false;
 
-            stage.on('stagemousemove', function (event) {
-                stageX = event.stageX;
-                stageY = event.stageY;
-            });
+            var __wheelHandler = function (event) {
+                // vertical scroll
+                if (event.deltaY != 0 && event.axis === event.VERTICAL_AXIS) { 
+                    if (palettes.paletteVisible) {
+                        if (event.clientX > cellSize + MENUWIDTH) {
+                            blocksContainer.y -= event.deltaY;
+                        }    
+                    } else {
+                        if (event.clientX > cellSize) {
+                            blocksContainer.y -= event.deltaY;
+                        }
+                    }   
+                }
 
-            function __stageMouseUpHandler (event) {
+                // horizontal scroll 
+                if (scrollBlockContainer) {
+                    if (event.deltaX != 0 && event.axis === event.HORIZONTAL_AXIS) { 
+                        if (palettes.paletteVisible) {
+                            if (event.clientX > cellSize + MENUWIDTH) {
+                                blocksContainer.x -= event.deltaX;
+                            }    
+                        } else {
+                            if (event.clientX > cellSize) {
+                                blocksContainer.x -= event.deltaX;
+                            }
+                        }   
+                    }
+                } else {
+                    event.preventDefault();
+                } 
+
+                refreshCanvas();
+            };
+
+            docById('myCanvas').addEventListener('wheel', __wheelHandler, false);
+
+            var __stageMouseUpHandler = function (event) {
                 stageMouseDown = false;
                 moving = false;
             };
 
             stage.on('stagemousedown', function (event) {
                 stageMouseDown = true;
-                if (stage.getObjectUnderPoint() != null | turtles.running()) {
+                if (stage.getObjectUnderPoint() !== null | turtles.running()) {
                     stage.removeAllEventListeners('stagemouseup');
                     stage.on('stagemouseup', __stageMouseUpHandler);
                     return;
@@ -1183,6 +2060,8 @@ define(MYDEFINES, function (compatibility) {
                     y: event.stageY
                 };
 
+                hideDOMLabel();
+
                 stage.removeAllEventListeners('stagemousemove');
                 stage.on('stagemousemove', function (event) {
                     if (!moving) {
@@ -1191,14 +2070,15 @@ define(MYDEFINES, function (compatibility) {
 
                     if (scrollBlockContainer) {
                         blocksContainer.x += event.stageX - lastCords.x;
-                        blocksContainer.y += event.stageY - lastCords.y;
-                        lastCords = {
-                            x: event.stageX,
-                            y: event.stageY
-                        };
-
-                        refreshCanvas();
                     }
+
+                    blocksContainer.y += event.stageY - lastCords.y;
+                    lastCords = {
+                        x: event.stageX,
+                        y: event.stageY
+                    };
+
+                    refreshCanvas();
                 });
 
                 stage.removeAllEventListeners('stagemouseup');
@@ -1298,8 +2178,10 @@ define(MYDEFINES, function (compatibility) {
                     if (errorMsgArrow != null) {
                         errorMsgArrow.removeAllChildren(); // Hide the error arrow.
                     }
+
                     update = true;
                 });
+
                 callback(text);
                 blocks.setMsgText(text);
             };
@@ -1358,6 +2240,146 @@ define(MYDEFINES, function (compatibility) {
             img.src = 'images/' + name + '.svg';
         };
 
+        // Prepare the search widget
+        searchWidget.style.visibility = 'hidden';
+        var searchBlockPosition = [100, 100];
+
+        var searchSuggestions = [];
+        var deprecatedBlockNames = [];
+
+        for (var i in blocks.protoBlockDict) {
+            var blockLabel = blocks.protoBlockDict[i].staticLabels[0];
+            if (blockLabel) {
+                if (blocks.protoBlockDict[i].hidden) {
+                    deprecatedBlockNames.push(blockLabel);
+                } else {
+                    searchSuggestions.push(blockLabel);
+                }
+            }
+        }
+
+        searchSuggestions = searchSuggestions.reverse();
+
+        searchWidget.onclick = function() {
+            doSearch();
+        };
+
+        function hideSearchWidget() {
+            // Hide the jQuery search results widget
+            var obj = docByClass('ui-menu');
+            if (obj.length > 0) {
+                obj[0].style.visibility = 'hidden';
+            }
+
+            searchWidget.style.visibility = 'hidden';
+        };
+
+        function showSearchWidget() {
+            if (searchWidget.style.visibility === 'visible') {
+                hideSearchWidget();
+            } else {
+                var obj = docByClass('ui-menu');
+                if (obj.length > 0) {
+                    obj[0].style.visibility = 'visible';
+                }
+
+                searchWidget.value = null;
+                docById('searchResults').style.visibility = 'visible';
+                searchWidget.style.visibility = 'visible';
+                searchWidget.style.left = (utilityBox.getPos()[0] + 10) * turtleBlocksScale + 'px';
+                searchWidget.style.top = (utilityBox.getPos()[1] + 10) * turtleBlocksScale + 'px';
+
+                searchBlockPosition = [100, 100];
+
+                // Give the browser time to update before selecting
+                // focus.
+                setTimeout(function () {
+                    searchWidget.focus();
+                    doSearch();
+                }, 500);
+            }
+        };
+
+        function doSearch() {
+            var $j = jQuery.noConflict();
+
+            $j('#search').autocomplete({
+                source: searchSuggestions
+            });
+
+            $j('#search').autocomplete('widget').addClass('scrollSearch');
+
+            var searchInput = searchWidget.value;
+            var obj = palettes.getProtoNameAndPalette(searchInput);
+            var protoblk = obj[0];
+            var paletteName = obj[1];
+            var protoName = obj[2];
+
+            var searchResult = blocks.protoBlockDict.hasOwnProperty(protoName);
+
+            if (searchInput.length > 0) {
+                if (searchResult) {
+                    palettes.dict[paletteName].makeBlockFromSearch(protoblk, protoName, function (newBlock) {
+                        blocks.moveBlock(newBlock, searchBlockPosition[0] - blocksContainer.x, searchBlockPosition[1] - blocksContainer.y);
+                    });
+
+                    // Move the position of the next newly created block.
+                    searchBlockPosition[0] += STANDARDBLOCKHEIGHT;
+                    searchBlockPosition[1] += STANDARDBLOCKHEIGHT;
+                } else if (deprecatedBlockNames.indexOf(searchInput) > -1) {
+                    blocks.errorMsg(_('This block is deprecated.'));
+                } else {
+                    blocks.errorMsg(_('Block cannot be found.'));
+                }
+
+                searchWidget.value = '';
+                update = true;
+            }
+        };
+
+        function __makeNewNote(octave, solf) {
+            var newNote = [
+                [0, 'newnote', 300 - blocksContainer.x, 300 - blocksContainer.y, [null, 1, 4, 8]],
+                [1, 'divide', 0, 0, [0, 2, 3]],
+                [2, ['number', {'value': 1}], 0, 0, [1]],
+                [3, ['number', {'value': 4}], 0, 0, [1]],
+                [4, 'vspace', 0, 0, [0, 5]],
+                [5, 'pitch', 0, 0, [4, 6, 7, null]],
+                [6, ['solfege', {'value': solf}], 0, 0, [5]],
+                [7, ['number', {'value': octave}], 0, 0, [5]],
+                [8, 'hidden', 0, 0, [0, null]]
+            ];
+
+            blocks.loadNewBlocks(newNote);
+            if (blocks.activeBlock !== null) {
+                // Connect the newly created block to the active block
+                // (if it is a hidden block at the end of a new note
+                // block).
+                var bottom = blocks.findBottomBlock(blocks.activeBlock);
+                console.log(blocks.activeBlock + ' ' + bottom);
+                if (blocks.blockList[bottom].name === 'hidden' && blocks.blockList[blocks.blockList[bottom].connections[0]].name === 'newnote') {
+
+                    // The note block macro creates nine blocks.
+                    var newlyCreatedBlock = blocks.blockList.length - 9;
+
+                    // Set last connection of active block to the
+                    // newly created block.
+                    var lastConnection = blocks.blockList[bottom].connections.length - 1
+                    blocks.blockList[bottom].connections[lastConnection] = newlyCreatedBlock;
+
+                    // Set first connection of the newly created block to
+                    // the active block.
+                    blocks.blockList[newlyCreatedBlock].connections[0] = bottom;
+                    // Adjust the dock positions to realign the stack.
+                    blocks.adjustDocks(bottom, true);
+                }
+            }
+
+            // Set new hidden block at the end of the newly created
+            // note block to the active block.
+            blocks.activeBlock = blocks.blockList.length - 1;
+        }
+
         function __keyPressed(event) {
             if (docById('labelDiv').classList.contains('hasKeyboard')) {
                 return;
@@ -1379,16 +2401,23 @@ define(MYDEFINES, function (compatibility) {
                 if (docById('dissectNumber').classList.contains('hasKeyboard')) {
                     return;
                 }
+
+                if (docById('timbreName') !== null) {
+                    if (docById('timbreName').classList.contains('hasKeyboard')) {
+                        return;
+                    }
+                }
             }
 
             const BACKSPACE = 8;
             const TAB = 9;
-                        /*
+
+            /*
             if (event.keyCode === TAB || event.keyCode === BACKSPACE) {
                 // Prevent browser from grabbing TAB key
                 event.preventDefault();
             }
-                        */
+            */
 
             const ESC = 27;
             const ALT = 18;
@@ -1397,20 +2426,53 @@ define(MYDEFINES, function (compatibility) {
             const RETURN = 13;
             const SPACE = 32;
             const HOME = 36;
+            const END = 35;
             const PAGE_UP = 33;
             const PAGE_DOWN = 34;
             const KEYCODE_LEFT = 37;
             const KEYCODE_RIGHT = 39;
             const KEYCODE_UP = 38;
             const KEYCODE_DOWN = 40;
+            const DEL = 46;
+            const V = 86;
 
-            if (event.altKey) {
+            // Shortcuts for creating new notes
+            const KEYCODE_D = 68; // do
+            const KEYCODE_R = 82; // re
+            const KEYCODE_M = 77; // mi
+            const KEYCODE_F = 70; // fa
+            const KEYCODE_S = 83; // so
+            const KEYCODE_L = 76; // la
+            const KEYCODE_T = 84; // ti
+
+            // Check for RETURN in search widget ahead of other events.
+            if (event.keyCode === RETURN && docById('search').value.length > 0) {
+                doSearch();
+                palettes.hide();
+                palettes.show();
+            }
+
+            if (_THIS_IS_MUSIC_BLOCKS_) {
+                var disableKeys = docById('lilypondModal').style.display === 'block' || searchWidget.style.visibility === 'visible' || docById('planet-iframe').style.display === '' || docById('paste').style.visibility === 'visible' || docById('wheelDiv').style.display === '' || logo.turtles.running();
+            } else {
+                var disableKeys = searchWidget.style.visibility === 'visible' || docById('paste').style.visibility === 'visible' || logo.turtles.running();
+            }
+
+            var disableArrowKeys = _THIS_IS_MUSIC_BLOCKS_ && (docById('sliderDiv').style.visibility === 'visible' || docById('tempoDiv').style.visibility === 'visible');
+
+            if (event.altKey && !disableKeys) {
                 switch (event.keyCode) {
                 case 66: // 'B'
-                    _printBlockSVG();
+                    save.saveBlockArtwork();
+                    break;
+                case 67: // 'C'
+                    blocks.prepareStackForCopy();
                     break;
                 case 69: // 'E'
                     _allClear();
+                    break;
+                case 80: // 'P'
+                    logo.playback(-1);
                     break;
                 case 82: // 'R'
                     _doFastButton();
@@ -1418,83 +2480,207 @@ define(MYDEFINES, function (compatibility) {
                 case 83: // 'S'
                     logo.doStopTurtle();
                     break;
-                case 80: // 'P'
-                    logo.playback(-1);  // play all
+                case 86: // 'V'
+                    blocks.pasteStack();
                     break;
                 }
             } else if (event.ctrlKey) {
-            } else {
                 switch (event.keyCode) {
-                case KEYCODE_UP:
-                    if (blocks.activeBlock != null) {
-                        blocks.moveStackRelative(blocks.activeBlock, 0, -STANDARDBLOCKHEIGHT / 2);
-                        blocks.blockMoved(blocks.activeBlock);
-                        blocks.adjustDocks(blocks.activeBlock, true);
-                    } else if (palettes.mouseOver) {
-                        palettes.menuScrollEvent(1, 10);
-                        palettes.hidePaletteIconCircles();
-                    } else if (palettes.activePalette != null) {
-                        palettes.activePalette.scrollEvent(STANDARDBLOCKHEIGHT, 1);
-                    } else if (scrollBlockContainer) {
-                        blocksContainer.y -= 20;
-                    }
-                    break;
-                case KEYCODE_DOWN:
-                    if (blocks.activeBlock != null) {
-                        blocks.moveStackRelative(blocks.activeBlock, 0, STANDARDBLOCKHEIGHT / 2);
-                        blocks.blockMoved(blocks.activeBlock);
-                        blocks.adjustDocks(blocks.activeBlock, true);
-                    } else if (palettes.mouseOver) {
-                        palettes.menuScrollEvent(-1, 10);
-                        palettes.hidePaletteIconCircles();
-                    } else if (palettes.activePalette != null) {
-                        palettes.activePalette.scrollEvent(-STANDARDBLOCKHEIGHT, 1);
-                    } else if (scrollBlockContainer) {
-                        blocksContainer.y += 20;
-                    }
-                    break;
-                case KEYCODE_LEFT:
-                    if (blocks.activeBlock != null) {
-                        blocks.moveStackRelative(blocks.activeBlock, -STANDARDBLOCKHEIGHT / 2, 0);
-                        blocks.blockMoved(blocks.activeBlock);
-                        blocks.adjustDocks(blocks.activeBlock, true);
-                    } else if (scrollBlockContainer) {
-                        blocksContainer.x -= 20;
-                    }
-                    break;
-                case KEYCODE_RIGHT:
-                    if (blocks.activeBlock != null) {
-                        blocks.moveStackRelative(blocks.activeBlock, STANDARDBLOCKHEIGHT / 2, 0);
-                        blocks.blockMoved(blocks.activeBlock);
-                        blocks.adjustDocks(blocks.activeBlock, true);
-                    } else if (scrollBlockContainer) {
-                        blocksContainer.x += 20;
-                    }
-                    break;
-                case HOME:
-                    if (palettes.mouseOver) {
-                        var dy = Math.max(55 - palettes.buttons['rhythm'].y, 0);
-                        palettes.menuScrollEvent(1, dy);
-                        palettes.hidePaletteIconCircles();
-                    } else if (palettes.activePalette != null) {
-                        palettes.activePalette.scrollEvent(-palettes.activePalette.scrollDiff, 1);
-                    } else {
-                        _findBlocks();
-                    }
-                    break;
-                case TAB:
-                    break;
-                case ESC:
-                    // toggle full screen
-                    _toggleToolbar();
-                    break;
-                case RETURN:
-                    // toggle run
-                    logo.runLogoCommands();
-                    break;
-                default:
+                case V:
+                    pasteBox.createBox(turtleBlocksScale, 200, 200);
+                    pasteBox.show();
+                    docById('paste').style.left = (pasteBox.getPos()[0] + 10) * turtleBlocksScale + 'px';
+                    docById('paste').style.top = (pasteBox.getPos()[1] + 10) * turtleBlocksScale + 'px';
+                    docById('paste').focus();
+                    docById('paste').style.visibility = 'visible';
+                    update = true;
                     break;
                 }
+            } else if (event.shiftKey && !disableKeys) {
+                switch (event.keyCode) {
+                case KEYCODE_D:
+                    if (_THIS_IS_MUSIC_BLOCKS_) {
+                        __makeNewNote(5, 'do');
+                    }
+                    break;
+                case KEYCODE_R:
+                    if (_THIS_IS_MUSIC_BLOCKS_) {
+                        __makeNewNote(5, 're');
+                    }
+                    break;
+                case KEYCODE_M:
+                    if (_THIS_IS_MUSIC_BLOCKS_) {
+                        __makeNewNote(5, 'mi');
+                    }
+                    break;
+                case KEYCODE_F:
+                    if (_THIS_IS_MUSIC_BLOCKS_) {
+                        __makeNewNote(5, 'fa');
+                    }
+                    break;
+                case KEYCODE_S:
+                    if (_THIS_IS_MUSIC_BLOCKS_) {
+                        __makeNewNote(5, 'sol');
+                    }
+                    break;
+                case KEYCODE_L:
+                    if (_THIS_IS_MUSIC_BLOCKS_) {
+                        __makeNewNote(5, 'la');
+                    }
+                    break;
+                case KEYCODE_T:
+                    if (_THIS_IS_MUSIC_BLOCKS_) {
+                        __makeNewNote(5, 'ti');
+                    }
+                    break;
+                }
+            } else {
+                if (docById('paste').style.visibility === 'visible' && event.keyCode === RETURN) {
+                    if (docById('paste').value.length > 0) {
+                        pasted();
+                    }
+                } else if (!disableKeys) {
+                    switch (event.keyCode) {
+                    case END:
+                        blocksContainer.y = -blocks.bottomMostBlock() + logo.canvas.height / 2;
+                        break;
+                    case PAGE_UP:
+                        blocksContainer.y += logo.canvas.height / 2;
+                        stage.update();
+                        break;
+                    case PAGE_DOWN:
+                        blocksContainer.y -= logo.canvas.height / 2;
+                        stage.update();
+                        break;
+                    case DEL:
+                        blocks.extract();
+                        break;
+                    case KEYCODE_UP:
+                        if (disableArrowKeys) {
+                        } else if (blocks.activeBlock != null) {
+                            blocks.moveStackRelative(blocks.activeBlock, 0, -STANDARDBLOCKHEIGHT / 2);
+                            blocks.blockMoved(blocks.activeBlock);
+                            blocks.adjustDocks(blocks.activeBlock, true);
+                        } else if (palettes.mouseOver) {
+                            palettes.menuScrollEvent(1, 10);
+                            palettes.hidePaletteIconCircles();
+                        } else if (palettes.activePalette != null) {
+                            palettes.activePalette.scrollEvent(STANDARDBLOCKHEIGHT, 1);
+                        } else if (scrollBlockContainer) {
+                            blocksContainer.y -= 20;
+                        }
+                        stage.update();
+                        break;
+                    case KEYCODE_DOWN:
+                        if (disableArrowKeys) {
+                        } else if (blocks.activeBlock != null) {
+                            blocks.moveStackRelative(blocks.activeBlock, 0, STANDARDBLOCKHEIGHT / 2);
+                            blocks.blockMoved(blocks.activeBlock);
+                            blocks.adjustDocks(blocks.activeBlock, true);
+                        } else if (palettes.mouseOver) {
+                            palettes.menuScrollEvent(-1, 10);
+                            palettes.hidePaletteIconCircles();
+                        } else if (palettes.activePalette != null) {
+                            palettes.activePalette.scrollEvent(-STANDARDBLOCKHEIGHT, 1);
+                        } else if (scrollBlockContainer) {
+                            blocksContainer.y += 20;
+                        }
+                        stage.update();
+                        break;
+                    case KEYCODE_LEFT:
+                        if (disableArrowKeys) {
+                        } else if (blocks.activeBlock != null) {
+                            blocks.moveStackRelative(blocks.activeBlock, -STANDARDBLOCKHEIGHT / 2, 0);
+                            blocks.blockMoved(blocks.activeBlock);
+                            blocks.adjustDocks(blocks.activeBlock, true);
+                        } else if (scrollBlockContainer) {
+                            blocksContainer.x -= 20;
+                        }
+                        stage.update();
+                        break;
+                    case KEYCODE_RIGHT:
+                        if (disableArrowKeys) {
+                        } else if (blocks.activeBlock != null) {
+                            blocks.moveStackRelative(blocks.activeBlock, STANDARDBLOCKHEIGHT / 2, 0);
+                            blocks.blockMoved(blocks.activeBlock);
+                            blocks.adjustDocks(blocks.activeBlock, true);
+                        } else if (scrollBlockContainer) {
+                            blocksContainer.x += 20;
+                        }
+                        stage.update();
+                        break;
+                    case HOME:
+                        if (palettes.mouseOver) {
+                            var dy = Math.max(55 - palettes.buttons['rhythm'].y, 0);
+                            palettes.menuScrollEvent(1, dy);
+                            palettes.hidePaletteIconCircles();
+                        } else if (palettes.activePalette != null) {
+                            palettes.activePalette.scrollEvent(-palettes.activePalette.scrollDiff, 1);
+                        } else {
+                            _findBlocks();
+                        }
+                        stage.update();
+                        break;
+                    case TAB:
+                        break;
+                    case ESC:
+                        if (searchWidget.style.visibility === 'visible') {
+                            searchWidget.style.visibility = 'hidden';
+                        } else {
+                            // toggle full screen
+                            _toggleToolbar();
+                        }
+                        break;
+                    case RETURN:
+                        if (disableArrowKeys) {
+                        } else if (docById('search').value.length > 0) {
+                            doSearch();
+                        } else {
+                            if (blocks.activeBlock == null || SPECIALINPUTS.indexOf(blocks.blockList[blocks.activeBlock].name) === -1) {
+                                logo.runLogoCommands();
+                            }
+                        }
+                        break;
+                    case KEYCODE_D:
+                        if (_THIS_IS_MUSIC_BLOCKS_) {
+                            __makeNewNote(4, 'do');
+                        }
+                        break;
+                    case KEYCODE_R:
+                        if (_THIS_IS_MUSIC_BLOCKS_) {
+                            __makeNewNote(4, 're');
+                        }
+                        break;
+                    case KEYCODE_M:
+                        if (_THIS_IS_MUSIC_BLOCKS_) {
+                            __makeNewNote(4, 'mi');
+                        }
+                        break;
+                    case KEYCODE_F:
+                        if (_THIS_IS_MUSIC_BLOCKS_) {
+                            __makeNewNote(4, 'fa');
+                        }
+                        break;
+                    case KEYCODE_S:
+                        if (_THIS_IS_MUSIC_BLOCKS_) {
+                            __makeNewNote(4, 'sol');
+                        }
+                        break;
+                    case KEYCODE_L:
+                        if (_THIS_IS_MUSIC_BLOCKS_) {
+                            __makeNewNote(4, 'la');
+                        }
+                        break;
+                    case KEYCODE_T:
+                        if (_THIS_IS_MUSIC_BLOCKS_) {
+                            __makeNewNote(4, 'ti');
+                        }
+                        break;
+                    default:
+                        break;
+                    }
+                }
+
                 // Always store current key so as not to mask it from
                 // the keyboard block.
                 currentKeyCode = event.keyCode;
@@ -1525,7 +2711,7 @@ define(MYDEFINES, function (compatibility) {
 
             var smallSide = Math.min(w, h);
 
-            if (smallSide < cellSize * 11) {
+            if (smallSide < cellSize * 9) {
                 var mobileSize = true;
                 if (w < cellSize * 10) {
                     turtleBlocksScale = smallSide / (cellSize * 11);
@@ -1541,8 +2727,22 @@ define(MYDEFINES, function (compatibility) {
                 }
             }
 
+            console.log('=====================');
+            console.log(turtleBlocksScale);
+            if (turtleBlocksScale < 0.5) {
+              turtleBlocksScale = 0.5;
+           } else if (turtleBlocksScale < 1) {
+              turtleBlocksScale = 1;
+           } else if (turtleBlocksScale < 1,5) {
+              turtleBlocksScale = 1.5;
+           } else {
+              turtleBlocksScale = 2;
+           }
+
             stage.scaleX = turtleBlocksScale;
             stage.scaleY = turtleBlocksScale;
+            console.log(turtleBlocksScale);
+            console.log('=====================')
 
             stage.canvas.width = w;
             stage.canvas.height = h;
@@ -1585,7 +2785,7 @@ define(MYDEFINES, function (compatibility) {
                 turtles.turtleList[turtle].doClear(false, false, true);
             }
 
-            var artcanvas = document.getElementById("overlayCanvas");
+            var artcanvas = docById('overlayCanvas');
             // Workaround for #795
             if (mobileSize) {
                 artcanvas.width = w * 2;
@@ -1698,14 +2898,24 @@ define(MYDEFINES, function (compatibility) {
         };
 
         function _deleteBlocksBox() {
-            clearBox.show(turtleBlocksScale);
+            _hideBoxes();
+            clearBox.createBox(turtleBlocksScale, deleteAllButton.x - 27, deleteAllButton.y - 55);
+            clearBox.show();
+        };
+
+        function doLanguageBox() {
+            _hideBoxes();
+            languageBox.createBox(turtleBlocksScale, saveButton.x - 27, saveButton.y - 55);
+            languageBox.show();
         };
 
         function _doUtilityBox() {
-            utilityBox.init(turtleBlocksScale, utilityButton.x - 27, utilityButton.y, _makeButton);
+            _hideBoxes();
+            utilityBox.init(turtleBlocksScale, utilityButton.x - 27, utilityButton.y, _makeButton, palettes.pluginsDeleteStatus);
         };
 
         function _doPlaybackBox() {
+            _hideBoxes();
             playbackBox.init(turtleBlocksScale, playbackButton.x - 27, playbackButton.y, _makeButton, logo);
         };
 
@@ -1714,8 +2924,11 @@ define(MYDEFINES, function (compatibility) {
             for (var name in blocks.palettes.dict) {
                 blocks.palettes.dict[name].hideMenu(true);
             }
+
+            hideDOMLabel();
             refreshCanvas();
 
+            var actionBlockCounter = 0;
             var dx = 0;
             var dy = cellSize * 3;
             for (var blk in blocks.blockList) {
@@ -1736,6 +2949,7 @@ define(MYDEFINES, function (compatibility) {
                 } else if (blocks.blockList[blk].name === 'action') {
                     if (!blocks.blockList[blk].trash) {
                         blocks.deleteActionBlock(blocks.blockList[blk]);
+                        actionBlockCounter += 1;
                     }
                 }
 
@@ -1753,6 +2967,12 @@ define(MYDEFINES, function (compatibility) {
                 saveLocally();
             }
 
+            // Wait for palette to clear (#891)
+            // We really need to signal when each palette item is deleted
+            setTimeout(function() {
+                stage.dispatchEvent('trashsignal');
+           }, 1000 * actionBlockCounter);
+
             update = true;
         };
 
@@ -1766,6 +2986,8 @@ define(MYDEFINES, function (compatibility) {
         };
 
         function _changeBlockVisibility() {
+            hideDOMLabel();
+
             if (blocks.visible) {
                 logo.hideBlocks();
                 palettes.hide();
@@ -1774,6 +2996,7 @@ define(MYDEFINES, function (compatibility) {
                     stage.removeChild(chartBitmap);
                     chartBitmap = null;
                 }
+
                 logo.showBlocks();
                 palettes.show();
                 palettes.bringToTop();
@@ -1784,6 +3007,8 @@ define(MYDEFINES, function (compatibility) {
         };
 
         function _toggleCollapsibleStacks() {
+            hideDOMLabel();
+
             if (blocks.visible) {
                 console.log('calling toggleCollapsibles');
                 blocks.toggleCollapsibles();
@@ -1813,399 +3038,123 @@ define(MYDEFINES, function (compatibility) {
         function __tick(event) {
             // This set makes it so the stage only re-renders when an
             // event handler indicates a change has happened.
-            if (update) {
+            if (update || createjs.Tween.hasActiveTweens()) {
                 update = false; // Only update once
                 stage.update(event);
             }
         };
 
         function _doOpenSamples() {
-            if (_THIS_IS_MUSIC_BLOCKS_) {
-                localStorage.setItem('isMatrixHidden', docById('ptmDiv').style.visibility);
-                localStorage.setItem('isStaircaseHidden', docById('pscDiv').style.visibility);
-                localStorage.setItem('isTimbreHidden', docById('timbreDiv').style.visibility);
-                localStorage.setItem('isPitchDrumMatrixHidden', docById('pdmDiv').style.visibility);
-                localStorage.setItem('isRhythmRulerHidden', docById('rulerDiv').style.visibility);
-                localStorage.setItem('isModeWidgetHidden', docById('modeDiv').style.visibility);
-                localStorage.setItem('isSliderHidden', docById('sliderDiv').style.visibility);
-                localStorage.setItem('isTempoHidden', docById('tempoDiv').style.visibility);
-
-                if (docById('ptmDiv').style.visibility !== 'hidden') {
-                    docById('ptmDiv').style.visibility = 'hidden';
-                    docById('ptmTableDiv').style.visibility = 'hidden';
-                    docById('ptmButtonsDiv').style.visibility = 'hidden';
-                }
-
-                if (docById('pdmDiv').style.visibility !== 'hidden') {
-                    docById('pdmDiv').style.visibility = 'hidden';
-                    docById('pdmButtonsDiv').style.visibility = 'hidden';
-                    docById('pdmTableDiv').style.visibility = 'hidden';
-                }
-
-                if (docById('rulerDiv').style.visibility !== 'hidden') {
-                    docById('rulerDiv').style.visibility = 'hidden';
-                    docById('rulerTableDiv').style.visibility = 'hidden';
-                    docById('rulerButtonsDiv').style.visibility = 'hidden';
-                }
-
-                if (docById('pscDiv').style.visibility !== 'hidden') {
-                    docById('pscDiv').style.visibility = 'hidden';
-                    docById('pscTableDiv').style.visibility = 'hidden';
-                    docById('pscButtonsDiv').style.visibility = 'hidden';
-                }
-
-                if (docById('timbreDiv').style.visibility !== 'hidden') {
-                    docById('timbreDiv').style.visibility = 'hidden';
-                    docById('timbreTableDiv').style.visibility = 'hidden';
-                    docById('timbreButtonsDiv').style.visibility = 'hidden';
-                }
-
-                if (docById('statusDiv').style.visibility !== 'hidden') {
-                    docById('statusDiv').style.visibility = 'hidden';
-                    docById('statusButtonsDiv').style.visibility = 'hidden';
-                    docById('statusTableDiv').style.visibility = 'hidden';
-                }
-
-                if (docById('sliderDiv').style.visibility !== 'hidden') {
-                    docById('sliderDiv').style.visibility = 'hidden';
-                    docById('sliderButtonsDiv').style.visibility = 'hidden';
-                    docById('sliderTableDiv').style.visibility = 'hidden';
-                }
-
-                if (docById('modeDiv').style.visibility !== 'hidden') {
-                    docById('modeDiv').style.visibility = 'hidden';
-                    docById('modeButtonsDiv').style.visibility = 'hidden';
-                    docById('modeTableDiv').style.visibility = 'hidden';
-                }
-
-                if (docById('tempoDiv').style.visibility !== 'hidden') {
-                    if (logo.tempo != null) {
-                        logo.tempo.hide();
-                    }
-                }
-            }
-
-            localStorage.setItem('isStatusHidden', docById('statusDiv').style.visibility);
-
-            logo.doStopTurtle();
-            helpContainer.visible = false;
-            docById('helpElem').style.visibility = 'hidden';
-            console.log('save locally');
-            saveLocally();
-            thumbnails.show()
+            planet.openPlanet();
         };
 
         function doSave() {
-            // if (_THIS_IS_MUSIC_BLOCKS_) {
-            //     console.log('Saving .tb file');
-            //     var name = 'My Project';
-            //     download(name + '.tb', 'data:text/plain;charset=utf-8,' + prepareExport());
-            // } else {
-                saveBox.init(turtleBlocksScale, saveButton.x - 27, saveButton.y - 97, _makeButton);
-            // }
-        };
-
-        function doSaveTB() {
-            var filename = prompt('Filename:', 'untitled.tb');  // default filename = untitled
-            if (filename != null) {
-                if (fileExt(filename) !== 'tb') {
-                    filename += '.tb';
-                }
-                download(filename, 'data:text/plain;charset=utf-8,' + encodeURIComponent(prepareExport()));
-            }
-        };
-
-        function doSaveSVG() {
-            var filename = prompt('Filename:', 'untitled.svg');
-            if (filename != null) {
-                if (fileExt(filename) !== 'svg') {
-                    filename += '.svg';
-                }
-                var svg = doSVG(logo.canvas, logo, logo.turtles, logo.canvas.width, logo.canvas.height, 1.0);
-                download(filename, 'data:image/svg+xml;utf8,' + svg, filename, '"width=' + logo.canvas.width + ', height=' + logo.canvas.height + '"');
-            }
-        };
-
-        function doSaveBlockArtwork() {
-            _printBlockSVG();
-        };
-
-        function doSavePNG() {
-            alert("Unavailable at the moment");
-            //var filename = prompt('Filename:', 'untitled.png');
-            //if (fileExt(filename) !== 'png') {
-            //    filename += '.png';
-            //}
-            //download(filename, 'data:text/plain;charset=utf-8,' + encodeURIComponent(prepareExport()));
+            _hideBoxes();
+            saveBox.init(turtleBlocksScale, saveButton.x - 27, saveButton.y - 97, _makeButton);
         };
 
         function doUploadToPlanet() {
-            saveLocally();
-            thumbnails.show()
+            planet.openPlanet();
         };
 
         function doShareOnFacebook() {
-            alert("Facebook Sharing : disabled");    // remove when add fb share link
+            alert('Facebook Sharing : disabled');    // remove when add fb share link
             // add code for facebook share link
         };
 
-        function doLoad() {
+        function doLoad(merge) {
+            if (merge === undefined) {
+                merge = false;
+            }
+
+            if (merge) {
+                console.log('merge load');
+                merging = true;
+            } else {
+                merging = false;
+            }
+
             console.log('Loading .tb file');
             document.querySelector('#myOpenFile').focus();
             document.querySelector('#myOpenFile').click();
             window.scroll(0, 0);
-        };
-
-        function doSaveLilypond() {
-            _doLilypond();
-        };
-
-        function _doLilypond() {
-            // Show busy cursor.
-            document.body.style.cursor = 'wait';
-
-            console.log('Saving .ly file');
-            // Suppress music and turtle output when generating
-            // Lilypond output.
-            logo.runningLilypond = true;
-            logo.notationOutput = LILYPONDHEADER;
-            logo.notationNotes = {};
-            for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
-                logo.notationStaging[turtle] = [];
-                turtles.turtleList[turtle].doClear(true, true, true);
-            }
-
-            logo.runLogoCommands();
-        };
-
-        function doSaveAbc() {
-            _doAbc();
-        };
-
-        function _doAbc() {
-            // Show busy cursor.
-            document.body.style.cursor = 'wait';
-
-            console.log('Saving .ly file');
-            // Suppress music and turtle output when generating
-            // Abc output.
-            logo.runningLilypond = true;
-            logo.notationOutput = ABCHEADER;
-            logo.notationNotes = {};
-            for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
-                logo.notationStaging[turtle] = [];
-                turtles.turtleList[turtle].doClear(true, true, true);
-            }
-
-            logo.runLogoCommands();
+            doStopButton();
+            _allClear();
         };
 
         window.prepareExport = prepareExport;
-        window.saveLocally = saveLocally;
-
-        function saveLocally() {
-            if (sugarizerCompatibility.isInsideSugarizer()) {
-                //sugarizerCompatibility.data.blocks = prepareExport();
-                storage = sugarizerCompatibility.data;
-            } else {
-                storage = localStorage;
-            }
-
-            console.log('overwriting session data');
-
-            if (storage.currentProject === undefined) {
-                try {
-                    storage.currentProject = 'My Project';
-                    storage.allProjects = JSON.stringify(['My Project'])
-                } catch (e) {
-                    // Edge case, eg. Firefox localSorage DB corrupted
-                    console.log(e);
-                }
-            }
-
-            try {
-                var p = storage.currentProject;
-                storage['SESSION' + p] = prepareExport();
-            } catch (e) {
-                console.log(e);
-            }
-
-            // if (isSVGEmpty(turtles)) {
-                // We will use the music icon in these cases.
-                // return;
-            // }
-
-            var img = new Image();
-            var svgData = doSVG(canvas, logo, turtles, 320, 240, 320 / canvas.width);
-            img.onload = function () {
-                var bitmap = new createjs.Bitmap(img);
-                var bounds = bitmap.getBounds();
-                bitmap.cache(bounds.x, bounds.y, bounds.width, bounds.height);
-                try {
-                    storage['SESSIONIMAGE' + p] = bitmap.getCacheDataURL();
-                } catch (e) {
-                    console.log(e);
-                }
-            };
-
-            img.src = 'data:image/svg+xml;base64,' +
-            window.btoa(unescape(encodeURIComponent(svgData)));
-            // console.log(img.src);
-            if (sugarizerCompatibility.isInsideSugarizer()) {
-                sugarizerCompatibility.saveLocally();
-            }
-        };
 
         function runProject (env) {
-            console.log("Running Project from Event");
-            document.removeEventListener("finishedLoading", runProject);
+            console.log('Running Project from Event');
+            document.removeEventListener('finishedLoading', runProject);
             setTimeout(function () {
-                console.log("Run");
+                console.log('Run');
                 _changeBlockVisibility();
                 _doFastButton(env);
             }, 5000);
         }
 
-        function loadProject (projectName, run, env) {
+        function loadProject (projectID, flags, env) {
             //set default value of run
-            run = typeof run !== 'undefined' ? run : false;
-            // Show busy cursor.
+            flags = typeof flags !== 'undefined' ? flags : {run: false, show: false, collapse: false};
+            loading = true;
             document.body.style.cursor = 'wait';
+
             // palettes.updatePalettes();
             setTimeout(function () {
-                if (fileExt(projectName) !== 'tb')
-                {
-                    projectName += '.tb';
-                }
-
                 try {
-                    try {
-                        console.log('testing httpGet');
-                        httpGet(null);
-                        console.log('running from server or the user can access to examples.');
-                        server = true;
-                    } catch (e) {
-                        console.log('running from filesystem or the connection isnt secure');
-                        server = false;
-                    }
-
-                    if (server) {
-                        console.log('testing server');
-                        var rawData = httpGet(projectName);
-                        var cleanData = rawData.replace('\n', '');
-                    }
-
-                    // First, hide the palettes as they will need updating.
-                    for (var name in blocks.palettes.dict) {
-                        blocks.palettes.dict[name].hideMenu(true);
-                    }
-
-                    var obj = JSON.parse(cleanData);
-                    logo.playbackQueue = {};
-                    blocks.loadNewBlocks(obj);
-                    setPlaybackStatus();
-                    saveLocally();
+                    planet.openProjectFromPlanet(projectID, function() {loadStartWrapper(_loadStart);});
                 } catch (e) {
                     console.log(e);
+                    console.log('_loadStart on error');
                     loadStartWrapper(_loadStart);
                 }
 
+                planet.initialiseNewProject();
                 // Restore default cursor
+                loading = false;
                 document.body.style.cursor = 'default';
                 update = true;
             }, 200);
 
-            if (run && firstRun) {
-                if (document.addEventListener) {
-                    document.addEventListener('finishedLoading', function () {
-                        setTimeout(function () {
-                            for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
-                                turtles.turtleList[turtle].doClear(true, true, false);
-                            }
-                            runProject(env);
-                        }, 1000);
-                    }, false);
-                } else {
-                    document.attachEvent('finishedLoading', function () {
-                        setTimeout(function () {
-                            for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
-                                turtles.turtleList[turtle].doClear(true, true, false);
-                            }
-                            runProject(env);
-                        }, 1000);
-                    });
-                }
+            var run = flags.run;
+            var show = flags.show;
+            var collapse = flags.collapse;
+
+            var __functionload = function () {
+                setTimeout(function () {
+                    if (!collapse && firstRun) {
+                        _toggleCollapsibleStacks();
+                    }
+
+                    if (run && firstRun) {
+                        for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
+                            turtles.turtleList[turtle].doClear(true, true, false);
+                        }
+
+                        runProject(env);
+
+                        if (show) {
+                            _changeBlockVisibility();
+                        }
+
+                        if (!collapse) {
+                            _toggleCollapsibleStacks();
+                        }
+                    } else if (!show) {
+                        _changeBlockVisibility();
+                    }
+
+                    document.removeEventListener('finishedLoading', __functionload);
+                    firstRun = false;
+                }, 1000);
             }
 
-            firstRun = false;
-        };
-
-        function loadRawProject(data) {
-            if (data == undefined) {
-                console.log('loadRawProject: data is undefined... punting');
-                errorMsg('loadRawProject: project undefined');
-                return;
+            if (document.addEventListener) {
+                document.addEventListener('finishedLoading', __functionload, false);
+            } else {
+                document.attachEvent('finishedLoading', __functionload);
             }
-
-            console.log('loadRawProject ' + data);
-            document.body.style.cursor = 'wait';
-            _allClear();
-
-            // First, hide the palettes as they will need updating.
-            for (var name in blocks.palettes.dict) {
-                blocks.palettes.dict[name].hideMenu(true);
-            }
-
-            try {
-                var obj = JSON.parse(data);
-                logo.playbackQueue = {};
-                blocks.loadNewBlocks(obj);
-                setPlaybackStatus();
-            } catch (e) {
-                console.log('loadRawProject: could not parse project data');
-                errorMsg(e);
-            }
-
-            document.body.style.cursor = 'default';
-        };
-
-        function saveProject(projectName) {
-           // palettes.updatePalettes();
-            // Show busy cursor.
-            document.body.style.cursor = 'wait';
-            setTimeout(function () {
-                var punctuationless = projectName.replace(/['!"#$%&\\'()\*+,\-\.\/:;<=>?@\[\\\]\^`{|}~']/g, '');
-                projectName = punctuationless.replace(/ /g, '_');
-                if (fileExt(projectName) !== 'tb') {
-                    projectName += '.tb';
-                }
-                try {
-                    // Post the project
-                    var returnValue = httpPost('MusicBlocks_'+projectName, prepareExport());
-                    errorMsg('Saved ' + projectName + ' to ' + window.location.host);
-
-                    var img = new Image();
-                    var svgData = doSVG(canvas, logo, turtles, 320, 240, 320 / canvas.width);
-                    img.onload = function () {
-                        var bitmap = new createjs.Bitmap(img);
-                        var bounds = bitmap.getBounds();
-                        bitmap.cache(bounds.x, bounds.y, bounds.width, bounds.height);
-                        // and base64-encoded png
-                        httpPost(('MusicBlocks_'+projectName).replace('.tb', '.b64'), bitmap.getCacheDataURL());
-                    };
-
-                    img.src = 'data:image/svg+xml;base64,' + window.btoa(
-                        unescape(encodeURIComponent(svgData)));
-                    // Restore default cursor
-                    document.body.style.cursor = 'default';
-                    return returnValue;
-                } catch (e) {
-                    console.log(e);
-                    // Restore default cursor
-                    document.body.style.cursor = 'default';
-                    return;
-                }
-            }, 200);
         };
 
         // Calculate time such that no matter how long it takes to
@@ -2222,16 +3171,22 @@ define(MYDEFINES, function (compatibility) {
         };
 
         // Hides the loading animation and unhides the background.
-        function showContents(){
+        function showContents() {
             docById('loading-image-container').style.display = 'none';
             // docById('canvas').style.display = 'none';
             docById('hideContents').style.display = 'block';
+
+            // Warn the user -- chrome only -- if the browser level is
+            // not set to 100%
+            if (window.innerWidth !== window.outerWidth) {
+                blocks.errorMsg(_('Please set browser zoom level to 100%'));
+                console.log('zoom level is not 100%: ' + window.innerWidth + ' !== ' + window.outerWidth);
+            }
         };
 
         function _loadStart() {
             // where to put this?
             // palettes.updatePalettes();
-            console.log('LOAD START')
             justLoadStart = function () {
                 console.log('loading start and a matrix');
                 logo.playbackQueue = {};
@@ -2239,41 +3194,41 @@ define(MYDEFINES, function (compatibility) {
                 setPlaybackStatus();
             };
 
-            if (sugarizerCompatibility.isInsideSugarizer()) {
-                storage = sugarizerCompatibility.data;
-            }
-            else {
-                storage = localStorage;
-            }
-
             sessionData = null;
 
             // Try restarting where we were when we hit save.
-            var currentProject = storage.currentProject;
-            sessionData = storage['SESSION' + currentProject];
+            if (planet) {
+                sessionData = planet.openCurrentProject();
+            } else {
+                var currentProject = storage.currentProject;
+                sessionData = storage['SESSION' + currentProject];
+            }
+
+            var __afterLoad = function () {
+                if (!turtles.running()) {
+                    setTimeout(function() { 
+                        console.log('reset turtles ' + turtles.turtleList.length);
+                 
+                        for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
+                            logo.turtleHeaps[turtle] = [];
+                            logo.notationStaging[turtle] = [];
+                            logo.notationDrumStaging[turtle] = [];
+                            turtles.turtleList[turtle].doClear(true, true, false);
+                        }
+
+                        playbackOnLoad();
+                    }, 1000);
+                }
+
+                document.removeEventListener('finishedLoading', __afterLoad);
+            };
 
             // After we have finished loading the project, clear all
             // to ensure a clean start.
             if (document.addEventListener) {
-                document.addEventListener('finishedLoading', function () {
-                    setTimeout(function () {
-                        for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
-                            logo.turtleHeaps[turtle] = [];
-                            logo.notationStaging[turtle] = [];
-                            turtles.turtleList[turtle].doClear(true, true, false);
-                        }
-                    }, 1000);
-                });
+                document.addEventListener('finishedLoading', __afterLoad);
             } else {
-                document.attachEvent('finishedLoading', function () {
-                    setTimeout(function () {
-                        for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
-                            logo.turtleHeaps[turtle] = [];
-                            logo.notationStaging[turtle] = [];
-                            turtles.turtleList[turtle].doClear(true, true, false);
-                        }
-                    }, 1000);
-                });
+                document.attachEvent('finishedLoading', __afterLoad);
             }
 
             if (sessionData) {
@@ -2303,6 +3258,7 @@ define(MYDEFINES, function (compatibility) {
         };
 
         function hideMsgs() {
+            console.log('hiding messages');
             errorMsgText.parent.visible = false;
             if (errorMsgArrow != null) {
                 errorMsgArrow.removeAllChildren();
@@ -2313,30 +3269,40 @@ define(MYDEFINES, function (compatibility) {
             for (var i in errorArtwork) {
                 errorArtwork[i].visible = false;
             }
+
+            refreshCanvas();
         };
 
         function textMsg(msg) {
             if (msgText == null) {
-                // The container may not be ready yet... so do nothing
+                // The container may not be ready yet, so do nothing.
                 return;
             }
             var msgContainer = msgText.parent;
             msgContainer.visible = true;
             msgText.text = msg;
             msgContainer.updateCache();
-            stage.setChildIndex(msgContainer, stage.getNumChildren() - 1);
+            stage.setChildIndex(msgContainer, stage.children.length - 1);
         };
 
         function errorMsg(msg, blk, text, timeout) {
+            if (logo.optimize) {
+                return;
+            }
+
             if (errorMsgTimeoutID != null) {
                 clearTimeout(errorMsgTimeoutID);
             }
 
-             _hideStopButton(); //Hide the button, as the program is going to be terminated
+            // Hide the button, as the program is going to be
+            // terminated.
+            _hideStopButton();
+
             if (errorMsgText == null) {
-                // The container may not be ready yet... so do nothing
+                // The container may not be ready yet, so do nothing.
                 return;
             }
+
             if (blk !== undefined && blk != null && !blocks.blockList[blk].collapsed) {
                 var fromX = (canvas.width - 1000) / 2;
                 var fromY = 128;
@@ -2351,7 +3317,7 @@ define(MYDEFINES, function (compatibility) {
                 var line = new createjs.Shape();
                 errorMsgArrow.addChild(line);
                 line.graphics.setStrokeStyle(4).beginStroke('#ff0031').moveTo(fromX, fromY).lineTo(toX, toY);
-                stage.setChildIndex(errorMsgArrow, stage.getNumChildren() - 1);
+                stage.setChildIndex(errorMsgArrow, stage.children.length - 1);
 
                 var angle = Math.atan2(toX - fromX, fromY - toY) / Math.PI * 180;
                 var head = new createjs.Shape();
@@ -2365,19 +3331,19 @@ define(MYDEFINES, function (compatibility) {
             switch (msg) {
             case NOMICERRORMSG:
                 errorArtwork['nomicrophone'].visible = true;
-                stage.setChildIndex(errorArtwork['nomicrophone'], stage.getNumChildren() - 1);
+                stage.setChildIndex(errorArtwork['nomicrophone'], stage.children.length - 1);
                 break;
             case NOSTRINGERRORMSG:
                 errorArtwork['notastring'].visible = true;
-                stage.setChildIndex(errorArtwork['notastring'], stage.getNumChildren() - 1);
+                stage.setChildIndex(errorArtwork['notastring'], stage.children.length - 1);
                 break;
             case EMPTYHEAPERRORMSG:
                 errorArtwork['emptyheap'].visible = true;
-                stage.setChildIndex(errorArtwork['emptyheap'], stage.getNumChildren() - 1);
+                stage.setChildIndex(errorArtwork['emptyheap'], stage.children.length - 1);
                 break;
             case NOSQRTERRORMSG:
                 errorArtwork['negroot'].visible = true;
-                stage.setChildIndex(errorArtwork['negroot'], stage.getNumChildren() - 1);
+                stage.setChildIndex(errorArtwork['negroot'], stage.children.length - 1);
                 break;
             case NOACTIONERRORMSG:
                 if (text == null) {
@@ -2386,7 +3352,7 @@ define(MYDEFINES, function (compatibility) {
                 errorArtwork['nostack'].children[1].text = text;
                 errorArtwork['nostack'].visible = true;
                 errorArtwork['nostack'].updateCache();
-                stage.setChildIndex(errorArtwork['nostack'], stage.getNumChildren() - 1);
+                stage.setChildIndex(errorArtwork['nostack'], stage.children.length - 1);
                 break;
             case NOBOXERRORMSG:
                 if (text == null) {
@@ -2395,25 +3361,25 @@ define(MYDEFINES, function (compatibility) {
                 errorArtwork['emptybox'].children[1].text = text;
                 errorArtwork['emptybox'].visible = true;
                 errorArtwork['emptybox'].updateCache();
-                stage.setChildIndex(errorArtwork['emptybox'], stage.getNumChildren() - 1);
+                stage.setChildIndex(errorArtwork['emptybox'], stage.children.length - 1);
                 break;
             case ZERODIVIDEERRORMSG:
                 errorArtwork['zerodivide'].visible = true;
-                stage.setChildIndex(errorArtwork['zerodivide'], stage.getNumChildren() - 1);
+                stage.setChildIndex(errorArtwork['zerodivide'], stage.children.length - 1);
                 break;
               case NANERRORMSG:
                 errorArtwork['notanumber'].visible = true;
-                stage.setChildIndex(errorArtwork['notanumber'], stage.getNumChildren() - 1);
+                stage.setChildIndex(errorArtwork['notanumber'], stage.children.length - 1);
                 break;
             case NOINPUTERRORMSG:
                 errorArtwork['noinput'].visible = true;
-                stage.setChildIndex(errorArtwork['noinput'], stage.getNumChildren() - 1);
+                stage.setChildIndex(errorArtwork['noinput'], stage.children.length - 1);
                 break;
             default:
                 var errorMsgContainer = errorMsgText.parent;
                 errorMsgContainer.visible = true;
                 errorMsgText.text = msg;
-                stage.setChildIndex(errorMsgContainer, stage.getNumChildren() - 1);
+                stage.setChildIndex(errorMsgContainer, stage.children.length - 1);
                 errorMsgContainer.updateCache();
                 break;
             }
@@ -2472,6 +3438,7 @@ define(MYDEFINES, function (compatibility) {
                     // Don't save blocks in the trash.
                     continue;
                 }
+
                 blockMap.push(blk);
             }
 
@@ -2483,84 +3450,87 @@ define(MYDEFINES, function (compatibility) {
                     continue;
                 }
 
-                if (myBlock.isValueBlock() || myBlock.name === 'loadFile') {
+                if (myBlock.isValueBlock() || myBlock.name === 'loadFile' || myBlock.name === 'boolean') {
                     // FIX ME: scale image if it exceeds a maximum size.
                     var args = {
                         'value': myBlock.value
                     };
-                } else if (myBlock.name === 'start' || myBlock.name === 'drum') {
-                    // Find the turtle associated with this block.
-                    var turtle = turtles.turtleList[myBlock.value];
-                    if (turtle == null) {
-                        var args = {
-                            'collapsed': false,
-                            'xcor': 0,
-                            'ycor': 0,
-                            'heading': 0,
-                            'color': 0,
-                            'shade': 50,
-                            'pensize': 5,
-                            'grey': 100
-                        };
-                    } else {
-                        var args = {
-                            'collapsed': myBlock.collapsed,
-                            'xcor': turtle.x,
-                            'ycor': turtle.y,
-                            'heading': turtle.orientation,
-                            'color': turtle.color,
-                            'shade': turtle.value,
-                            'pensize': turtle.stroke,
-                            'grey': turtle.chroma
-                        };
-                    }
-                } else if (myBlock.name === 'action') {
-                    var args = {
-                        'collapsed': myBlock.collapsed
-                    }
-                } else if(myBlock.name === 'matrix') {
-                    var args = {
-                        'collapsed' : myBlock.collapsed
-                    }
-                } else if(myBlock.name === 'pitchdrummatrix') {
-                    var args = {
-                        'collapsed' : myBlock.collapsed
-                    }
-                } else if(myBlock.name === 'status') {
-                    var args = {
-                        'collapsed' : myBlock.collapsed
-                    }
-                } else if (myBlock.name === 'namedbox') {
-                    var args = {
-                        'value': myBlock.privateData
-                    }
-                } else if (myBlock.name === 'nameddo') {
-                    var args = {
-                        'value': myBlock.privateData
-                    }
-                } else if (myBlock.name === 'nameddoArg') {
-                    var args = {
-                        'value': myBlock.privateData
-                    }
-                } else if (myBlock.name === 'namedcalc') {
-                    var args = {
-                        'value': myBlock.privateData
-                    }
-                } else if (myBlock.name === 'namedcalcArg') {
-                    var args = {
-                        'value': myBlock.privateData
-                    }
-                } else if (myBlock.name === 'namedarg') {
-                    var args = {
-                        'value': myBlock.privateData
-                    }
-                } else if (myBlock.name === 'matrixData') {
-                    var args = {
-                        'notes': window.savedMatricesNotes, 'count': window.savedMatricesCount
-                    }
-                    hasMatrixDataBlock = true;
                 } else {
-                    var args = {}
+                    switch (myBlock.name) {
+                    case 'start':
+                    case 'drum':
+                        // Find the turtle associated with this block.
+                        var turtle = turtles.turtleList[myBlock.value];
+                        if (turtle == null) {
+                            var args = {
+                                'collapsed': false,
+                                'xcor': 0,
+                                'ycor': 0,
+                                'heading': 0,
+                                'color': 0,
+                                'shade': 50,
+                                'pensize': 5,
+                                'grey': 100
+                            };
+                        } else {
+                            var args = {
+                                'collapsed': myBlock.collapsed,
+                                'xcor': turtle.x,
+                                'ycor': turtle.y,
+                                'heading': turtle.orientation,
+                                'color': turtle.color,
+                                'shade': turtle.value,
+                                'pensize': turtle.stroke,
+                                'grey': turtle.chroma
+                            };
+                        }
+                        break;
+                    case 'action':
+                    case 'matrix':
+                    case 'pitchdrummatrix':
+                    case 'rhythmruler':
+                    case 'timbre':
+                    case 'pitchstaircase':
+                    case 'tempo':
+                    case 'pitchslider':
+                    case 'modewidget':
+                    case 'status':
+                        var args = {
+                            'collapsed': myBlock.collapsed
+                        }
+                        break;
+                    case 'namedbox':
+                    case 'storein2':
+                    case 'nameddo':
+                    case 'nameddoArg':
+                    case 'namedcalc':
+                    case 'namedcalcArg':
+                    case 'namedarg':
+                        var args = {
+                            'value': myBlock.privateData
+                        }
+                        break;
+                    case 'nopValueBlock':
+                    case 'nopZeroArgBlock':
+                    case 'nopOneArgBlock':
+                    case 'nopTwoArgBlock':
+                    case 'nopThreeArgBlock':
+                        // restore original block name
+                        myBlock.name = myBlock.privateData;
+                        var args = {}
+                        break;
+                    case 'matrixData':
+                        // deprecated
+                        var args = {
+                            'notes': window.savedMatricesNotes,
+                            'count': window.savedMatricesCount
+                        }
+                        hasMatrixDataBlock = true;
+                        break;
+                    default:
+                        var args = {}
+                        break;
+                    }
                 }
 
                 connections = [];
@@ -2572,10 +3542,17 @@ define(MYDEFINES, function (compatibility) {
                         connections.push(mapConnection);
                     }
                 }
+
                 data.push([blockMap.indexOf(blk), [myBlock.name, args], myBlock.container.x, myBlock.container.y, connections]);
             }
 
-            // Next, save the playback queue.
+            // Next, save the playback queue, but don't save the
+            // playback queue if we are saving to Lilypond.
+
+            if (logo.runningLilypond) {
+                logo.playbackQueue = {};
+            }
+
             var i = data.length;
             if (i > 0) {
                 for (var turtle = 0; turtle < turtles.turtleList.length; turtle++) {
@@ -2597,22 +3574,16 @@ define(MYDEFINES, function (compatibility) {
             pluginChooser.click();
         };
 
-        function saveToFile() {
-            var filename = prompt('Filename:');
-            if (fileExt(filename) !== 'tb') {
-                filename += '.tb';
-            }
-            download(filename, 'data:text/plain;charset=utf-8,' + encodeURIComponent(prepareExport()));
-        };
-
         function _hideStopButton() {
             stopTurtleContainer.visible = false;
+            hardStopTurtleContainer.visible = true;
         };
 
         function _showStopButton() {
             // stopTurtleContainer.x = onscreenButtons[0].x;
             // stopTurtleContainer.y = onscreenButtons[0].y;
             stopTurtleContainer.visible = true;
+            hardStopTurtleContainer.visible = false;
         };
 
         function blinkPasteButton(bitmap) {
@@ -2625,30 +3596,56 @@ handleComplete);
         };
 
         function updatePasteButton() {
-            if (pasteImage === null) {
-
+            if (blocks.selectedBlocksObj == null) {
+                pasteContainer.removeAllChildren();
                 var img = new Image();
 
                 img.onload = function () {
                     var originalSize = 55; // this is the original svg size
                     var halfSize = Math.floor(cellSize / 2);
 
-                    var bitmap = new createjs.Bitmap(img);
+                    bitmapDisablePaste = new createjs.Bitmap(img);
                     if (cellSize !== originalSize) {
-                        bitmap.scaleX = cellSize / originalSize;
-                        bitmap.scaleY = cellSize / originalSize;
+                        bitmapDisablePaste.scaleX = cellSize / originalSize;
+                        bitmapDisablePaste.scaleY = cellSize / originalSize;
                     }
 
-                    bitmap.regX = halfSize / bitmap.scaleX;
-                    bitmap.regY = halfSize / bitmap.scaleY;
-                    pasteContainer.addChild(bitmap);
-                    pasteImage = bitmap;
+                    bitmapDisablePaste.regX = halfSize / bitmapDisablePaste.scaleX;
+                    bitmapDisablePaste.regY = halfSize / bitmapDisablePaste.scaleY;
+                    pasteContainer.addChild(bitmapDisablePaste);
+
+                    update = true;
+                };
+
+                img.src = 'header-icons/paste-disabled-button.svg';
+                return;
+            }
+            if (pasteImage === null) {
+                console.log('Updating paste button');
+                var img = new Image();
+
+                img.onload = function () {
+                    var originalSize = 55; // this is the original svg size
+                    var halfSize = Math.floor(cellSize / 2);
+
+                    bitmapActivePaste = new createjs.Bitmap(img);
+                    if (cellSize !== originalSize) {
+                        bitmapActivePaste.scaleX = cellSize / originalSize;
+                        bitmapActivePaste.scaleY = cellSize / originalSize;
+                    }
+
+                    bitmapActivePaste.regX = halfSize / bitmapActivePaste.scaleX;
+                    bitmapActivePaste.regY = halfSize / bitmapActivePaste.scaleY;
+                    pasteContainer.addChild(bitmapActivePaste);
+                    pasteImage = bitmapActivePaste;
 
                     update = true;
                 };
 
                 img.src = 'header-icons/paste-button.svg';
             } else {
+                pasteContainer.addChild(bitmapActivePaste);
+                console.log('Blinking paste button');
                 blinkPasteButton(pasteImage);
             }
         };
@@ -2672,30 +3669,41 @@ handleComplete);
 
             stage.addChild(headerContainer);
 
-            // Buttons used when running turtle programs
-            // name / onpress function / label / onlongpress function / onextralongpress function / onlongpress icon / onextralongpress icon
+            // Buttons used when running turtle programs:
+            // button name, on-press function, hover label,
+            // on-long-press function, on-extra-long-press function,
+            // on-long-press icon, on-extra-long-press icon
             if (_THIS_IS_MUSIC_BLOCKS_) {
                 var buttonNames = [
-                    ['run', _doFastButton, _('Run fast / long press to run slowly / extra-long press to run music slowly'), _doSlowButton, _doSlowMusicButton, 'slow-button', 'slow-music-button'],
+                    ['run', _doFastButton, _('Run fast') + ' / ' + _('long press to run slowly') + ' / ' + _('extra-long press to run music slowly') + ' [ENTER]', _doSlowButton, _doSlowMusicButton, 'slow-button', 'slow-music-button'],
                     ['step', _doStepButton, _('Run step by step'), null, null, null, null],
                     ['step-music', _doStepMusicButton, _('Run note by note'), null, null, null, null],
-                    ['stop-turtle', doStopButton, _('Stop'), null, null, null, null],
-                    ['clear', _allClear, _('Clean'), null, null, null, null],
+                    ['hard-stop-turtle', doHardStopButton, _('Hard stop') + ' [Alt-S]', null, null, null, null],
+                    ['stop-turtle', doStopButton, _('Stop') + ' [Alt-S]', doHardStopButton, null, 'stop-turtle-button', null],
+                    ['clear', _allClear, _('Clean') + ' [Alt-E]', null, null, null, null],
                     // ['palette', _changePaletteVisibility, _('Show/hide palettes'), null, null, null, null],
                     ['hide-blocks', _changeBlockVisibility, _('Show/hide blocks'), null, null, null, null],
                     ['collapse-blocks', _toggleCollapsibleStacks, _('Expand/collapse collapsable blocks'), null, null, null, null],
-                    ['go-home', _findBlocks, _('Home'), null, null, null, null],
-                    ['help', _showHelp, _('Help'), null, null, null, null]
+                    ['go-home', _findBlocks, _('Home') + ' [HOME]', null, null, null, null],
                 ];
+
+                if (beginnerMode) {
+                    buttonNames.push(['beginner', _doSwitchMode, _('Switch to advanced mode'), null, null, null, null]);
+                } else {
+                    buttonNames.push(['advanced', _doSwitchMode, _('Switch to beginner mode'), null, null, null, null]);
+                }
+
+                buttonNames.push(['help', _showHelp, _('Help'), null, null, null, null]);
             } else {
                 var buttonNames = [
-                    ['run', _doFastButton, _('Run fast / long press to run slowly'), _doSlowButton, null, 'slow-button', null],
+                    ['run', _doFastButton, _('Run fast') + ' / ' + _('long press to run slowly') + ' [ENTER]', _doSlowButton, null, 'slow-button', null],
                     ['step', _doStepButton, _('Run step by step'), null, null, null, null],
-                    ['stop-turtle', doStopButton, _('Stop'), null, null, null, null],
-                    ['clear', _allClear, _('Clean'), null, null, null, null],
+                    ['hard-stop-turtle', doHardStopButton, _('Hard stop') + ' [Alt-S]', null, null, null, null],
+                    ['stop-turtle', doStopButton, _('Stop') + ' [Alt-S]', null, null, null, null],
+                    ['clear', _allClear, _('Clean') + ' [Alt-E]', null, null, null, null],
                     ['hide-blocks', _changeBlockVisibility, _('Show/hide blocks'), null, null, null, null],
                     ['collapse-blocks', _toggleCollapsibleStacks, _('Expand/collapse collapsable blocks'), null, null, null, null],
-                    ['go-home', _findBlocks, _('Home'), null, null, null, null],
+                    ['go-home', _findBlocks, _('Home') + ' [HOME]', null, null, null, null],
                     ['help', _showHelp, _('Help'), null, null, null, null]
                 ];
             }
@@ -2706,11 +3714,11 @@ handleComplete);
                     sugarizerCompatibility.saveLocally(function () {
                         sugarizerCompatibility.sugarizerStop();
                     });
-                }])
+                }, 'Stop', null, null, null, null]);
             }
 
             if (showPalettesPopover) {
-                buttonNames.unshift(['popdown-palette', doPopdownPalette])
+                buttonNames.unshift(['popdown-palette', doPopdownPalette]);
             }
 
             var btnSize = cellSize;
@@ -2731,10 +3739,13 @@ handleComplete);
 
                 if (buttonNames[i][0] === 'stop-turtle') {
                     stopTurtleContainer = container;
+                } else if (buttonNames[i][0] === 'hard-stop-turtle') {
+                    console.log('hard stop turtle');
+                    hardStopTurtleContainer = container;
                 } else if (buttonNames[i][0] === 'go-home') {
                     homeButtonContainers = [];
                     homeButtonContainers.push(container);
-                    var container2 = _makeButton('go-home-faded-button', _('Home'), x, y, btnSize, 0);
+                    var container2 = _makeButton('go-home-faded-button', _('Home') + ' [HOME]', x, y, btnSize, 0);
                     _loadButtonDragHandler(container2, x, y, buttonNames[i][1], null, null, null, null);
                     homeButtonContainers.push(container2);
                     onscreenButtons.push(container2);
@@ -2744,12 +3755,23 @@ handleComplete);
                     blocks.setHomeContainers(homeButtonContainers, boundary);
                 }
 
-                x += dx;
-                y += dy;
+                // Ensure that stop-turtle button is placed on top of
+                // hard-stop-turtle button.
+                if (!(buttonNames[i][0] === 'hard-stop-turtle' && buttonNames[i + 1][0] === 'stop-turtle')) {
+                    x += dx;
+                    y += dy;
+                }
+                //x += dx;
+                //y += dy;
             }
 
             _setupRightMenu(turtleBlocksScale);
         };
+
+        function _doMergeLoad() {
+            console.log('merge load');
+            doLoad(true);
+        }
 
         function _setupRightMenu(turtleBlocksScale) {
             if (menuContainer !== undefined) {
@@ -2761,36 +3783,44 @@ handleComplete);
 
             // NOTE: see getAuxToolbarButtonNames in turtledefs.js
             // Misc. other buttons
+            // name / onpress function / label / onlongpress function / onextralongpress function / onlongpress icon / onextralongpress icon
+            if (planet) {
+                var planetMenuItem = ['planet', _doOpenSamples, _('Load samples from server'), null, null, null, null];
+            } else {
+                var planetMenuItem = ['planet-disabled', null, _('The Planet is unavailable.'), null, null, null, null];
+            }
+
             if (_THIS_IS_MUSIC_BLOCKS_) {
                 var menuNames = [
-                    ['planet', _doOpenSamples, _('Load samples from server')],
-                    ['open', doLoad, _('Load project from files')],
-                    ['save', doSave, _('Save project')],
-                    ['paste-disabled', pasteStack, _('Long press on block(s) to copy. Click here to paste.')],
-                    ['Cartesian', _doCartesianPolar, _('Cartesian') + '/' + _('Polar')],
-                    ['compile', _doPlaybackBox, _('playback')],
-                    ['utility', _doUtilityBox, _('Settings')],
-                    ['empty-trash', _deleteBlocksBox, _('Delete all')],
-                    ['restore-trash', _restoreTrash, _('Undo')]
+                    planetMenuItem,
+                    ['open', doLoad, _('Load project from files'), _doMergeLoad, _doMergeLoad, 'open-merge-button', 'open-merge-button'],
+                    ['save', doSave, _('Save project'), null, null, null, null],
+                    ['paste-disabled', pasteStack, _('Long press on blocks to copy.') + ' [Alt-C] ' + _('Click here to paste.') + ' [Alt-V]', null, null, null, null],
+                    ['Cartesian', _doCartesianPolar, _('Cartesian') + '/' + _('Polar'), null, null, null, null],
+                    ['compile', _doPlaybackBox, _('playback'), null, null, null, null],
+                    ['utility', _doUtilityBox, _('Settings'), null, null, null, null],
+                    ['new', _deleteBlocksBox, _('New Project'), null, null, null, null],
+                    ['restore-trash', _restoreTrash, _('Restore'), null, null, null, null]
                 ];
             } else {
                 var menuNames = [
-                    ['planet', _doOpenSamples, _('Load samples from server')],
-                    ['open', doLoad, _('Load project from files')],
-                    ['save', doSave, _('Save project')],
-                    ['paste-disabled', pasteStack, _('Paste')],
-                    ['Cartesian', _doCartesianPolar, _('Cartesian') + '/' + _('Polar')],
-                    ['compile', _doPlaybackBox, _('playback')],
-                    ['utility', _doUtilityBox, _('Settings')],
-                    ['empty-trash', _deleteBlocksBox, _('Delete all')],
-                    ['restore-trash', _restoreTrash, _('Undo')]
+                    planetMenuItem,
+                    ['open', doLoad, _('Load project from files'), _doMergeLoad, _doMergeLoad, 'open-merge-button', 'open-merge-button'],
+                    ['save', doSave, _('Save project'), null, null, null, null],
+                    ['paste-disabled', pasteStack, _('Paste'), null, null, null, null],
+                    ['Cartesian', _doCartesianPolar, _('Cartesian') + '/' + _('Polar'), null, null, null, null],
+                    ['compile', _doPlaybackBox, _('playback'), null, null, null, null],
+                    ['utility', _doUtilityBox, _('Settings'), null, null, null, null],
+                    ['new', _deleteBlocksBox, _('Delete all'), null, null, null, null],
+                    ['restore-trash', _restoreTrash, _('Restore'), null, null, null, null]
                 ];
             }
 
-            document.querySelector('#myOpenFile')
-                    .addEventListener('change', function (event) {
-                        thumbnails.model.controller.hide();
-            });
+            if (planet) {
+                document.querySelector('#myOpenFile').addEventListener('change', function (event) {
+                    planet.closePlanet();
+                });
+            }
 
             var btnSize = cellSize;
             var x = Math.floor(canvas.width / turtleBlocksScale) - btnSize / 2;
@@ -2821,7 +3851,7 @@ handleComplete);
                     }
                 }
 
-                _loadButtonDragHandler(container, x, y, menuNames[i][1], null, null, null, null);
+                _loadButtonDragHandler(container, x, y, menuNames[i][1],menuNames[i][3],menuNames[i][4],menuNames[i][5],menuNames[i][6]);
                 onscreenMenu.push(container);
                 if (menuNames[i][0] === 'utility') {
                     utilityButton = container;
@@ -2829,6 +3859,8 @@ handleComplete);
                     saveButton = container;
                 } else if (menuNames[i][0] === 'compile') {
                     playbackButton = container;
+                } else if (menuNames[i][0] === 'new') {
+                    deleteAllButton = container;
                 }
 
                 container.visible = false;
@@ -2877,6 +3909,32 @@ handleComplete);
         function _showHelp(firstTime) {
             helpIdx = 0;
 
+            var __setHelpHTML = function (helpIdx, imageScale) {
+                if (HELPCONTENT[helpIdx].length > 4) {
+                    try {
+                        var helpLang = localStorage.languagePreference;
+                    } catch (e) {
+                        var helpLang = 'en';
+                    }
+
+                    if (_THIS_IS_MUSIC_BLOCKS_) {
+                        switch (helpLang) {
+                        case 'ja':
+                            docById('helpElem').innerHTML = '<img src ="' + HELPCONTENT[helpIdx][2] + '"</img> <h2>' + HELPCONTENT[helpIdx][0] + '</h2><p>' + HELPCONTENT[helpIdx][1] + '</p><p><a href="' + HELPCONTENT[helpIdx][3] + '-ja" target="_blank">' + HELPCONTENT[helpIdx][4] + '</a></p>';
+                            break;
+                        default:
+                            docById('helpElem').innerHTML = '<img src ="' + HELPCONTENT[helpIdx][2] + '"</img> <h2>' + HELPCONTENT[helpIdx][0] + '</h2><p>' + HELPCONTENT[helpIdx][1] + '</p><p><a href="' + HELPCONTENT[helpIdx][3] + '" target="_blank">' + HELPCONTENT[helpIdx][4] + '</a></p>';
+                            break;
+                        }
+                    } else {
+                        docById('helpElem').innerHTML = '<img src ="' + HELPCONTENT[helpIdx][2] + '"</img> <h2>' + HELPCONTENT[helpIdx][0] + '</h2><p>' + HELPCONTENT[helpIdx][1] + '</p><p><a href="' + HELPCONTENT[helpIdx][3] + '" target="_blank">' + HELPCONTENT[helpIdx][4] + '</a></p>';
+                    }
+                } else {
+
+                    docById('helpElem').innerHTML = '<img src ="' + HELPCONTENT[helpIdx][2] + '" style="height:' + imageScale + 'px; width: auto"></img> <h2>' + HELPCONTENT[helpIdx][0] + '</h2><p>' + HELPCONTENT[helpIdx][1] + '</p>';
+                }
+            };
+
             if (firstTime) {
                 if (helpContainer == null) {
                     helpContainer = new createjs.Container();
@@ -2890,13 +3948,23 @@ handleComplete);
                             helpContainer.visible = false;
                             docById('helpElem').style.visibility = 'hidden';
                         } else {
-                            helpIdx += 1;
-                            if (helpIdx >= HELPCONTENT.length) {
-                                helpIdx = 0;
+                            if (event.stageX < helpContainer.x + bounds.width / 2) {
+                                if (helpIdx === 0) {
+                                    helpIdx = 0;
+                                } else {
+                                    helpIdx -= 1;
+                                }
+                            } else {
+                                helpIdx += 1;
+                                if (helpIdx >= HELPCONTENT.length) {
+                                    helpIdx = 0;
+                                }
                             }
+
                             var imageScale = 55 * turtleBlocksScale;
-                            helpElem.innerHTML = '<img src ="' + HELPCONTENT[helpIdx][2] + '" style="height:' + imageScale + 'px; width: auto"></img> <h2>' + HELPCONTENT[helpIdx][0] + '</h2><p>' + HELPCONTENT[helpIdx][1] + '</p>';
+                            __setHelpHTML(helpIdx, imageScale);
                         }
+
                         update = true;
                     });
 
@@ -2904,17 +3972,11 @@ handleComplete);
                     img.onload = function () {
                         console.log(turtleBlocksScale);
                         var bitmap = new createjs.Bitmap(img);
-                        /*
-                        if (turtleBlocksScale > 1) {
-                            bitmap.scaleX = bitmap.scaleY = bitmap.scale = turtleBlocksScale;
-                        } else {
-                            bitmap.scaleX = bitmap.scaleY = bitmap.scale = 1.125;
-                        }
-                        */
                         if (helpContainer.children.length > 0) {
                             console.log('delete old help container');
                             helpContainer.removeChild(helpContainer.children[0]);
                         }
+
                         helpContainer.addChild(bitmap)
 
                         var bounds = helpContainer.getBounds();
@@ -2924,10 +3986,13 @@ handleComplete);
                         hitArea.y = 0;
                         helpContainer.hitArea = hitArea;
 
-                        docById('helpElem').innerHTML = '<img src ="' + HELPCONTENT[helpIdx][2] + '"</img> <h2>' + HELPCONTENT[helpIdx][0] + '</h2><p>' + HELPCONTENT[helpIdx][1] + '</p>';
+                        var imageScale = 55 * turtleBlocksScale;
+                        __setHelpHTML(helpIdx, imageScale);
+
                         if (!doneTour) {
                             docById('helpElem').style.visibility = 'visible';
                         }
+
                         update = true;
                     };
 
@@ -2956,7 +4021,6 @@ handleComplete);
                         // bitmap.scaleX = bitmap.scaleY = bitmap.scale = turtleBlocksScale;
                     }
                 }
-
             }
 
             doneTour = storage.doneTour === 'true';
@@ -2970,7 +4034,9 @@ handleComplete);
                 } else {
                     storage.doneTour = 'true';
                 }
-                docById('helpElem').innerHTML = '<img src ="' + HELPCONTENT[helpIdx][2] + '"</img> <h2>' + HELPCONTENT[helpIdx][0] + '</h2><p>' + HELPCONTENT[helpIdx][1] + '</p>';
+
+                var imageScale = 55 * turtleBlocksScale;
+                __setHelpHTML(helpIdx, imageScale);
                 docById('helpElem').style.visibility = 'visible';
                 helpContainer.visible = true;
                 update = true;
@@ -2992,6 +4058,10 @@ handleComplete);
             var bitmap = last(menuContainer.children);
             if (bitmap != null) {
                 var r = bitmap.rotation;
+                if (r % 90 !== 0) {
+                    return;
+                }
+
                 createjs.Tween.get(bitmap)
                     .to({
                         rotation: r
@@ -3065,19 +4135,26 @@ handleComplete);
 
             text.visible = false;
 
+            var circles;
             container.on('mouseover', function (event) {
                 for (var c = 0; c < container.children.length; c++) {
                     if (container.children[c].text != undefined) {
                         container.children[c].visible = true;
+                        stage.update();
                         break;
                     }
                 }
+
+                var r = size / 2;
+                circles = showButtonHighlight(container.x, container.y, r, event, palettes.scale, stage);
             });
 
             container.on('mouseout', function (event) {
+                hideButtonHighlight(circles, stage);
                 for (var c = 0; c < container.children.length; c++) {
                     if (container.children[c].text != undefined) {
                         container.children[c].visible = false;
+                        stage.update();
                         break;
                     }
                 }
@@ -3144,6 +4221,18 @@ handleComplete);
             var isExtraLong = false;
 
             var formerContainer = container;
+
+            container.on('mouseover', function (event) {
+                if (!loading) {
+                    document.body.style.cursor = 'pointer';
+                }
+            });
+
+            container.on('mouseout', function (event) {
+                if (!loading) {
+                    document.body.style.cursor = 'default';
+                }
+            });
 
             container.on('mousedown', function (event) {
                 if (locked) {
@@ -3229,6 +4318,31 @@ handleComplete);
                 isExtraLong = false;
             });
         };
+
+        function pasted() {
+            var pasteinput = docById('paste').value;
+            var rawData = pasteinput;
+            if (rawData == null || rawData == '') {
+                return;
+            }
+
+            var cleanData = rawData.replace('\n', ' ');
+            try {
+                var obj = JSON.parse(cleanData);
+            } catch (e) {
+                errorMsg(_('Could not parse JSON input.'));
+                return;
+            }
+
+            for (var name in blocks.palettes.dict) {
+                blocks.palettes.dict[name].hideMenu(true);
+            }
+
+            refreshCanvas();
+
+            blocks.loadNewBlocks(obj);
+            pasteBox.hide();
+       };
 
     };
 });

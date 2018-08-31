@@ -2,8 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Music Blocks - a collection of tools for exploring musical concepts
-    </title>
+    <title>Music Blocks is a collection of tools for exploring musical concepts.</title>
 
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height">
     <link rel="stylesheet" href="css/activity.css">
@@ -13,7 +12,10 @@
     Javascript is required to view this page.
     </noscript>
 
-    <script src="js/detectIE.js">
+    <script src="js/utils/detectIE.js">
+    </script>
+
+    <script src="sounds/samples/manifest.js">
     </script>
 
     <script src="lib/mespeak.js">
@@ -40,6 +42,15 @@
     <script src="lib/modernizr-2.6.2.min.js">
     </script>
 
+    <script src="lib/recorder.js">
+    </script>
+
+    <script src="lib/raphael.min.js">
+    </script>
+
+    <script src="lib/wheelnav.js">
+    </script>
+    
     <link rel="prefetch" type="application/l10n" href="./localization.ini">
 
     <script data-main="js/loader" src="lib/require.js">
@@ -50,14 +61,16 @@
     <link rel="icon" sizes="192x192" href="favicon.ico">
     <meta id="theme-color" name="theme-color" content="#2196F3">
 
-    <script src="lib/easeljs-0.8.2.min.js">
+    <script src="lib/easeljs.min.js">
     </script>
 
-    <script src="lib/tweenjs-0.6.2.min.js">
+    <script src="lib/tweenjs.min.js">
     </script>
 
+    <!--
     <script src="lib/movieclip-0.7.1.min.js">
     </script>
+    -->
 
     <script>
       var canvas, stage, exportRoot;
@@ -90,7 +103,7 @@
 
   <body onload="init();" data-title="index" id="body" style="background: #96D3F3;">
     <div id="loading-image-container" style="position: absolute; width: 100%; height: 100%;">
-      <img src='loading-animation.gif' style="max-width:90%; width: 1024px; margin: auto; display: block;"/>
+      <img src='loading-animation.gif' style="max-width:90%; width: 1024px; margin: auto; display: block; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"/>
     </div>
 
     <script>
@@ -162,12 +175,18 @@
         <canvas id="camCanvas" style="visibility:hidden;">
         </canvas>
 
+        <div id="languageDiv">
+        </div>
+
         <div id="labelDiv">
+        </div>
+
+        <div id="textLabel">
         </div>
 
         <div id="ioDiv" style="display:none">
           <input tabindex="-1" class="file" type="file" id="myMedia" accept="image/*">
-          <input tabindex="-1" class="file" type="file" id="myOpenFile" accept=".ta, .tb">
+          <input tabindex="-1" class="file" type="file" id="myOpenFile" accept=".ta, .tb, .html">
           <input tabindex="-1" class="file" type="file" id="myOpenPlugin" accept=".json">
           <input tabindex="-1" class="file" type="file" id="myOpenAll">
         </div>
@@ -190,30 +209,7 @@
 
       <div id="header" class="EaselJS">
       </div>
-
-      <div class="planet" style="display: none;">
-        <nav>
-          <div class="nav-container">
-            <img src="header-icons/planet-button.svg" class="logo" />
-            <h1 id="planetTitle"></h1>
-            <ul>
-              <li class="back"><img src="header-icons/cancel-button.svg" /></li>
-              <li class="new"><img src="header-icons/add.svg" /></li>
-              <li class="open"><img src="header-icons/folder-open.svg" /></li>
-            </ul>
-          </div>
-        </nav>
-
-        <div class="nav-spacer">
-        </div>
-
-        <div class="planet-content">
-          <h2 id="planetMyDevice"></h2>
-          <ul class="content l"></ul>
-          <h2 id="planetWorldwide"></h2>
-          <ul class="content w"></ul>
-        </div>
-      </div> <!-- planet -->
+      <iframe src="planet/index.html" id="planet-iframe" style="display: none;"></iframe>
 
       <div id="modeDiv" draggable="false">
         <div id="modeButtonsDiv">
@@ -269,7 +265,7 @@
 
         <div id="timbreTableDiv">
         </div>
-      </div>  
+      </div>
 
       <div id="tempoDiv" draggable="false">
         <div id="tempoButtonsDiv">
@@ -312,6 +308,48 @@
 
       <div id="helpElem">
       </div>
+
+      <div id="wheelDiv" class="wheelNav" style="background-size: contain;background-image: url(./images/gray.svg)">
+      </div>
+
+      <div id="wheelDiv2" class="wheelNav" style="background-size: contain;background-image: url(./images/gray.svg)">
+      </div>
+
+      <div id="contextWheelDiv" class="wheelNav">
+      </div>
+
+      <div id="searchBar">
+         <input type="text" name="search" id="search" class="ui-autocomplete" placeholder="Search for Blocks">
+         <ul class="matches" id="searchResults"></ul>
+      </div>
+
+      <div id="pastecode">
+	<input type="text" name="paste" id="paste" class="ui-autocomplete" placeholder="Paste Music Blocks code here">
+	<ul class="matches"></ul>
+	<input onkeypress="doPaste()" type="submit" value="">
+      </div>
+      
+      <div id="myProgress">
+        <div id="myBar"></div>
+      </div>
+
+      <div id="lilypondModal" class="modal">
+
+      <!-- Modal content for Lilypond save dialog -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p><div id="fileNameText"></div><input type="text" id="fileName"></input></p>
+        <p><div id="titleText"></div><input type="text" id="title"></input></p>
+        <p><div id="authorText"></div><input type="text" id="author"></input></p>
+        <p><div id="MIDIText"></div><input type="checkbox" id="MIDICheck"></input></p>
+        <p><div id="guitarText"></div><input type="checkbox" id="guitarCheck"></input></p>
+        <p><button id="submitLilypond"></button> <button id="submitPDF"></button></p>
+      </div>
+
+    </div>
+
     </div> <!-- hideContents -->
+
   </body>
+
 </html>
